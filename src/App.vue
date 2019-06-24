@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <addEmployee/>
+    <clocker/>
   </div>
 </template>
 
 <script>
-// import clocker from './components/clocker.vue';
-import addEmployee from './components/add-Employee.vue';
+import clocker from './components/clocker.vue';
+// import addEmployee from './components/add-Employee.vue';
 
 export default {
   name: 'app',
   components: {
-    addEmployee
+    clocker
   }
 }
 </script>

@@ -14,6 +14,7 @@
 
 <script>
   import axios from 'axios';
+
   export default {
     name: 'clocker',
     // Angular equivaent of INPUT
@@ -28,7 +29,7 @@
 
     methods: {
       onEnter() {
-        axios.get(`http://localhost:3000/api/clocking/clockProcess/{{ tag }}`)
+        axios.get(`http://localhost:3000/api/clocking/determineAction/${this.tag}`)
           .then((res) =>{
             console.log(res);
           })

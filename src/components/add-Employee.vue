@@ -141,7 +141,7 @@
 
     methods: {
 
-      passwordVisibility () {
+      passwordVisibility() {
         if (form.admin == false) {
           passVis = false;
         } else if (form.admin == true) {
@@ -149,11 +149,11 @@
         }
       },
 
-      clearPass () {
+      clearPass() {
         this.form.password = '';
       },
 
-      getValidationClass (fieldName) {
+      getValidationClass(fieldName) {
         const field = this.$v.form[fieldName]
 
         if (field) {
@@ -163,7 +163,7 @@
         }
       },
 
-      clearForm () {
+      clearForm() {
         this.$v.$reset()
         this.form.firstName = null
         this.form.lastName = null
@@ -172,7 +172,7 @@
         this.form.email = null
       },
 
-      validateUser () {
+      validateUser() {
         this.$v.$touch()
 
         if (!this.$v.$invalid) {
