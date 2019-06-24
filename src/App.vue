@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <clocker/>
+    <addEmployee/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import clocker from './components/clocker.vue'
+// import clocker from './components/clocker.vue';
+import addEmployee from './components/add-Employee.vue';
 
 export default {
   name: 'app',
   components: {
-    clocker
+    addEmployee
   }
 }
 </script>

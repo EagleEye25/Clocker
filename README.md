@@ -1,4 +1,4 @@
-# clocker2
+# Clocker
 
 ## Project setup
 ```
