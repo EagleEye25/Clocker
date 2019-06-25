@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <clocker/>
+    <add-reason/>
   </div>
 </template>
 
 <script>
 import clocker from './components/clocker.vue';
-// import addEmployee from './components/add-Employee.vue';
+import addEmployee from './components/add-Employee.vue';
+import addReason from './components/add-Reason.vue';
 
 export default {
   name: 'app',
   components: {
-    clocker
+    clocker,
+    addEmployee,
+    addReason
   }
 }
 </script>

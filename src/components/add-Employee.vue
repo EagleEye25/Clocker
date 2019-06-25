@@ -74,7 +74,6 @@
               </md-field>
             </div>
           </div>
-          <md-button>click</md-button>
         </md-card-content>
 
          <md-card-actions>
@@ -86,12 +85,12 @@
 </template>
 
 <script>
-  import { validationMixin } from 'vuelidate'
+  import { validationMixin } from 'vuelidate';
   import {
     required,
     minLength,
     maxLength
-  } from 'vuelidate/lib/validators'
+  } from 'vuelidate/lib/validators';
 
   export default {
     name: 'add-Employee',
