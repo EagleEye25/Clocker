@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <add-reason/>
+    <addEmployeeCard/>
   </div>
 </template>
 
@@ -8,13 +8,15 @@
 import clocker from './components/clocker.vue';
 import addEmployee from './components/add-Employee.vue';
 import addReason from './components/add-Reason.vue';
+import addEmployeeCard from './components/add-EmployeeCard.vue';
 
 export default {
   name: 'app',
   components: {
     clocker,
     addEmployee,
-    addReason
+    addReason,
+    addEmployeeCard
   }
 }
 </script>

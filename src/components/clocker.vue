@@ -37,7 +37,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
   import http from '../../public/app.service.ts'
 
   export default {
