@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div @click.stop.prevent="focusInput" @touch.stop.prevent="focusInput">
     <!-- <div> -->
     <div v-if="action === 'Clock_In' || action === null || action === 'completed'">
       <img class="center" src="../../public/pictures/lock.png" alt="Lock Image">
       <!-- Hides input off screen -->
       <!-- <div class="outer"> -->
         <!-- <div class="inner"> -->
-          <input v-focus v-model="tag" type="text" @keyup.enter="onEnter" id="cardInput" onblur="this.focus()">
+          <input v-focus v-model="tag" type="text" @keyup.enter="onEnter" id="cardInput">
         <!-- </div> -->
       <!-- </div> -->
       <h1 style="color:white;">{{ message }}</h1>
@@ -161,6 +161,15 @@
         });
       },
 
+      focusInput() {
+        if (!this.showDialogD) {
+          const el = document.querySelector('#cardInput');
+          if (el) {
+            el.focus();
+          }
+        }
+      },
+
       showDialog(type) {
         switch(type) {
           case 'InSuccess': {
@@ -186,6 +195,7 @@
         this.showDialogD = true;
         setTimeout(() =>{
           this.showDialogD = false;
+          this.focusInput();
         }, 2000);
       },
 
