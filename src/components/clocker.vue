@@ -1,33 +1,37 @@
 <template>
-  <div class="center">
+  <div>
     <!-- <div> -->
     <div v-if="action === 'Clock_In' || action === null || action === 'completed'">
       <img class="center" src="../../public/pictures/lock.png" alt="Lock Image">
       <!-- Hides input off screen -->
       <!-- <div class="outer"> -->
         <!-- <div class="inner"> -->
-          <input v-focus v-model="tag" type="text" @keyup.enter="onEnter" onblur="this.focus()">
+          <input v-focus v-model="tag" type="text" @keyup.enter="onEnter" id="cardInput" onblur="this.focus()">
         <!-- </div> -->
       <!-- </div> -->
       <h1 style="color:white;">{{ message }}</h1>
     </div>
     <div v-if="action === 'Clock_Out'" class="center">
-      <md-table v-model="reasons" md-card @md-selected="onSelect" md-sort="id" md-sort-order="asc" class="table">
+      <md-table v-model="reasons" md-card @md-selected="onSelect" md-sort="id"
+                md-sort-order="asc" class="table" md-fixed-header>
 
       <md-table-toolbar>
         <h1 class="md-title">Clock Out Reason</h1>
       </md-table-toolbar>
 
       <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-        <md-table-cell md-label="Number" md-sort-by="number" md-numeric>{{ item.id }}</md-table-cell>
+        <md-table-cell md-label="Number" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}</md-table-cell>
-        <md-table-cell md-label="Work Related" md-sort-by="work related">{{ item.workW }}</md-table-cell>
+        <md-table-cell md-label="Work Related" md-sort-by="workW">{{ item.workW }}</md-table-cell>
       </md-table-row>
     </md-table>
     </div>
     <md-dialog-alert
+      :md-click-outside-to-close=false
       :md-active.sync="showDialogD"
-      md-content="{ dialogMsg }"
+      md-title=""
+      :md-content=dialogMsg
+      md-confirm-text=""
     />
   </div>
 </template>
@@ -52,7 +56,6 @@
         response: null,
         determineProcessing: false,
         inProcessing: false,
-        outProcessing: false,
         showDialogD: false,
         dialogMsg: '',
       }
@@ -136,7 +139,6 @@
       // Determine if backend should clock in or out employee
       http.get(`/api/clocking/determineAction/${this.tag}`)
         .then((res) =>{
-          console.log(res);
           if (res.status === 200 && res.data) {
             this.action = res.data.action;
             this.response = res.data;
@@ -151,7 +153,12 @@
               }
             }
           }
-        }).catch(e => this.fail = e);
+        }).catch(e => {
+          let error = e.toString().indexOf('Network Error');
+          if (error) {
+            this.showDialog('NetworkError');
+          }
+        });
       },
 
       showDialog(type) {
@@ -172,12 +179,16 @@
             this.dialogMsg = 'Please select a reason again...';
             break;
           }
+          case 'NetworkError': {
+            this.dialogMsg = 'No connection to network host';
+          }
         }
         this.showDialogD = true;
         setTimeout(() =>{
           this.showDialogD = false;
         }, 2000);
-      }
+      },
+
     },
 
   directives: {
@@ -212,7 +223,7 @@
 <style lang="scss" scoped>
 
   div {
-    background-color: rgb(31, 83, 228);
+    background-color: rgb(48,48,48);
   }
 
   .center {
@@ -236,24 +247,27 @@
   }
 
   .md-table {
-    margin-top: 16px;
-    width: 30%;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    padding-top: 10px;
+    margin: 0 auto;
     text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
     /* width: 50%; */
+  }
+
+  .md-table-cell {
+    text-align: center;
   }
 
   .md-table-toolbar {
     text-align: center;
   }
 
-  .center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    /* width: 50%; */
+  .md-content {
+    text-align: center;
   }
-
 </style>
