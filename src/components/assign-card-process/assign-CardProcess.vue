@@ -9,7 +9,6 @@
       <md-step id="second" md-label="Assign Card To Employee" :md-error="secondStepError" :md-done.sync="second">
 
         <md-button class="md-raised md-primary" @click="setDone('second', 'third')">Continue</md-button>
-        <md-button class="md-raised md-primary" @click="setError()">Set error!</md-button>
       </md-step>
 
       <md-step id="third" md-label="Complete" :md-done.sync="third">

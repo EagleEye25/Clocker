@@ -21,15 +21,16 @@
               </md-field>
             </div>
             <!-- Assign to employee -->
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item md-small-size-100" v-show="standard">
               <md-checkbox name="assign" id="assign" v-model="form.assign" :disabled="processing" autofocus=true>
                 Assign card to employee
               </md-checkbox>
             </div>
           </div>
         </md-card-content>
-
+        <!-- TODO: connect already created card button to select-cardForEmployee -->
         <md-card-actions>
+          <md-button style="color: yellow; padding-right: 50%;" v-show="partCardProcess">Already created card</md-button>
           <md-button style="color: orange" v-on:click="clearForm">Cancel</md-button>
           <md-button style="color: lime" v-on:click="addCard">Add Card</md-button>
         </md-card-actions>
@@ -52,6 +53,8 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
+      partCardProcess: false,
+      standard: false,
     },
     //  Variables
     data() {
