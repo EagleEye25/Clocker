@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <addEmployeeCard/>
+    <addEmployee/>
   </div>
 </template>
 
@@ -8,7 +8,9 @@
 import clocker from './components/clocker.vue';
 import addEmployee from './components/add-Employee.vue';
 import addReason from './components/add-Reason.vue';
-import addEmployeeCard from './components/add-EmployeeCard.vue';
+import selectCardForEmployee from './components/assign-card-process/select-CardForEmployee.vue'
+import assignCardProcess from './components/assign-card-process/assign-CardProcess.vue';
+import addCard from './components/add-Card.vue';
 
 export default {
   name: 'app',
@@ -16,7 +18,9 @@ export default {
     clocker,
     addEmployee,
     addReason,
-    addEmployeeCard
+    selectCardForEmployee,
+    assignCardProcess,
+    addCard
   }
 }
 </script>

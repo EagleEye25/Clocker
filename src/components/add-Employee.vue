@@ -52,16 +52,9 @@
           <div class="md-layout md-gutter">
             <!-- Password -->
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('password')" v-show=form.admin>
+              <md-field v-show=form.admin>
                 <label for="password">Password</label>
                 <md-input name="password" id="password" type="password" v-model="form.password" :disabled="processing"/>
-
-                <span class="md-error" v-if="!$v.form.password.required">
-                  The password is required
-                </span>
-                <span class="md-error" v-else-if="!$v.form.password.minlength">
-                  Invalid password
-                </span>
               </md-field>
             </div>
           </div>
@@ -77,7 +70,8 @@
         </md-card-content>
 
          <md-card-actions>
-
+           <md-button style="color: orange"  v-on:click="clearForm">cancel</md-button>
+           <md-button style="color: lime"  v-on:click="addEmployee">Add Employee</md-button>
         </md-card-actions>
       </md-card>
     </form>
@@ -91,6 +85,7 @@
     minLength,
     maxLength
   } from 'vuelidate/lib/validators';
+  import http from '../../public/app.service.ts'
 
   export default {
     name: 'add-Employee',
@@ -102,12 +97,13 @@
     data() {
       return {
         form: {
-          firstName: null,
-          lastName: null,
+          firstName: '',
+          lastName: '',
           admin: false,
-          reporting_adming: false,
+          reporting_admin: false,
           calender_id: null,
-          password: null
+          password: null,
+          userExists: false,
         },
         processing: null,
         passVis: false
@@ -126,19 +122,42 @@
         admin: {
           required,
         },
-        reporting_adming: {
+        reporting_admin: {
           required
         },
-        calender_id: {
-          required
-        },
-        password: {
-          required
-        }
+        // calender_id: {
+        //   // required
+        // },
       }
     },
 
     methods: {
+
+      async addEmployee() {
+        let combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
+        if (!await this.checkUser(combinedName)) {
+          http.post(`/api/employee/create`, {
+          'name': combinedName,
+          'admin': this.form.admin,
+          'reporting_admin': this.form.reporting_admin,
+          'password': this.form.password,
+          'calender': this.form.calender_id
+        }).then((resp) => {
+          if (resp.status === 201) {
+            this.clearForm();
+            console.log('added');
+          }
+        }).catch((err) => {
+          console.log(err);
+        })
+        } else {
+          console.log('employee exists');
+        }
+      },
+
+      async checkUser(name) {
+        return !!(await http.get(`/api/employee/findByName/${name}`)).data;
+      },
 
       passwordVisibility() {
         if (form.admin == false) {
@@ -166,9 +185,9 @@
         this.$v.$reset()
         this.form.firstName = null
         this.form.lastName = null
-        this.form.age = null
-        this.form.gender = null
-        this.form.email = null
+        this.form.admin = false
+        this.form.reporting_admin = false
+        this.form.password = null
       },
 
       validateUser() {

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import http from '../../public/app.service.ts'
+  import http from '../../../public/app.service.ts'
 
   const toLower = text => {
     return text.toString().toLowerCase();
@@ -44,7 +44,7 @@
   }
 
   export default {
-    name: 'add-EmployeeCard',
+    name: 'select-CardForEmployee',
     // Angular equivaent of INPUT
     props: {
       cardData: null,
@@ -53,16 +53,14 @@
     data() {
       return {
         unlinkedCards: [],
-        example: [
-        {
-          'id': 1,
-          'card_no': 12314124
-        }
-        ],
         selectedCard: null,
         search: null,
         searched: [],
       }
+    },
+
+    created: () => {
+      this.getUnlinkedCards();
     },
 
     methods: {
@@ -72,16 +70,15 @@
             res.data.forEach(d => {
               let data = {
                 'id': d.id,
-                'card_no': card_no
+                'card_no': d.card_no
               }
               this.unlinkedCards.push(data);
             });
           this.unlinkedCards.toString();
         }).catch((error) => {
-
+          console.log(error);
         });
       },
-
 
       onSelect(item) {
         this.selectedCard = item;
@@ -93,12 +90,12 @@
         window.alert('Noop')
       },
       searchOnTable () {
-        this.searched = searchByCardNo(this.example, this.search);
+        this.searched = searchByCardNo(this.unlinkedCards, this.search);
       }
     },
 
     created () {
-      this.searched = this.example;
+      this.searched = this.unlinkedCards;
     },
 
 
@@ -123,16 +120,11 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    /* bring your own prefixes */
-    transform: translate(-50%, -50%);
-    /* width: 50%; */
+    width: 30%;
   }
 
   .md-table-cell {
-    text-align: center;
+    text-align: left;
   }
 
   .md-field {
@@ -140,6 +132,6 @@
   }
 
   .md-table-toolbar {
-    text-align: center;
+    text-align: left;
   }
 </style>
