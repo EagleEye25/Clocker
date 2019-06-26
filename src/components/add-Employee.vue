@@ -34,16 +34,14 @@
           <div class="md-layout md-gutter">
             <!-- Admin -->
             <div class="md-layout-item md-small-size-100">
-              <md-checkbox :class="getValidationClass('admin')"
-                            v-model="form.admin"
+              <md-checkbox v-model="form.admin"
                             @change="clearPass">
                   Admin
               </md-checkbox>
             </div>
             <!-- Reporting Admin -->
             <div class="md-layout-item md-small-size-100">
-                <md-checkbox :class="getValidationClass('reporting_admin')"
-                              v-model="form.reporting_admin">
+                <md-checkbox v-model="form.reporting_admin">
                   Reporting Admin
                 </md-checkbox>
             </div>
@@ -83,7 +81,6 @@
   import {
     required,
     minLength,
-    maxLength
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts'
 
@@ -160,10 +157,10 @@
       },
 
       passwordVisibility() {
-        if (form.admin == false) {
-          passVis = false;
-        } else if (form.admin == true) {
-          passVis = true;
+        if (this.form.admin == false) {
+          this.passVis = false;
+        } else if (this.form.admin == true) {
+          this.passVis = true;
         }
       },
 

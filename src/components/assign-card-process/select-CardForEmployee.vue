@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!cardData" class="center">
+    <div class="center">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
                 @md-selected="onSelect" class="table">
         <md-table-toolbar>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import http from '../../../public/app.service.ts'
+  import http from '../../../public/app.service.ts';
 
   const toLower = text => {
     return text.toString().toLowerCase();
@@ -47,7 +47,6 @@
     name: 'select-CardForEmployee',
     // Angular equivaent of INPUT
     props: {
-      cardData: null,
     },
     //  Variables
     data() {
@@ -82,6 +81,8 @@
 
       onSelect(item) {
         this.selectedCard = item;
+        this.$store.dispatch('updateCardNo', this.selectedCard.card_no);
+        console.log('HERE I AM:', this.$store.getters.card_no);
         if (this.selectedCard) {
         }
       },

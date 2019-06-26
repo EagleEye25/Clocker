@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import addEmployee from '@/components/add-Employee.vue';
+import addCard from '@/components/add-Card.vue';
+import addReason from '@/components/add-Reason.vue';
+import clocker from '@/components/clocker.vue';
+import viewEmployee from '@/components/view-Employee.vue';
+import assignCardProcess from '@/components/assign-card-process/assign-CardProcess.vue';
+import selectCardForEmployee from '@/components/assign-card-process/select-CardForEmployee.vue';
 
 Vue.use(Router)
 
@@ -9,16 +15,32 @@ export default new Router({
   // base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/addEmployee',
       component: addEmployee
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/addCard',
+      component: addCard
+    },
+    {
+      path: '/addReason',
+      component: addReason
+    },
+    {
+      path: '/clocker',
+      component: clocker
+    },
+    {
+      path: '/viewEmployee',
+      component: viewEmployee
+    },
+    {
+      path: '/assignCardProcess',
+      component: assignCardProcess
+    },
+    {
+      path: '/selectCardForEmployee',
+      component: selectCardForEmployee
     }
   ]
 })

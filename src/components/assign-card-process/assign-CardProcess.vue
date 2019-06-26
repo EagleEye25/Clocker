@@ -1,8 +1,14 @@
 <template>
   <div>
     <div>
-      <md-steppers :md-active-step.sync="active" md-linear>
+      <md-steppers :md-active-step.sync="active" md-linear md-sync-route md-dynamic-height>
       <md-step id="first" md-label="Add Card" :md-done.sync="first">
+        <addCard v-bind:standard=false v-if="!showCreatedCards"></addCard>
+        <!-- Displays if already created is clicked -->
+        <selectCardForEmployee v-if="showCreatedCards"></selectCardForEmployee>
+        <md-button style="color: yellow;" @click="showCreatedCards = true" v-if="!showCreatedCards"
+          >Already created card
+        </md-button>
         <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Continue</md-button>
       </md-step>
 
@@ -21,6 +27,9 @@
 </template>
 
 <script>
+import addCard from '../add-Card.vue';
+import selectCardForEmployee from './select-CardForEmployee.vue';
+
   export default {
     name: 'assign-CardProcess',
     // Angular equivaent of INPUT
@@ -34,7 +43,13 @@
         second: false,
         third: false,
         secondStepError: null,
+        showCreatedCards: false,
       }
+    },
+
+    components: {
+      addCard,
+      selectCardForEmployee
     },
 
     methods: {

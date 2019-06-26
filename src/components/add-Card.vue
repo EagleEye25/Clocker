@@ -21,7 +21,7 @@
               </md-field>
             </div>
             <!-- Assign to employee -->
-            <div class="md-layout-item md-small-size-100" v-show="standard">
+            <div class="md-layout-item md-small-size-100" v-show="standard === true">
               <md-checkbox name="assign" id="assign" v-model="form.assign" :disabled="processing" autofocus=true>
                 Assign card to employee
               </md-checkbox>
@@ -29,10 +29,12 @@
           </div>
         </md-card-content>
         <!-- TODO: connect already created card button to select-cardForEmployee -->
-        <md-card-actions>
-          <md-button style="color: yellow; padding-right: 50%;" v-show="partCardProcess">Already created card</md-button>
+        <md-card-actions v-if="standard === true">
           <md-button style="color: orange" v-on:click="clearForm">Cancel</md-button>
           <md-button style="color: lime" v-on:click="addCard">Add Card</md-button>
+        </md-card-actions>
+        <md-card-actions v-if="standard === false">
+          <md-button style="color: orange" v-on:click="clearForm">Validate Card</md-button>
         </md-card-actions>
       </md-card>
     </form>
@@ -45,7 +47,9 @@
     required,
     minLength,
   } from 'vuelidate/lib/validators';
-  import http from '../../public/app.service.ts'
+  import http from '../../public/app.service.ts';
+  import selectCardForEmployee from './assign-card-process/select-CardForEmployee.vue';
+  import test from './assign-card-process/test.ts';
 
 
   export default {
@@ -53,8 +57,7 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
-      partCardProcess: false,
-      standard: false,
+      standard: true
     },
     //  Variables
     data() {
@@ -64,6 +67,7 @@
           assign: false,
         },
         processing: null,
+        showCreated: false,
       }
     },
     validations: {
@@ -73,6 +77,10 @@
           minLength: minLength(3)
         },
       },
+    },
+
+    components: {
+      selectCardForEmployee,
     },
 
     methods: {
@@ -87,6 +95,8 @@
       },
 
       async addCard() {
+        this.test.setState('test', 123124);
+            console.log(test);
         if (!await this.checkCardExists()) {
           http.post(`/api/card/create`, {
             'card_no': this.form.tag
