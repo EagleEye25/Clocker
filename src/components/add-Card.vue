@@ -28,13 +28,19 @@
             </div>
           </div>
         </md-card-content>
-        <md-card-actions v-if="standard !== false">
-          <md-button style="color: orange" v-on:click="clearForm">Cancel</md-button>
-          <md-button style="color: lime" v-on:click="addCard">Add Card</md-button>
-        </md-card-actions>
-        <md-card-actions v-if="standard === false">
-          <md-button style="color: orange" v-on:click="onEnter">Validate Card</md-button>
-        </md-card-actions>
+        <div v-if="standard !== false">
+          <md-card-actions >
+            <md-button style="color: orange" v-on:click="clearForm">Cancel</md-button>
+            <md-button style="color: lime" v-on:click="addCard">Add Card</md-button>
+          </md-card-actions>
+        </div>
+        <!-- Part of assign card process -->
+        <div v-if="standard === false">
+          <p v-if="cardExists" style="color: red"> Card already exits...<br> Please create a new card </p>
+          <md-card-actions>
+            <md-button style="color: orange" v-on:click="onEnter">Validate Card</md-button>
+          </md-card-actions>
+        </div>
       </md-card>
     </form>
   </div>
@@ -65,6 +71,7 @@
         },
         processing: null,
         showCreated: false,
+        cardExists: false,
       }
     },
     validations: {
@@ -114,6 +121,7 @@
         } else {
           console.log('card already exists');
           this.form.tag = '';
+          this.cardExists = true;
         }
       },
 

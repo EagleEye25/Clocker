@@ -7,7 +7,10 @@
         <!-- Displays if already created is clicked -->
         <selectCardForEmployee v-if="showCreatedCards"></selectCardForEmployee>
         <md-button style="color: yellow;" @click="showCreatedCards = true" v-if="!showCreatedCards"
-          >Already created card
+     `     >Already created card
+        </md-button>
+        <md-button class="md-raised md-accent" v-if="showCreatedCards === true" @click="showCreatedCards = false, clearStore">
+          Back
         </md-button>
         <md-button class="md-raised md-primary" v-if="showCreatedCards === true" @click="setDone('first', 'second')"
                   :disabled='!this.cardNumber'>
