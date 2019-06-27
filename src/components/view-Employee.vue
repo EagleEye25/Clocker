@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!cardData" class="center">
+    <div class="center">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
                 @md-selected="onSelect" class="table">
         <md-table-toolbar>
@@ -14,22 +14,22 @@
         </md-table-toolbar>
 
         <md-table-empty-state
-          md-label="No unused cards found"
-          :md-description="`No card found for this '${search}' query. Try a different search term or create a new card.`">
-          <md-button class="md-primary md-raised" @click="newCard">Create New Card</md-button>
+          md-label="No unassigned Employees found"
+          :md-description="`No Employees found for this '${search}' query. Try a different search term or create a new Employee.`">
+          <md-button class="md-primary md-raised" @click="newCard">Create New Employee</md-button>
         </md-table-empty-state>
 
-        <md-table-row slot="md-table-row" slot-scope="{ item }">
+        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
           <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
           <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
           <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
           <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-          <md-table-cell v-if="!cardData" md-label="Update" >
+          <md-table-cell v-if="standard !== false" md-label="Update" >
             <md-button class="md-raised md-primary">
               Update
             </md-button>
           </md-table-cell>
-          <md-table-cell v-if="!cardData" md-label="Delete" >
+          <md-table-cell v-if="standard !== false" md-label="Delete" >
             <md-button class="md-raised md-accent">
               delete
             </md-button>
@@ -42,6 +42,7 @@
 
 <script>
   import http from '../../public/app.service.ts'
+import { constants } from 'crypto';
 
   const toLower = text => {
     return text.toString().toLowerCase();
@@ -58,7 +59,7 @@
     name: 'view-Employee',
     // Angular equivaent of INPUT
     props: {
-      cardData: null,
+      standard: true,
     },
     //  Variables
     data() {
@@ -77,18 +78,17 @@
 
     methods: {
       getEmployees() {
-        http.get(`/api/employee/`)
+        let api = '';
+        (this.standard) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
+        console.log(api);
+        http.get(api)
           .then((res) => {
             res.data.forEach(d => {
               let boolAdmin = 'no';
-              if (d.admin !== 0) {
-                boolAdmin = 'yes'
-              }
+              (d.admin !== 0) ? boolAdmin = 'yes' : '';
 
               let boolReport = 'no';
-              if (d.reporting_admin !== 0) {
-                boolReport = 'yes'
-              }
+              (d.reporting_admin !== 0) ? boolReport = 'yes' : '';
               let data = {
                 'id': d.id,
                 'name': d.name,
@@ -105,8 +105,7 @@
 
       onSelect(item) {
         this.selectedEmployee = item;
-        if (this.selectedEmployee) {
-        }
+        this.$store.dispatch('updateEmployeeInfo', this.selectedEmployee);
       },
 
       newCard () {

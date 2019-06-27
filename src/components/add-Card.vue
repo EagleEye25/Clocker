@@ -15,26 +15,25 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tag')" >
                 <label for="tag">Enter card number / Scan card</label>
-                <md-input name="tag" id="tag" v-model="form.tag" :disabled="processing" @keyup.enter="addCard" autofocus=true />
+                <md-input name="tag" id="tag" v-model="form.tag" :disabled="processing" @keyup.enter="onEnter" autofocus=true />
                 <span class="md-error" v-if="!$v.form.tag.required">The card number is required</span>
                 <span class="md-error" v-else-if="!$v.form.tag.minlength">Invalid card number</span>
               </md-field>
             </div>
             <!-- Assign to employee -->
-            <div class="md-layout-item md-small-size-100" v-show="standard === true">
+            <div class="md-layout-item md-small-size-100" v-show="standard !== false">
               <md-checkbox name="assign" id="assign" v-model="form.assign" :disabled="processing" autofocus=true>
                 Assign card to employee
               </md-checkbox>
             </div>
           </div>
         </md-card-content>
-        <!-- TODO: connect already created card button to select-cardForEmployee -->
-        <md-card-actions v-if="standard === true">
+        <md-card-actions v-if="standard !== false">
           <md-button style="color: orange" v-on:click="clearForm">Cancel</md-button>
           <md-button style="color: lime" v-on:click="addCard">Add Card</md-button>
         </md-card-actions>
         <md-card-actions v-if="standard === false">
-          <md-button style="color: orange" v-on:click="clearForm">Validate Card</md-button>
+          <md-button style="color: orange" v-on:click="onEnter">Validate Card</md-button>
         </md-card-actions>
       </md-card>
     </form>
@@ -49,8 +48,6 @@
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts';
   import selectCardForEmployee from './assign-card-process/select-CardForEmployee.vue';
-  import test from './assign-card-process/test.ts';
-
 
   export default {
     name: 'add-Card',
@@ -84,6 +81,11 @@
     },
 
     methods: {
+
+      onEnter() {
+        this.addCard();
+      },
+
       getValidationClass(fieldName) {
         const field = this.$v.form[fieldName]
 
@@ -95,17 +97,18 @@
       },
 
       async addCard() {
-        this.test.setState('test', 123124);
-            console.log(test);
-        if (!await this.checkCardExists()) {
+        if (await this.checkCardExists()) {
           http.post(`/api/card/create`, {
             'card_no': this.form.tag
           }).then((resp) => {
             if (resp.status === 201) {
+              console.log('created');
+              this.$store.dispatch('updateCardNo', this.form.tag);
               this.form.tag = '';
               document.getElementById('tag').focus();
             }
           }).catch((err) => {
+            console.log('AN ERROR HAS OCCURED');
             console.log(err);
           });
         } else {
@@ -120,7 +123,9 @@
       },
 
        async checkCardExists() {
-        return !!(await http.get(`/api/card/card_no/${this.form.tag}`)).data;
+        return await http.get(`/api/card/card_no/${this.form.tag}`)
+          .then((data) => false)
+          .catch(err => true);
       },
 
       validateUser() {

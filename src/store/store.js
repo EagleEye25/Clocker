@@ -5,28 +5,45 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    card_no: '',
-    employeeID: null,
+    cardNo: null,
+    employeeInfo: null,
+    alreadyCreated: null,
+    created: null
   },
   mutations: {
-    changeCardNo(state, card_no) {
-      state.card_no = card_no
+    changeCardNo(state, cardNo) {
+      state.cardNo = cardNo
     },
-    changeEmployeeID(state, employeeID) {
-      state.employeeID = employeeID
+    changeCreated(state, created) {
+      state.created = created
+    },
+    changeAlreadyCreated(state, alreadyCreated) {
+      state.alreadyCreated = alreadyCreated
+    },
+    changeEmployeeInfo(state, employeeInfo) {
+      state.employeeInfo = employeeInfo
     },
   },
   getters: {
-    card_no: state => state.card_no,
-    employeeID: state => state.employeeID,
+    cardNo: state => state.cardNo ? state.cardNo || '' : '',
+    created: state => state.created ? state.created || '' : '',
+    alreadyCreated: state => state.alreadyCreated ? state.alreadyCreated || '' : '',
+    employeeInfo: state => state.employeeInfo ? state.employeeInfo || '' : '',
+    employeeName: state => state.employeeInfo ? state.employeeInfo.name || '' : ''
   },
   actions: {
     updateCardNo(ctx, num) {
       ctx.commit('changeCardNo', num);
     },
-    updateEmployeeID(ctx, employeeID) {
-      ctx.commit('changeCardNo', employeeID);
-    }
+    updateEmployeeInfo(ctx, employeeInfo) {
+      ctx.commit('changeEmployeeInfo', employeeInfo);
+    },
+    updateAlreadyCreated(ctx, created) {
+      ctx.commit('changeAlreadyCreated', created);
+    },
+    updateChangeCreated(ctx, created) {
+      ctx.commit('changeCreated', created);
+    },
   }
 });
 

@@ -82,9 +82,7 @@
       onSelect(item) {
         this.selectedCard = item;
         this.$store.dispatch('updateCardNo', this.selectedCard.card_no);
-        console.log('HERE I AM:', this.$store.getters.card_no);
-        if (this.selectedCard) {
-        }
+        this.$store.dispatch('updateAlreadyCreated', true);
       },
 
       newCard () {
