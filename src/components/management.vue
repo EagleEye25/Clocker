@@ -1,52 +1,54 @@
 <template>
   <div>
-    <md-toolbar>
+    <div>
+      <md-toolbar>
+
+      <!-- Calenders -->
+      <md-menu md-size="medium" md-align-trigger :mdCloseOnSelect=true>
+        <md-button md-menu-trigger>Calenders</md-button>
+        <md-menu-content>
+          <md-menu-item>
+            <md-button>
+
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button>
+              View Calenders
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <!-- Cards -->
+      <md-menu md-size="medium" md-align-trigger>
+        <md-button md-menu-trigger>Cards</md-button>
+        <md-menu-content>
+          <md-menu-item>
+            <md-button to="/management/addCard">
+              Add Card
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button to="/management/selectCardForEmployee">
+              View Card
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
       <!-- Employees -->
       <md-menu md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Employees</md-button>
         <md-menu-content>
           <md-menu-item>
-            <md-button>
+            <md-button to="/management/addEmployee">
               Add Employee
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button>
+            <md-button to="/management/viewEmployee">
               View Employees
-            </md-button>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-
-       <!-- Cards -->
-      <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Cards</md-button>
-        <md-menu-content>
-          <md-menu-item>
-            <md-button>
-              Add Card
-            </md-button>
-          </md-menu-item>
-          <md-menu-item>
-            <md-button>
-              View Cards
-            </md-button>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-
-       <!-- Reasons -->
-      <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Reasons</md-button>
-        <md-menu-content>
-          <md-menu-item>
-            <md-button>
-              Add Reason
-            </md-button>
-          </md-menu-item>
-          <md-menu-item>
-            <md-button>
-              View Reasons
             </md-button>
           </md-menu-item>
         </md-menu-content>
@@ -57,16 +59,33 @@
         <md-button md-menu-trigger>Processes</md-button>
         <md-menu-content>
           <md-menu-item>
-            <md-button>
-              Assign Emplyee Cards
+            <md-button to="/management/assignCardProcess">
+              Assign Card To Employee
             </md-button>
           </md-menu-item>
         </md-menu-content>
       </md-menu>
 
-      <!-- Calenders -->
+      <!-- Reasons -->
       <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Calenders</md-button>
+        <md-button md-menu-trigger>Reasons</md-button>
+        <md-menu-content>
+          <md-menu-item>
+            <md-button to="/management/addReason">
+              Add Reason
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button to="/management/addEmployee">
+              View Reasons
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <!-- Reports -->
+      <md-menu md-size="medium" md-align-trigger>
+        <md-button md-menu-trigger>Reports</md-button>
         <md-menu-content>
           <md-menu-item>
             <md-button>
@@ -82,6 +101,9 @@
       </md-menu>
 
     </md-toolbar>
+    </div>
+    <br>
+    <router-view></router-view>
   </div>
 </template>
 

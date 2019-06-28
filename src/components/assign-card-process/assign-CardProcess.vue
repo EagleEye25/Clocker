@@ -2,12 +2,12 @@
   <div>
     <div>
       <md-steppers :md-active-step.sync="active" md-linear md-dynamic-height>
-      <md-step id="first" md-label="Add Card" :md-done.sync="first">
+      <md-step id="first" md-label="Add Card" :md-done.sync="first" :md-editable="editable">
         <addCard v-bind:standard=false v-if="!showCreatedCards"></addCard>
         <!-- Displays if already created is clicked -->
         <selectCardForEmployee v-if="showCreatedCards"></selectCardForEmployee>
-        <md-button style="color: yellow;" @click="showCreatedCards = true" v-if="!showCreatedCards"
-     `     >Already created card
+        <md-button style="color: yellow;" @click="showCreatedCards = true" v-if="!showCreatedCards">
+          Already created card
         </md-button>
         <md-button class="md-raised md-accent" v-if="showCreatedCards === true" @click="showCreatedCards = false, clearStore">
           Back
@@ -18,7 +18,8 @@
         </md-button>
       </md-step>
 
-      <md-step id="second" md-label="Assign Card To Employee" :md-error="secondStepError" :md-done.sync="second">
+      <md-step id="second" md-label="Assign Card To Employee" :md-error="secondStepError"
+                :md-done.sync="second" :md-editable="editable">
         <viewEmployee v-bind:standard=false></viewEmployee>
         <md-button class="md-raised md-primary" @click="setDone('second', 'third')"
                     :disabled='!$store.getters.employeeInfo'>
@@ -47,7 +48,12 @@
             </md-list-item>
           </md-list>
         </div>
-        <md-button class="md-raised md-primary" @click="assignEmployee">Done</md-button>
+        <div v-if="completed">
+          <h1 v-if="completed">Successfully Assigned Card To Employee</h1>
+          <md-button class="md-raised" style="color: lime;" to="/management">Back To Management</md-button>
+          <md-button class="md-raised" style="color: yellow;" @click="addAnother">Assign Another Employee</md-button>
+        </div>
+        <md-button class="md-raised md-primary" v-if="!completed" @click="assignEmployee">Assign</md-button>
       </md-step>
 
       </md-steppers>
@@ -76,6 +82,8 @@
         secondStepError: null,
         showCreatedCards: false,
         cardID: null,
+        completed: false,
+        editable: true,
       }
     },
 
@@ -124,14 +132,13 @@
       // },
 
       async getCardID() {
-        console.log('WHY ARE YOU TRUE:',this.cardNumber);
         return await http.get(`/api/card/card_no/${this.cardNumber}`)
           .then((resp) => {
             this.cardID = resp.data.id;
             return true;
           }).catch((err) => {
-            return false;
             console.log(err);
+            return false;
           });
       },
 
@@ -143,6 +150,8 @@
             'issued_at': Date.now(),
             'active': true
           }).then((resp) => {
+            this.completed = true;
+            this.editable = false;
             console.log('assigned');
             this.clearStore();
           }).catch((err) => {
@@ -155,6 +164,15 @@
         this.$store.dispatch('updateCardNo', null);
         this.$store.dispatch('updateAlreadyCreated', null);
         this.$store.dispatch('updateEmployeeInfo', null);
+      },
+
+      addAnother() {
+        this.completed = false;
+        this.editable = true;
+        this.active = 'first';
+        this.first = false;
+        this.second = false;
+        this.third = false;
       },
 
       //  async checkCardExists() {

@@ -80,7 +80,6 @@ import { constants } from 'crypto';
       getEmployees() {
         let api = '';
         (this.standard) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
-        console.log(api);
         http.get(api)
           .then((res) => {
             res.data.forEach(d => {

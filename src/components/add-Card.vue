@@ -6,7 +6,8 @@
       <md-card class="md-layout-item md-size-50 md-small-size-100 center">
         <!-- Header for card -->
         <md-card-header>
-          <div class="md-title">Add card to be assigned to employee</div>
+          <div class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
+          <div class="md-title" v-if="standard === false ">{{ titelProcess }}</div>
         </md-card-header>
         <!-- Content to be displayed on cards -->
         <md-card-content>
@@ -20,12 +21,12 @@
                 <span class="md-error" v-else-if="!$v.form.tag.minlength">Invalid card number</span>
               </md-field>
             </div>
-            <!-- Assign to employee -->
+            <!-- Assign to employee
             <div class="md-layout-item md-small-size-100" v-show="standard !== false">
               <md-checkbox name="assign" id="assign" v-model="form.assign" :disabled="processing" autofocus=true>
                 Assign card to employee
               </md-checkbox>
-            </div>
+            </div> -->
           </div>
         </md-card-content>
         <div v-if="standard !== false">
@@ -67,11 +68,13 @@
       return {
         form: {
           tag: '',
-          assign: false,
+          // assign: false,
         },
         processing: null,
         showCreated: false,
         cardExists: false,
+        titelStandard: 'Add Card To Clocker',
+        titelProcess: 'Add Card To Be Assigned To Employee',
       }
     },
     validations: {

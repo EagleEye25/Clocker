@@ -16,36 +16,38 @@ export default new Router({
   // base: process.env.BASE_URL,
   routes: [
     {
-      path: '/addEmployee',
-      component: addEmployee
-    },
-    {
-      path: '/addCard',
-      component: addCard
-    },
-    {
-      path: '/addReason',
-      component: addReason
-    },
-    {
       path: '/clocker',
       component: clocker
     },
     {
-      path: '/viewEmployee',
-      component: viewEmployee
-    },
-    {
-      path: '/assignCardProcess',
-      component: assignCardProcess
-    },
-    {
-      path: '/selectCardForEmployee',
-      component: selectCardForEmployee
-    },
-    {
       path: '/management',
-      component: management
+      component: management,
+      children: [
+        {
+          path: 'addEmployee',
+          component: addEmployee
+        },
+        {
+          path: 'addCard',
+          component: addCard
+        },
+        {
+          path: 'addReason',
+          component: addReason
+        },
+        {
+          path: 'viewEmployee',
+          component: viewEmployee
+        },
+        {
+          path: 'assignCardProcess',
+          component: assignCardProcess
+        },
+        {
+          path: 'selectCardForEmployee',
+          component: selectCardForEmployee
+        },
+      ]
     }
   ]
 })
