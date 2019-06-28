@@ -170,6 +170,7 @@
       cancelAdd() {
         this.$store.dispatch('updateChangeCancelAddEmp', true);
         this.clearForm();
+        this.$emit('canceled');
       },
 
       async checkUser(name) {

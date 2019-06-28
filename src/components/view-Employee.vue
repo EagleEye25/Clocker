@@ -39,7 +39,7 @@
     </div>
     <div v-if="addEmployee">
       <!-- Create a new employee -->
-      <addEmployee v-bind:standard=false></addEmployee>
+      <addEmployee @canceled='canceledAdd' v-bind:standard=false></addEmployee>
     </div>
   </div>
 </template>
@@ -109,6 +109,10 @@
         }).catch((error) => {
           console.log(error);
         });
+      },
+
+      canceledAdd() {
+        this.addEmployee = false;
       },
 
       onSelect(item) {
