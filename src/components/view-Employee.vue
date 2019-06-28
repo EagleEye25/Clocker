@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="center">
+    <div class="center" v-if="!addEmployee">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
                 @md-selected="onSelect" class="table">
         <md-table-toolbar>
@@ -16,7 +16,7 @@
         <md-table-empty-state
           md-label="No unassigned Employees found"
           :md-description="`No Employees found for this '${search}' query. Try a different search term or create a new Employee.`">
-          <md-button class="md-primary md-raised" @click="newCard">Create New Employee</md-button>
+          <md-button class="md-primary md-raised" @click="addEmployee = true">Create New Employee</md-button>
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
@@ -37,12 +37,16 @@
         </md-table-row>
       </md-table>
     </div>
+    <div v-if="addEmployee">
+      <!-- Create a new employee -->
+      <addEmployee v-bind:standard=false></addEmployee>
+    </div>
   </div>
 </template>
 
 <script>
-  import http from '../../public/app.service.ts'
-import { constants } from 'crypto';
+  import http from '../../public/app.service.ts';
+  import addEmployee from './add-Employee.vue';
 
   const toLower = text => {
     return text.toString().toLowerCase();
@@ -69,7 +73,12 @@ import { constants } from 'crypto';
         search: null,
         searched: [],
         title: 'Employees',
+        addEmployee: false,
       }
+    },
+
+    components: {
+      addEmployee,
     },
 
     created: () => {
@@ -123,7 +132,13 @@ import { constants } from 'crypto';
 
     beforeMount() {
       this.getEmployees();
-    }
+    },
+
+    computed: {
+      addCanceled() {
+        return this.$store.getters.cancelAddEmp;
+      }
+    },
   }
 </script>
 

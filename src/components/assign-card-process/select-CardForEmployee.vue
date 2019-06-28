@@ -5,7 +5,7 @@
                 @md-selected="onSelect" class="table">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
-            <h1 class="md-title">Select Unused Card</h1>
+            <h1 class="md-title"> {{ title }} </h1>
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
@@ -47,6 +47,7 @@
     name: 'select-CardForEmployee',
     // Angular equivaent of INPUT
     props: {
+      standard: true,
     },
     //  Variables
     data() {
@@ -55,14 +56,20 @@
         selectedCard: null,
         search: null,
         searched: [],
+        cards: null,
+        title: '',
       }
     },
 
-    created: () => {
-      this.getUnlinkedCards();
-    },
-
     methods: {
+      determineMsg() {
+        if (this.standard !== false) {
+          this.title = 'Created Cards';
+        } else {
+          this.title = 'Select Unused Card';
+        }
+      },
+
       getUnlinkedCards() {
         http.get(`/api/card/unlinked/cards`)
           .then((res) => {
@@ -78,6 +85,16 @@
           console.log(error);
         });
       },
+
+      // getAllCards() {
+      //   http.get(`/api/card/`)
+      //     .then((resp) => {
+      //       this.cards = resp.data;
+      //       console.log('GOT ALL');
+      //     }).catch((err) => {
+      //       console.log('this is an error', err);
+      //     });
+      // },
 
       onSelect(item) {
         this.selectedCard = item;
@@ -100,6 +117,7 @@
 
     beforeMount() {
       this.getUnlinkedCards();
+      this.determineMsg();
     }
   }
 </script>

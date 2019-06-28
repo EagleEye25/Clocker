@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Form for entering information -->
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
+    <form v-if="!empInfo" novalidate class="md-layout" @submit.prevent="validateUser" >
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-50 md-small-size-100 center">
         <!-- Header for card -->
@@ -66,13 +66,21 @@
             </div>
           </div>
         </md-card-content>
-
-         <md-card-actions>
-           <md-button style="color: orange"  v-on:click="clearForm">cancel</md-button>
-           <md-button style="color: lime"  v-on:click="addEmployee">Add Employee</md-button>
+        <md-card-actions v-if="standard !== false">
+          <md-button style="color: orange"  v-on:click="clearForm">cancel</md-button>
+          <md-button style="color: lime"  v-on:click="addEmployee">Add Employee</md-button>
+        </md-card-actions>
+        <md-card-actions v-if="standard === false">
+          <!-- TODO: Send user back to view-Employee screen in process -->
+          <md-button style="color: orange" v-if="!$store.getters.employeeInfo" v-on:click="cancelAdd">cancel</md-button>
+          <md-button style="color: lime" v-if="!$store.getters.employeeInfo" v-on:click="addEmployee">Add Employee</md-button>
         </md-card-actions>
       </md-card>
     </form>
+    <div v-if="empInfo">
+      <h1>Successfully added employee!</h1>
+      <h3>Please press continue</h3>
+    </div>
   </div>
 </template>
 
@@ -89,6 +97,7 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
+      standard: true,
     },
     //  Variables
     data() {
@@ -100,10 +109,11 @@
           reporting_admin: false,
           calender_id: null,
           password: null,
-          userExists: false,
         },
         processing: null,
-        passVis: false
+        passVis: false,
+        combinedName: '',
+        selectedEmployee: '',
       }
     },
     validations: {
@@ -129,31 +139,46 @@
     },
 
     methods: {
-
       async addEmployee() {
-        let combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
-        if (!await this.checkUser(combinedName)) {
+        this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
+        if (!await this.checkUser(this.combinedName)) {
           http.post(`/api/employee/create`, {
-          'name': combinedName,
+          'name': this.combinedName,
           'admin': this.form.admin,
           'reporting_admin': this.form.reporting_admin,
           'password': this.form.password,
           'calender': this.form.calender_id
         }).then((resp) => {
+          console.log(resp);
           if (resp.status === 201) {
+            if (!this.standard) {
+              this.$store.dispatch('updateEmployeeInfo', resp.data);
+            }
             this.clearForm();
             console.log('added');
+            return true;
           }
         }).catch((err) => {
-          console.log(err);
+          console.log('error over here?:', err);
+          return false;
         })
         } else {
           console.log('employee exists');
         }
       },
 
+      cancelAdd() {
+        this.$store.dispatch('updateChangeCancelAddEmp', true);
+        this.clearForm();
+      },
+
       async checkUser(name) {
-        return !!(await http.get(`/api/employee/findByName/${name}`)).data;
+        return await http.get(`/api/employee/findByName/${name}`)
+          .then((resp) => {
+            return true
+          }).catch((err) => {
+            return false
+          });
       },
 
       passwordVisibility() {
@@ -193,6 +218,15 @@
         if (!this.$v.$invalid) {
           this.saveUser()
         }
+      }
+    },
+    computed: {
+      addEmp() {
+        return this.$store.getters.addEmp;
+      },
+
+      empInfo() {
+        return this.$store.getters.employeeInfo;
       }
     }
   }

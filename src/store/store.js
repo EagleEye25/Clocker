@@ -1,14 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { createFlashStore } from 'vuex-flash';
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  plugins: [
+    createFlashStore()
+  ],
   state: {
     cardNo: null,
     employeeInfo: null,
     alreadyCreated: null,
-    created: null
+    created: null,
+    cancelAddEmp: null,
+    addEmp: null,
   },
   mutations: {
     changeCardNo(state, cardNo) {
@@ -23,13 +29,21 @@ const store = new Vuex.Store({
     changeEmployeeInfo(state, employeeInfo) {
       state.employeeInfo = employeeInfo
     },
+    changeCancelAddEmp(state, cancelAddEmp) {
+      state.cancelAddEmp = cancelAddEmp
+    },
+    changeAddEmp(state, addEmp) {
+      state.addEmp = addEmp
+    },
   },
   getters: {
     cardNo: state => state.cardNo ? state.cardNo || '' : '',
     created: state => state.created ? state.created || '' : '',
     alreadyCreated: state => state.alreadyCreated ? state.alreadyCreated || '' : '',
     employeeInfo: state => state.employeeInfo ? state.employeeInfo || '' : '',
-    employeeName: state => state.employeeInfo ? state.employeeInfo.name || '' : ''
+    employeeName: state => state.employeeInfo ? state.employeeInfo.name || '' : '',
+    cancelAddEmp: state => state.cancelAddEmp ? state.cancelAddEmp || '' : '',
+    addEmp: state => state.addEmp ? state.addEmp || '' : ''
   },
   actions: {
     updateCardNo(ctx, num) {
@@ -44,6 +58,12 @@ const store = new Vuex.Store({
     updateChangeCreated(ctx, created) {
       ctx.commit('changeCreated', created);
     },
+    updateChangeCancelAddEmp(ctx, cancel) {
+      ctx.commit('changeCancelAddEmp', cancel);
+    },
+    updateAddEmp(ctx, addEmp){
+      ctx.commit('changeAddEmp', addEmp)
+    }
   }
 });
 

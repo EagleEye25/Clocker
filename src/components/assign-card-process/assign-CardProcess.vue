@@ -1,11 +1,11 @@
 <template>
   <div>
     <div>
-      <md-steppers :md-active-step.sync="active" md-linear md-dynamic-height>
+      <md-steppers :md-active-step.sync="active" md-vertical md-dynamic-height>
       <md-step id="first" md-label="Add Card" :md-done.sync="first" :md-editable="editable">
         <addCard v-bind:standard=false v-if="!showCreatedCards"></addCard>
         <!-- Displays if already created is clicked -->
-        <selectCardForEmployee v-if="showCreatedCards"></selectCardForEmployee>
+        <selectCardForEmployee v-if="showCreatedCards" v-bind:standard=false></selectCardForEmployee>
         <md-button style="color: yellow;" @click="showCreatedCards = true" v-if="!showCreatedCards">
           Already created card
         </md-button>
@@ -222,6 +222,9 @@
 
       alreadyCreated() {
         return this.$store.getters.alreadyCreated;
+      },
+      addCanceled() {
+        return this.$store.getters.cancelAddEmp;
       }
     }
   }
@@ -229,5 +232,12 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: 50%; */
+  }
 
 </style>
