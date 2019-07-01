@@ -25,7 +25,7 @@
           <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
           <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
           <md-table-cell v-if="standard !== false" md-label="Update" >
-            <md-button class="md-raised md-primary">
+            <md-button class="md-raised md-primary" @click="updateEmployee(item)">
               Update
             </md-button>
           </md-table-cell>
@@ -74,6 +74,7 @@
         searched: [],
         title: 'Employees',
         addEmployee: false,
+        updateEmp: false,
       }
     },
 
@@ -87,7 +88,6 @@
 
     methods: {
       getEmployees() {
-        console.log('here');
         let api = '';
         (this.standard !== false) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
         http.get(api)
@@ -111,8 +111,20 @@
         });
       },
 
+      updateEmployee(item) {
+        this.updateEmp = true;
+        item.update = true;
+
+        this.$store.dispatch('updateEmp', item);
+        this.$router.push('/management/addEmployee');
+      },
+
       canceledAdd() {
         this.addEmployee = false;
+      },
+
+      canceledUpdate() {
+        this.updateEmp = false;
       },
 
       onSelect(item) {

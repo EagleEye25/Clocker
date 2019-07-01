@@ -67,17 +67,18 @@
           </div>
         </md-card-content>
         <md-card-actions v-if="standard !== false">
-          <md-button style="color: orange"  v-on:click="clearForm">cancel</md-button>
-          <md-button style="color: lime"  v-on:click="addEmployee">Add Employee</md-button>
+          <md-button style="color: orange"  v-on:click="clearForm" v-if="!id">cancel</md-button>
+          <md-button style="color: lime"  v-on:click="addEmployee" v-if="!id">Add Employee</md-button>
+          <md-button style="color: orange" v-if="id" @click="clearForm">Cancel</md-button>
+          <md-button style="color: lime" v-if="id" v-on:click="addEmployee">Update Employee</md-button>
         </md-card-actions>
         <md-card-actions v-if="standard === false">
-          <!-- TODO: Send user back to view-Employee screen in process -->
           <md-button style="color: orange" v-if="!$store.getters.employeeInfo" v-on:click="cancelAdd">cancel</md-button>
           <md-button style="color: lime" v-if="!$store.getters.employeeInfo" v-on:click="addEmployee">Add Employee</md-button>
         </md-card-actions>
       </md-card>
     </form>
-    <div v-if="empInfo">
+    <div v-if="empInfo && !id">
       <h1>Successfully added employee!</h1>
       <h3>Please press continue</h3>
     </div>
@@ -114,6 +115,9 @@
         passVis: false,
         combinedName: '',
         selectedEmployee: '',
+        updateInfo: '',
+        addMsg: 'Add Employee',
+        id: null,
       }
     },
     validations: {
@@ -167,6 +171,41 @@
         }
       },
 
+      async fillInputs() {
+        if (this.standard !== false && this.updateEmpInfo.update) {
+          this.id = this.updateEmpInfo.id;
+
+          const got = await this.getInfoUpdate();
+          if (got) {
+            let admin = false;
+            let reporting = false;
+            (this.updateInfo.admin === 0) ? admin = false : admin = true;
+            (this.updateInfo.reporting_admin === 0) ? reporting = false : reporting = true;
+            let name = this.updateInfo.name.split(' ');
+
+            this.form.firstName = name[0];
+            this.form.lastName = name[1];
+            this.form.admin = admin;
+            this.form.reporting_admin = reporting;
+            if (this.updateInfo.password) {
+              this.form.password = this.updateInfo.password;
+            }
+          }
+        }
+      },
+
+      async getInfoUpdate() {
+        return await http.get(`/api/employee/${this.id}`)
+          .then((resp) => {
+            this.updateInfo = resp.data;
+            console.log('got infor');
+            return true
+          }).catch((err) => {
+            console.log(err)
+            return false
+          });
+      },
+
       cancelAdd() {
         this.$store.dispatch('updateChangeCancelAddEmp', true);
         this.clearForm();
@@ -211,6 +250,9 @@
         this.form.admin = false
         this.form.reporting_admin = false
         this.form.password = null
+        if (this.id) {
+          this.$router.push('/management/viewEmployee');
+        }
       },
 
       validateUser() {
@@ -228,7 +270,19 @@
 
       empInfo() {
         return this.$store.getters.employeeInfo;
+      },
+
+      updateEmpInfo() {
+        return this.$store.getters.updateEmp;
       }
+    },
+
+    // created() {
+    //   this.fillInputs();
+    // },
+
+    beforeMount() {
+      this.fillInputs();
     }
   }
 </script>

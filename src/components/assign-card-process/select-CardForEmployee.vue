@@ -63,7 +63,7 @@
               </md-button>
             </md-table-cell>
             <md-table-cell md-label="Unassign Card">
-              <md-button class="md-raised" style="color: red" @click="callUnassign(item.id)">
+              <md-button class="md-raised md-accent" @click="callUnassign(item.id)">
                 Unassign
               </md-button>
             </md-table-cell>
