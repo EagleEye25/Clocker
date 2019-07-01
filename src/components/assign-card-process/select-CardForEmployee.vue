@@ -1,8 +1,36 @@
 <template>
   <div>
     <div class="center">
-      <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table">
+      <!-- Part of process -->
+      <div v-if="showNorm === false">
+        <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+                  @md-selected="onSelect" class="table">
+          <md-table-toolbar>
+            <div class="md-toolbar-section-start">
+              <h1 class="md-title"> {{ title }} </h1>
+            </div>
+
+            <md-field md-clearable class="md-toolbar-section-end">
+              <md-tooltip md-direction="bottom">Type / Scan</md-tooltip>
+              <md-input placeholder="Search by Card Number..." v-model="search" @input="searchOnTable"/>
+            </md-field>
+          </md-table-toolbar>
+
+          <md-table-empty-state
+            md-label="No unused cards found"
+            :md-description="`No card found for this '${search}' query. Try a different search term or create a new card.`">
+            <md-button class="md-primary md-raised" @click="newCard">Create New Card</md-button>
+          </md-table-empty-state>
+            <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+              <md-table-cell md-label="Nr." md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
+              <md-table-cell md-label="Card Number" md-sort-by="card_no">{{ item.card_no }}</md-table-cell>
+            </md-table-row>
+          </md-table>
+        </div>
+      <!-- Standard Process -->
+      <div v-if="showNorm === true">
+        <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+              @md-selected="onSelect" class="table">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> {{ title }} </h1>
@@ -15,16 +43,43 @@
         </md-table-toolbar>
 
         <md-table-empty-state
-          md-label="No unused cards found"
-          :md-description="`No card found for this '${search}' query. Try a different search term or create a new card.`">
-          <md-button class="md-primary md-raised" @click="newCard">Create New Card</md-button>
+          md-label="No Assigned Employees Found"
+          :md-description="`No Assigned Employees found for this '${search}' query. Try a different search term or create assign an employee.`">
+          <md-button class="md-primary md-raised" to="/management/assignCardProcess">Assing Employee to card</md-button>
         </md-table-empty-state>
+          <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" >
+            <md-table-cell md-label="Employee Name" md-sort-by="name" md-numeric>
+              {{ item.name }}
+            </md-table-cell>
+            <md-table-cell md-label="Assigned Card" md-sort-by="card_no" md-numeric>
+              {{ item.card_no }}
+            </md-table-cell>
+            <md-table-cell md-label="Deactivate Card" md-sort-by="active">
+              <md-button class="md-raised" style="color: orange" v-if="item.active === 1" @click="callDeactivate(item.id)">
+                Deactivate
+              </md-button>
+              <md-button class="md-raised" style="color: orange" v-if="item.active === 0" @click="callActivate(item.id)">
+                Activate
+              </md-button>
+            </md-table-cell>
+            <md-table-cell md-label="Unassign Card">
+              <md-button class="md-raised" style="color: red" @click="callUnassign(item.id)">
+                Unassign
+              </md-button>
+            </md-table-cell>
+          </md-table-row>
+        </md-table>
 
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-          <md-table-cell md-label="Card Number" md-sort-by="card_no">{{ item.card_no }}</md-table-cell>
-        </md-table-row>
-      </md-table>
+        <md-dialog-confirm
+        :md-active.sync="active"
+        :md-title= mdTitle
+        :md-content= mdDescription
+        md-confirm-text="Agree"
+        md-cancel-text="Cancel"
+        @md-cancel="onCancel"
+        @md-confirm="onConfirm" />
+      </div>
+
     </div>
   </div>
 </template>
@@ -52,22 +107,148 @@
     //  Variables
     data() {
       return {
-        unlinkedCards: [],
+        cardData: [],
         selectedCard: null,
         search: null,
         searched: [],
-        cards: null,
         title: '',
+        active: false,
+        confirmedUnassign: false,
+        mdTitle: '',
+        mdDescription: '',
+        state: '',
+        showNorm: false,
+        itemID: '',
       }
     },
 
     methods: {
+      callDeactivate(itemID) {
+        this.mdTitle = 'Deactivate Card';
+        this.mdDescription = 'Are you sure you want to deactivate this card?';
+        this.active = true;
+        this.state = 'Deactivate';
+        this.itemID = itemID;
+      },
+
+      callActivate(itemID) {
+        this.mdTitle = 'Activate Card';
+        this.mdDescription = 'Are you sure you want to activate this card?';
+        this.active = true;
+        this.state = 'Activate';
+        this.itemID = itemID;
+      },
+
+      callUnassign(itemID) {
+        this.mdTitle = 'Unassign Employee';
+        this.mdDescription = 'Are you sure you want to unassign the employee from the card?';
+        this.active = true;
+        this.state = 'Unassign';
+        this.itemID = itemID;
+      },
+
+      changeActiveOnTable(active) {
+        let selectedItem = this.cardData.find(item => item.id === this.itemID);
+        if (active === 0 || active === 1) {
+          for (let k = 0; k < this.cardData.length; k++) {
+            if (this.cardData[k].id === this.itemID) {
+              this.cardData[k].active = active;
+            }
+          }
+        } else if (active === 'Unassign') {
+          const idx = this.cardData.findIndex((card) => card.id === this.itemID);
+          if (idx > -1) {
+            this.cardData.splice(idx, 1);
+          }
+          console.log(this.cardData);
+        }
+      },
+
+      async onConfirm (active) {
+        this.confirmedUnassign = true;
+        if (this.state === 'Deactivate') {
+          let confirm = await this.changeActiveState(false);
+          if (confirm) {
+            this.changeActiveOnTable(0);
+          }
+        } else if (this.state === 'Activate') {
+          let confirm = await this.changeActiveState(true);
+          if (confirm) {
+            this.changeActiveOnTable(1);
+          }
+        } else if (this.state === 'Unassign') {
+          let confirm = await this.unAssignEmployee();
+          console.log('confirm:',confirm);
+          if (confirm) {
+            this.changeActiveOnTable('Unassign');
+          }
+        }
+      },
+
+      onCancel () {
+        this.confirmedUnassign = false;
+      },
+
+      async unAssignEmployee() {
+        if (this.itemID) {
+          return await http.delete(`/api/employee_card/${this.itemID}`)
+            .then((resp) => {
+              console.log('unassigned employee')
+              return true;
+            }).catch((err) => {
+              console.log(err)
+            });
+        }
+      },
+
+      async changeActiveState(active) {
+        return await http.put(`/api/employee_card/${this.selectedCard.id}`, {
+          'id': this.selectedCard.id,
+          'employee_id': this.selectedCard.employee_id,
+          'card_id': this.selectedCard.card_id,
+          'issued_at': this.selectedCard.issued_at,
+          'active': active
+        })
+        .then((resp) => {
+          console.log('successfully deactivated card!');
+          return true;
+        }).catch((error) => {
+          console.log(error)
+          return false
+        });
+      },
+
+      getCards() {
+        http.get(`/api/employee_card/`)
+          .then((res) => {
+            res.data.forEach(d => {
+              let data = {
+                'id': d.id,
+                'employee_id': d.employee_id,
+                'card_id': d.card_id,
+                'issued_at': d.issued_at,
+                'active': d.active,
+                'name': d.name,
+                'card_no': d.card_no
+              }
+              this.cardData.push(data);
+            });
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
+
       determineMsg() {
         if (this.standard !== false) {
-          this.title = 'Created Cards';
-        } else {
+          this.title = 'Employee Cards';
+          this.showNorm = true;
+          this.getCards();
+        } else if (this.standard === false) {
+          this.showNorm = false;
           this.title = 'Select Unused Card';
+          this.getUnlinkedCards();
         }
+        console.log(this.showNorm);
       },
 
       getUnlinkedCards() {
@@ -78,45 +259,35 @@
                 'id': d.id,
                 'card_no': d.card_no
               }
-              this.unlinkedCards.push(data);
+              this.cardData.push(data);
             });
-          this.unlinkedCards.toString();
         }).catch((error) => {
           console.log(error);
         });
       },
 
-      // getAllCards() {
-      //   http.get(`/api/card/`)
-      //     .then((resp) => {
-      //       this.cards = resp.data;
-      //       console.log('GOT ALL');
-      //     }).catch((err) => {
-      //       console.log('this is an error', err);
-      //     });
-      // },
-
       onSelect(item) {
         this.selectedCard = item;
-        this.$store.dispatch('updateCardNo', this.selectedCard.card_no);
-        this.$store.dispatch('updateAlreadyCreated', true);
+        if (this.standard === false) {
+          this.$store.dispatch('updateCardNo', this.selectedCard.card_no);
+          this.$store.dispatch('updateAlreadyCreated', true);
+        }
       },
 
       newCard () {
-        window.alert('Noop')
+        this.$router.push('/management/addCard');
       },
+
       searchOnTable () {
-        this.searched = searchByCardNo(this.unlinkedCards, this.search);
+        this.searched = searchByCardNo(this.cardData, this.search);
       }
     },
 
     created () {
-      this.searched = this.unlinkedCards;
+      this.searched = this.cardData;
     },
 
-
     beforeMount() {
-      this.getUnlinkedCards();
       this.determineMsg();
     }
   }
@@ -137,7 +308,7 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
-    width: 30%;
+    width: 40%;
   }
 
   .md-table-cell {

@@ -173,6 +173,8 @@
         this.first = false;
         this.second = false;
         this.third = false;
+        this.clearStore();
+        this.showCreatedCards = false;
       },
 
       //  async checkCardExists() {

@@ -31,7 +31,7 @@
           </md-menu-item>
           <md-menu-item>
             <md-button to="/management/selectCardForEmployee">
-              View Card
+              View Employee Cards
             </md-button>
           </md-menu-item>
         </md-menu-content>

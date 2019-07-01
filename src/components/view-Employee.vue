@@ -87,8 +87,9 @@
 
     methods: {
       getEmployees() {
+        console.log('here');
         let api = '';
-        (this.standard) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
+        (this.standard !== false) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
         http.get(api)
           .then((res) => {
             res.data.forEach(d => {
@@ -105,7 +106,6 @@
               }
               this.employees.push(data);
             });
-          this.employees.toString();
         }).catch((error) => {
           console.log(error);
         });
