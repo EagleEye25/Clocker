@@ -6,9 +6,6 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css'
 import router from './router'
 import store from './store/store';
-import VuexFlash from 'vuex-flash';
-
-Vue.use(VuexFlash, { mixin: true });
 
 Vue.use(VueMaterial)
 

@@ -44,13 +44,6 @@
         </div>
       </md-card>
     </form>
-
-    <flash-message autoHide variant="success"
-                    transitionIn="animated rubberBand"
-                    transitionOut="animated rollOut">
-    </flash-message>
-     <flash-message variant="warning">
-     </flash-message>
   </div>
 </template>
 
@@ -123,7 +116,6 @@
               this.$store.dispatch('updateCardNo', this.form.tag);
               this.form.tag = '';
               document.getElementById('tag').focus();
-              this.flash({ message: 'Added Card', variant: 'success'});
             }
           }).catch((err) => {
             console.log('AN ERROR HAS OCCURED');
