@@ -70,7 +70,7 @@
           <md-button style="color: orange"  v-on:click="clearForm" v-if="!id">cancel</md-button>
           <md-button style="color: lime"  v-on:click="addEmployee" v-if="!id">Add Employee</md-button>
           <md-button style="color: orange" v-if="id" @click="clearForm">Cancel</md-button>
-          <md-button style="color: lime" v-if="id" v-on:click="addEmployee">Update Employee</md-button>
+          <md-button style="color: lime" v-if="id" v-on:click="updateEmployee">Update Employee</md-button>
         </md-card-actions>
         <md-card-actions v-if="standard === false">
           <md-button style="color: orange" v-if="!$store.getters.employeeInfo" v-on:click="cancelAdd">cancel</md-button>
@@ -143,6 +143,27 @@
     },
 
     methods: {
+      async updateEmployee() {
+        this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
+        return await http.put(`/api/employee/${this.id}`, {
+          'id': this.id,
+          'name': this.combinedName,
+          'admin': this.form.admin,
+          'reporting_admin': this.form.reporting_admin,
+          'password': this.form.password,
+          'calender': this.form.calender_id
+        }).then((resp) => {
+            this.clearForm();
+            this.$store.dispatch('updateEmp', null);
+            this.$router.push('/management/viewEmployee');
+            console.log('successfully updated employee')
+            return true
+          }).catch((err) => {
+            console.log(err)
+            return false
+          });
+      },
+
       async addEmployee() {
         this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
         if (!await this.checkUser(this.combinedName)) {
@@ -155,7 +176,7 @@
         }).then((resp) => {
           console.log(resp);
           if (resp.status === 201) {
-            if (!this.standard) {
+            if (this.standard === false) {
               this.$store.dispatch('updateEmployeeInfo', resp.data);
             }
             this.clearForm();

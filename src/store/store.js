@@ -11,7 +11,8 @@ const store = new Vuex.Store({
     created: null,
     cancelAddEmp: null,
     addEmp: null,
-    updateEmp: null
+    updateEmp: null,
+    reasonData: null
   },
   mutations: {
     changeCardNo(state, cardNo) {
@@ -35,6 +36,9 @@ const store = new Vuex.Store({
     changeUpdateEmp(state, updateEmp) {
       state.updateEmp = updateEmp
     },
+    changeReasonData(state, reasonData) {
+      state.reasonData = reasonData
+    },
   },
   getters: {
     cardNo: state => state.cardNo ? state.cardNo || '' : '',
@@ -44,7 +48,8 @@ const store = new Vuex.Store({
     employeeName: state => state.employeeInfo ? state.employeeInfo.name || '' : '',
     cancelAddEmp: state => state.cancelAddEmp ? state.cancelAddEmp || '' : '',
     addEmp: state => state.addEmp ? state.addEmp || '' : '',
-    updateEmp: state => state.updateEmp ? state.updateEmp || '' : ''
+    updateEmp: state => state.updateEmp ? state.updateEmp || '' : '',
+    reasonData: state => state.reasonData ? state.reasonData || '' : ''
   },
   actions: {
     updateCardNo(ctx, num) {
@@ -67,6 +72,9 @@ const store = new Vuex.Store({
     },
     updateEmp(ctx, updateEmp){
       ctx.commit('changeUpdateEmp', updateEmp)
+    },
+    updateReason(ctx, updateReason){
+      ctx.commit('changeReasonData', updateReason)
     }
   }
 });

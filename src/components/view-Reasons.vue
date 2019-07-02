@@ -24,7 +24,7 @@
           <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}</md-table-cell>
           <md-table-cell md-label="Work Related" md-sort-by="work">{{ item.work }}</md-table-cell>
           <md-table-cell md-label="Update" >
-            <md-button class="md-raised md-primary">
+            <md-button class="md-raised md-primary" @click="updateReason(item)">
               Update
             </md-button>
           </md-table-cell>
@@ -86,6 +86,11 @@
     },
 
     methods: {
+      updateReason(item) {
+        this.$store.dispatch('updateReason', item);
+        this.$router.push('/management/addReason');
+      },
+
       callDeactivate() {
         this.mdTitle = 'Deactivate Reason';
         this.mdDescription = 'Are you sure you want to deactivate this reason?';
@@ -170,7 +175,7 @@
 
       onSelect(item) {
         this.selectedReason = item;
-        console.log(this.selectedReason);
+        console.log('selected:', this.selectedReason);
       },
     },
 

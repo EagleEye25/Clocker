@@ -165,7 +165,6 @@
       },
 
       async onConfirm (active) {
-        this.confirmedUnassign = true;
         if (this.state === 'Deactivate') {
           let confirm = await this.changeActiveState(false);
           if (confirm) {
@@ -183,6 +182,7 @@
             this.changeActiveOnTable('Unassign');
           }
         }
+        this.confirmedUnassign = true;
       },
 
       onCancel () {

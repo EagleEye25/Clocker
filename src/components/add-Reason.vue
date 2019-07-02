@@ -35,8 +35,16 @@
         </md-card-content>
 
         <md-card-actions>
-          <md-button style="color: orange">Cancel</md-button>
-          <md-button style="color: lime" v-on:click="addReason">Add Reason</md-button>
+          <!-- Normal add -->
+          <div v-if="!reasonData">
+            <md-button style="color: orange">Cancel</md-button>
+            <md-button style="color: lime" v-on:click="addReason">Add Reason</md-button>
+          </div>
+          <!-- Update Reason -->
+          <div v-if="reasonData">
+            <md-button style="color: orange" to="/management/viewReasons">Cancel</md-button>
+            <md-button style="color: lime" v-on:click="updateReason">Update Reason</md-button>
+          </div>
         </md-card-actions>
       </md-card>
     </form>
@@ -67,6 +75,7 @@
           active: false,
         },
         processing: null,
+        reasonID: null,
       }
     },
     validations: {
@@ -79,6 +88,37 @@
     },
 
     methods: {
+      fillInputs() {
+        if (this.reasonData) {
+
+          this.reasonData.work === 'yes' ? this.reasonData.work = true
+            : this.reasonData.work = false;
+          this.reasonData.active === 0 ? this.reasonData.active = false
+            : this.reasonData.active = true;
+
+          this.form.description = this.reasonData.description;
+          this.form.work = this.reasonData.work;
+          this.form.active = this.reasonData.active;
+        }
+      },
+
+      async updateReason() {
+        return await http.put(`/api/reason/${this.reasonData.id}`, {
+          'id': this.reasonData.id,
+          'description': this.form.description,
+          'work': this.form.work,
+          'active': this.form.active
+        }).then((resp) => {
+          this.clearForm();
+          console.log('successfully updated reason');
+          this.$store.dispatch('updateReason', null);
+          this.$router.push('/management/viewReasons');
+          return true;
+        }).catch((err) => {
+          console.log(err);
+          return false;
+        });
+      },
 
       addReason() {
         http.post(`/api/reason/create`, {
@@ -120,6 +160,16 @@
           this.saveUser()
         }
       }
+    },
+
+    computed: {
+      reasonData() {
+        return this.$store.getters.reasonData;
+      }
+    },
+
+    beforeMount() {
+      this.fillInputs();
     }
   }
 </script>
