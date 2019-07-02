@@ -13,8 +13,8 @@
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button>
-              View Calenders
+            <md-button to="/management/addCalenderTimes">
+              Add Calendar Times
             </md-button>
           </md-menu-item>
         </md-menu-content>
