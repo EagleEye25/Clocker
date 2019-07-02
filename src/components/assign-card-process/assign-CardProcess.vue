@@ -5,7 +5,7 @@
       <md-step id="first" md-label="Add Card" :md-done.sync="first" :md-editable="editable">
         <addCard v-bind:standard=false v-if="!showCreatedCards"></addCard>
         <!-- Displays if already created is clicked -->
-        <selectCardForEmployee v-if="showCreatedCards" v-bind:standard=false></selectCardForEmployee>
+        <selectCardForEmployee v-if="showCreatedCards && !cancelAdd" @canceled='cancelAddInSelect' v-bind:standard=false></selectCardForEmployee>
         <md-button style="color: yellow;" @click="showCreatedCards = true" v-if="!showCreatedCards">
           Already created card
         </md-button>
@@ -84,6 +84,7 @@
         cardID: null,
         completed: false,
         editable: true,
+        cancelAdd: false,
       }
     },
 
@@ -130,6 +131,11 @@
       //     return true
       //   }
       // },
+
+      cancelAddInSelect() {
+        this.showCreatedCards = false
+        this.cancelAdd = true;
+      },
 
       async getCardID() {
         return await http.get(`/api/card/card_no/${this.cardNumber}`)

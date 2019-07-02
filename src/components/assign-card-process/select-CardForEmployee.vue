@@ -19,7 +19,7 @@
           <md-table-empty-state
             md-label="No unused cards found"
             :md-description="`No card found for this '${search}' query. Try a different search term or create a new card.`">
-            <md-button class="md-primary md-raised" @click="newCard">Create New Card</md-button>
+            <md-button class="md-primary md-raised" @click="cancelAdd">Create New Card</md-button>
           </md-table-empty-state>
             <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
               <md-table-cell md-label="Nr." md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
@@ -123,6 +123,10 @@
     },
 
     methods: {
+      cancelAdd() {
+        this.$emit('canceled');
+      },
+
       callDeactivate(itemID) {
         this.mdTitle = 'Deactivate Card';
         this.mdDescription = 'Are you sure you want to deactivate this card?';
