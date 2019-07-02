@@ -26,6 +26,11 @@
                 Work related
               </md-checkbox>
             </div>
+            <div class="md-layout-item md-small-size-100">
+              <md-checkbox v-model="form.active">
+                Activate
+              </md-checkbox>
+            </div>
           </div>
         </md-card-content>
 
@@ -59,6 +64,7 @@
         form: {
           description: null,
           work: false,
+          active: false,
         },
         processing: null,
       }
@@ -77,11 +83,11 @@
       addReason() {
         http.post(`/api/reason/create`, {
           'description': this.form.description,
-          'work': this.form.work
+          'work': this.form.work,
+          'active': this.form.active
         }).then((resp) => {
           if (resp.status === 201) {
-            this.form.description = '';
-            this.form.work = false;
+            this.clearForm();
             document.getElementById('description').focus();
           }
           console.log('added');
@@ -101,9 +107,10 @@
       },
 
       clearForm() {
-        this.$v.$reset()
-        this.form.description = null
-        this.form.work = false
+        this.$v.$reset();
+        this.form.description = null;
+        this.form.work = false;
+        this.form.active = false;
       },
 
       validateUser() {

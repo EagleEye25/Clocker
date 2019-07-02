@@ -76,7 +76,7 @@
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button to="/management/addEmployee">
+            <md-button to="/management/viewReasons">
               View Reasons
             </md-button>
           </md-menu-item>

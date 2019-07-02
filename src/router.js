@@ -8,6 +8,7 @@ import viewEmployee from '@/components/view-Employee.vue';
 import assignCardProcess from '@/components/assign-card-process/assign-CardProcess.vue';
 import selectCardForEmployee from '@/components/assign-card-process/select-CardForEmployee.vue';
 import management from '@/components/management.vue';
+import viewReasons from '@/components/view-Reasons.vue';
 
 Vue.use(Router)
 
@@ -50,6 +51,10 @@ export default new Router({
         {
           path: 'selectCardForEmployee',
           component: selectCardForEmployee
+        },
+        {
+          path: 'viewReasons',
+          component: viewReasons
         },
       ]
     }
