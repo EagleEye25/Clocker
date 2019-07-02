@@ -174,8 +174,9 @@
       },
 
       onSelect(item) {
-        this.selectedReason = item;
-        console.log('selected:', this.selectedReason);
+        if (item) {
+          this.selectedReason = item;
+        }
       },
     },
 

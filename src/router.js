@@ -9,6 +9,7 @@ import assignCardProcess from '@/components/assign-card-process/assign-CardProce
 import selectCardForEmployee from '@/components/assign-card-process/select-CardForEmployee.vue';
 import management from '@/components/management.vue';
 import viewReasons from '@/components/view-Reasons.vue';
+import addCalender from '@/components/add-Calender.vue';
 
 Vue.use(Router)
 
@@ -55,6 +56,10 @@ export default new Router({
         {
           path: 'viewReasons',
           component: viewReasons
+        },
+        {
+          path: 'addCalendar',
+          component: addCalender
         },
       ]
     }

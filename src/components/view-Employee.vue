@@ -128,8 +128,10 @@
       },
 
       onSelect(item) {
-        this.selectedEmployee = item;
-        this.$store.dispatch('updateEmployeeInfo', this.selectedEmployee);
+        if (item) {
+          this.selectedEmployee = item;
+          this.$store.dispatch('updateEmployeeInfo', this.selectedEmployee);
+        }
       },
 
       newCard () {

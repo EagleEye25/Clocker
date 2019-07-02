@@ -1,12 +1,12 @@
 <template>
   <div>
     <div>
-      <md-steppers :md-active-step.sync="active" md-vertical md-dynamic-height>
+      <md-steppers :md-active-step.sync="active" md-vertical md-linear md-dynamic-height>
       <md-step id="first" md-label="Add Card" :md-done.sync="first" :md-editable="editable">
         <addCard v-bind:standard=false v-if="!showCreatedCards"></addCard>
         <!-- Displays if already created is clicked -->
         <selectCardForEmployee v-if="showCreatedCards && !cancelAdd" @canceled='cancelAddInSelect' v-bind:standard=false></selectCardForEmployee>
-        <md-button style="color: yellow;" @click="showCreatedCards = true" v-if="!showCreatedCards">
+        <md-button style="color: yellow;" @click="showCreatedCards = true, cancelAdd = false" v-if="!showCreatedCards">
           Already created card
         </md-button>
         <md-button class="md-raised md-accent" v-if="showCreatedCards === true" @click="showCreatedCards = false, clearStore">

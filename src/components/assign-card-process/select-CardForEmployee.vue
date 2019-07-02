@@ -271,10 +271,12 @@
       },
 
       onSelect(item) {
-        this.selectedCard = item;
-        if (this.standard === false) {
-          this.$store.dispatch('updateCardNo', this.selectedCard.card_no);
-          this.$store.dispatch('updateAlreadyCreated', true);
+        if (item) {
+          this.selectedCard = item;
+          if (this.standard === false) {
+            this.$store.dispatch('updateCardNo', this.selectedCard.card_no);
+            this.$store.dispatch('updateAlreadyCreated', true);
+          }
         }
       },
 

@@ -8,8 +8,8 @@
         <md-button md-menu-trigger>Calenders</md-button>
         <md-menu-content>
           <md-menu-item>
-            <md-button>
-
+            <md-button to="/management/addCalendar">
+              Add Calendar
             </md-button>
           </md-menu-item>
           <md-menu-item>
