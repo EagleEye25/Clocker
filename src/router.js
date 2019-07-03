@@ -13,6 +13,7 @@ import addCalender from '@/components/add-Calender.vue';
 import addCalenderTimes from '@/components/add-CalenderTimes.vue';
 import viewCalender from '@/components/view-Calender.vue';
 import viewCalenderTimes from '@/components/view-CalenderTimes.vue';
+import assignCalenderTimes from '@/components/assign-CalenderTimes.vue';
 
 
 Vue.use(Router)
@@ -76,6 +77,10 @@ export default new Router({
         {
           path: 'viewCalendarTimes',
           component: viewCalenderTimes
+        },
+        {
+          path: 'assignCalenderTimes',
+          component: assignCalenderTimes
         },
       ]
     }
