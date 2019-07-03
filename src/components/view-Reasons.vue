@@ -151,11 +151,9 @@
       },
 
       getReasons() {
-        console.log('get');
         http.get(`/api/reason`)
           .then((resp) => {
             resp.data.forEach(d => {
-              console.log(d);
               let work = '';
               (d.work === 0) ? work = 'No' : work = 'yes';
               let data = {
@@ -164,7 +162,6 @@
                 'work': work,
                 'active': d.active
               }
-              console.log(data);
               this.reasons.push(data);
             });
             console.log('got reasons');

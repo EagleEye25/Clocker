@@ -148,6 +148,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
   .md-checkbox {
     padding-top: 10px;
     display: flex;

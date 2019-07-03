@@ -12,7 +12,9 @@ const store = new Vuex.Store({
     cancelAddEmp: null,
     addEmp: null,
     updateEmp: null,
-    reasonData: null
+    reasonData: null,
+    calendarData: null,
+    calendarTime: null,
   },
   mutations: {
     changeCardNo(state, cardNo) {
@@ -39,6 +41,12 @@ const store = new Vuex.Store({
     changeReasonData(state, reasonData) {
       state.reasonData = reasonData
     },
+    changeCalendarData(state, calendarData) {
+      state.calendarData = calendarData
+    },
+    changeCalendarTime(state, calendarTime) {
+      state.calendarTime = calendarTime
+    },
   },
   getters: {
     cardNo: state => state.cardNo ? state.cardNo || '' : '',
@@ -49,7 +57,9 @@ const store = new Vuex.Store({
     cancelAddEmp: state => state.cancelAddEmp ? state.cancelAddEmp || '' : '',
     addEmp: state => state.addEmp ? state.addEmp || '' : '',
     updateEmp: state => state.updateEmp ? state.updateEmp || '' : '',
-    reasonData: state => state.reasonData ? state.reasonData || '' : ''
+    reasonData: state => state.reasonData ? state.reasonData || '' : '',
+    calendarData: state => state.calendarData ? state.calendarData || '' : '',
+    calendarTime: state => state.calendarTime ? state.calendarTime || '' : ''
   },
   actions: {
     updateCardNo(ctx, num) {
@@ -75,7 +85,13 @@ const store = new Vuex.Store({
     },
     updateReason(ctx, updateReason){
       ctx.commit('changeReasonData', updateReason)
-    }
+    },
+    updateCalendar(ctx, updateCalendar){
+      ctx.commit('changeCalendarData', updateCalendar)
+    },
+    updateCalendarTime(ctx, updateCalendarTime){
+      ctx.commit('changeCalendarTime', updateCalendarTime)
+    },
   }
 });
 

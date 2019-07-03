@@ -11,6 +11,8 @@ import management from '@/components/management.vue';
 import viewReasons from '@/components/view-Reasons.vue';
 import addCalender from '@/components/add-Calender.vue';
 import addCalenderTimes from '@/components/add-CalenderTimes.vue';
+import viewCalender from '@/components/view-Calender.vue';
+import viewCalenderTimes from '@/components/view-CalenderTimes.vue';
 
 
 Vue.use(Router)
@@ -64,8 +66,16 @@ export default new Router({
           component: addCalender
         },
         {
-          path: 'addCalenderTimes',
+          path: 'addCalendarTimes',
           component: addCalenderTimes
+        },
+        {
+          path: 'viewCalendar',
+          component: viewCalender
+        },
+        {
+          path: 'viewCalendarTimes',
+          component: viewCalenderTimes
         },
       ]
     }

@@ -5,7 +5,7 @@
       <form action="">
         <md-card class="md-layout-item md-size-50 md-small-size-100 center">
         <md-card-header>
-          <div class="md-title">Assign Calendar Times To Calendar</div>
+          <div class="md-title">{{ title }}</div>
         </md-card-header>
 
         <md-card-content>
@@ -40,7 +40,8 @@
                 <label for="sTime">Starting Time</label>
                 <VueCtkDateTimePicker id="sTime" name="sTime" v-model="form.sTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
-                                     color="#27C96D" :dark=true label="Starting Time">
+                                     color="#27C96D" :dark=true label="Starting Time"
+                                     class="center">
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
               </md-field>
@@ -84,6 +85,21 @@
             </div>
           </div>
         </md-card-content>
+          <!-- standard -->
+          <md-card-actions v-if="!update && !create">
+            <md-button style="color: orange" @click="clearForm">Cancel</md-button>
+            <md-button style="color: lime" @click="addCalTimes">Add Times</md-button>
+          </md-card-actions>
+          <!-- update, return -->
+          <md-card-actions v-if="update">
+            <md-button style="color: orange" @click="returnToView">Cancel</md-button>
+            <md-button style="color: lime" @click="UpdateTimes">Update Times</md-button>
+          </md-card-actions>
+          <!-- create, return -->
+          <md-card-actions v-if="create">
+            <md-button style="color: orange" @click="returnToView">Cancel</md-button>
+            <md-button style="color: lime" @click="addCalTimes">Add Times</md-button>
+          </md-card-actions>
         </md-card>
       </form>
     </div>
@@ -95,6 +111,8 @@
 </template>
 
 <script>
+  import http from '../../public/app.service.ts';
+
   export default {
     name: 'add-CalendarTimes',
     // Angular equivaent of INPUT
@@ -110,17 +128,107 @@
           eWeek: null,
           eDay: null,
           eTime: null
-        }
+        },
+        title: 'Create Calendar Times',
+        update: false,
+        create: false
       }
     },
 
     methods: {
+      async addCalTimes() {
+        return await http.post(`/api/calender_times/create`, {
+          'startWeek': this.form.sWeek,
+          'startDay': this.form.sDay,
+          'startTime': this.form.sTime,
+          'endWeek': this.form.eWeek,
+          'endDay': this.form.eDay,
+          'endTime': this.form.eTime
+        }).then((res) => {
+          console.log('Successfully created calendar times');
+          this.create ? this.returnToView() : null;
+          this.clearForm();
+          return true;
+        }).catch((err) => {
+          console.log(err);
+          return false;
+        });
+      },
 
+      async UpdateTimes() {
+        let d = this.timeData;
+        return await http.put(`/api/calender_times/${d.id}`,{
+          'id': d.id,
+          'startWeek': this.form.sWeek,
+          'startDay': this.form.sDay,
+          'startTime': this.form.sTime,
+          'endWeek': this.form.eWeek,
+          'endDay': this.form.eDay,
+          'endTime': this.form.eTime
+        }).then((res) => {
+          console.log('Successfully updated calendar times');
+          this.returnToView();
+          return true;
+        }).catch((err) => {
+          console.log(err);
+          return false;
+        });
+      },
+
+      clearForm() {
+        this.form.sWeek = null;
+        this.form.sDay = null;
+        this.form.sTime = null;
+        this.form.eWeek = null;
+        this.form.eDay = null;
+        this.form.eTime = null;
+      },
+
+      determine() {
+        if (this.timeData.update) {
+          let d = this.timeData;
+          this.title = 'Update Calendar Times'
+          this.update = true;
+
+          this.form.sWeek = d.startWeek;
+          this.form.sDay = d.startDay;
+          this.form.sTime = d.startTime;
+          this.form.eWeek = d.endWeek;
+          this.form.eDay = d.endDay;
+          this.form.eTime = d.endTime;
+        } else if (this.timeData.create) {
+          this.title = 'Add Calendar';
+          this.create = true;
+        }
+      },
+
+      returnToView() {
+        this.clearForm();
+        this.$store.dispatch('updateCalendarTime', null);
+        this.$router.push('/management/viewCalendarTimes');
+      }
+    },
+
+    beforeMount() {
+      this.determine();
+    },
+
+    computed: {
+      timeData() {
+        return this.$store.getters.calendarTime;
+      }
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
 
 </style>

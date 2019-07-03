@@ -27,3 +27,38 @@
 <style scoped>
 
 </style>
+// STANDARD TABLE LAYOUT
+      // <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+      //           @md-selected="onSelect" class="table">
+      //   <md-table-toolbar>
+      //     <div class="md-toolbar-section-start">
+      //       <h1 class="md-title"> Created Calenders </h1>
+      //     </div>
+
+      //     <md-field md-clearable class="md-toolbar-section-end">
+      //       <md-input placeholder="Search by calendar name..." v-model="search" @input="searchOnTable"/>
+      //     </md-field>
+      //   </md-table-toolbar>
+
+      //   <md-table-empty-state
+      //     md-label="No calendar's found"
+      //     :md-description="`No calendar found for this '${search}' query. Try a different search term or create a new calendar.`">
+      //     <md-button class="md-primary md-raised">Create Calendar</md-button>
+      //   </md-table-empty-state>
+
+      //   <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+      //     <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+      //     <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}</md-table-cell>
+      //     <md-table-cell md-label="Update" >
+      //       <md-button class="md-raised md-primary">
+      //         Update
+      //       </md-button>
+      //     </md-table-cell>
+      //     <!-- Activate / Deactivate -->
+      //     <md-table-cell md-label="Delete" >
+      //       <md-button class="md-raised md-accent">
+      //         Delete
+      //       </md-button>
+      //     </md-table-cell>
+      //   </md-table-row>
+      // </md-table>
