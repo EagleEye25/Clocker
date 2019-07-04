@@ -164,7 +164,6 @@
           if (idx > -1) {
             this.cardData.splice(idx, 1);
           }
-          console.log(this.cardData);
         }
       },
 
@@ -181,7 +180,6 @@
           }
         } else if (this.state === 'Unassign') {
           let confirm = await this.unAssignEmployee();
-          console.log('confirm:',confirm);
           if (confirm) {
             this.changeActiveOnTable('Unassign');
           }
@@ -252,7 +250,6 @@
           this.title = 'Select Unused Card';
           this.getUnlinkedCards();
         }
-        console.log(this.showNorm);
       },
 
       getUnlinkedCards() {

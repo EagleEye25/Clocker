@@ -4,9 +4,9 @@
       <md-steppers :md-active-step.sync="active" md-vertical md-linear>
         <md-step id="first" md-label="Select Calendar" :md-editable=editable :md-done.sync="first">
           <addCalender v-if="!showCreatedCal" v-bind:standard=false @added="setDone('first', 'second')"></addCalender>
-          <viewCalender v-if="showCreatedCal" v-bind:standard=false></viewCalender>
           <md-button v-if="!showCreatedCal" class="md-raised" style="color:orange" @click="showCreatedCal = true">Already Created Calendar</md-button>
           <div v-if="showCreatedCal">
+            <viewCalender v-bind:standard=false></viewCalender>
             <md-button class="md-raised md-accent" @click="showCreatedCal = false">Back</md-button>
             <md-button class="md-raised md-primary" :disabled=!calendarData @click="setDone('first', 'second')">Continue</md-button>
           </div>
@@ -109,7 +109,6 @@
     methods: {
       async assignTimes() {
         let d = this.timeData;
-        console.log(d);
         return await http.put(`/api/calender_times/${d.id}`,{
           'id': d.id,
           'calender_id': this.calendarData.id,
@@ -121,6 +120,7 @@
           'endTime': d.endTime
         }).then((res) => {
           console.log('Successfully assigned calendar times');
+          this.editable = false;
           this.assigned = true;
           return true;
         }).catch((err) => {
@@ -130,7 +130,6 @@
       },
 
       setDone (id, index) {
-        console.log('here');
         this[id] = true
 
         this.secondStepError = null

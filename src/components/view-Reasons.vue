@@ -107,7 +107,6 @@
       },
 
       searchOnTable () {
-        console.log('search on table');
         this.searched = searchByReason(this.reasons, this.search);
       },
 

@@ -115,7 +115,6 @@
                 'description': d.description
               }
               this.calendars.push(data);
-              console.log(this.calendars);
             });
             console.log('Got unassigned Calenders')
           }).catch((err) => {
@@ -145,7 +144,6 @@
                 'description': d.description
               }
               this.calendars.push(data);
-              console.log(this.calendars);
             });
             console.log('Got Calenders')
           }).catch((err) => {

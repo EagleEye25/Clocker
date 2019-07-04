@@ -106,6 +106,7 @@
               }
               this.employees.push(data);
             });
+          console.log('Successfully got employees');
         }).catch((error) => {
           console.log(error);
         });
@@ -130,7 +131,7 @@
       onSelect(item) {
         if (item) {
           this.selectedEmployee = item;
-          this.$store.dispatch('updateEmployeeInfo', this.selectedEmployee);
+          this.$store.dispatch('updateEmployeeInfo', item);
         }
       },
 

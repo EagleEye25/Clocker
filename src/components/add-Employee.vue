@@ -174,7 +174,6 @@
           'password': this.form.password,
           'calender': this.form.calender_id
         }).then((resp) => {
-          console.log(resp);
           if (resp.status === 201) {
             if (this.standard === false) {
               this.$store.dispatch('updateEmployeeInfo', resp.data);
@@ -184,7 +183,7 @@
             return true;
           }
         }).catch((err) => {
-          console.log('error over here?:', err);
+          console.log('err');
           return false;
         })
         } else {

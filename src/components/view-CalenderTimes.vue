@@ -131,7 +131,6 @@
                 'endTime': d.endTime
               }
               this.calTimes.push(data);
-              console.log(data);
             });
             console.log('Successfully got calender times');
             return true;
@@ -168,7 +167,6 @@
                 'endTime': d.endTime
               }
               this.calTimes.push(data);
-              console.log(data);
             });
             console.log('Successfully got calender times');
             return true;
@@ -186,7 +184,6 @@
       },
 
       searchOnTable () {
-        console.log('search on table');
         this.searched = searchByWeek(this.calTimes, this.search);
       },
     },

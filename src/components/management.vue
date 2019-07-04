@@ -74,10 +74,15 @@
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button to="/management/assignCalenderTimes">
+            <md-button to="/management/assignCalendarTimes">
               Assign Calendar Times To Calendar
             </md-button>
           </md-menu-item>
+            <md-menu-item>
+              <md-button to="/management/assignCalendar">
+                Assign Calendar To Employee
+              </md-button>
+            </md-menu-item>
         </md-menu-content>
       </md-menu>
 
