@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Stnadard -->
-    <div>
+    <div v-if="standard !== false">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
                 @md-selected="onSelect" class="table">
         <md-table-toolbar>
@@ -43,8 +43,35 @@
       </md-table>
     </div>
     <!-- Process -->
-    <div>
+    <div v-if="standard === false">
+      <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+                @md-selected="onSelect" class="table">
+        <md-table-toolbar>
+          <div class="md-toolbar-section-start">
+            <h1 class="md-title"> Created Calenders Times </h1>
+          </div>
 
+          <md-field md-clearable class="md-toolbar-section-end">
+            <md-input placeholder="Search by starting week..." v-model="search" @input="searchOnTable"/>
+          </md-field>
+        </md-table-toolbar>
+
+        <md-table-empty-state
+          md-label="No calendar Times found"
+          :md-description="`No calendar times found for this '${search}' query. Try a different search term or create a new calendar.`">
+          <md-button class="md-primary md-raised" @click="updateCalTimes(false)">Create Calendar Time</md-button>
+        </md-table-empty-state>
+
+        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+          <md-table-cell md-label="Nr" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
+          <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
+          <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
+          <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
+          <md-table-cell md-label="Ending Week" md-sort-by="endWeek">{{ item.endWeek }}</md-table-cell>
+          <md-table-cell md-label="Ending Day" md-sort-by="endDay">{{ item.endDay }}</md-table-cell>
+          <md-table-cell md-label="Ending Time" md-sort-by="endTime">{{ item.endTime }}</md-table-cell>
+        </md-table-row>
+      </md-table>
     </div>
   </div>
 </template>
@@ -68,6 +95,7 @@
     name: 'clocker',
     // Angular equivaent of INPUT
     props: {
+      standard: true
     },
     //  Variables
     data() {
@@ -84,6 +112,35 @@
     },
 
     methods: {
+      async determineAction() {
+        this.standard === false ? await this.getUnassigned() : await this.getCalTimes()
+      },
+
+      async getUnassigned() {
+        return await http.get(`/api/calender_times/times/unAssigned`)
+          .then((res) => {
+            res.data.forEach(d => {
+              let data = {
+                'id': d.id,
+                'calender_id': d.calender_id,
+                'startWeek': d.startWeek,
+                'startDay': d.startDay,
+                'startTime': d.startTime,
+                'endWeek': d.endWeek,
+                'endDay': d.endDay,
+                'endTime': d.endTime
+              }
+              this.calTimes.push(data);
+              console.log(data);
+            });
+            console.log('Successfully got calender times');
+            return true;
+          }).catch((err) => {
+            console.log(err);
+            return false;
+          });
+      },
+
       updateCalTimes(item) {
         if (item) {
           this.updateCalTime = true;
@@ -124,6 +181,7 @@
       onSelect(item) {
         if (item) {
           this.selectedReason = item;
+          this.standard === false ? this.$store.dispatch('updateCalendarTime', item) : null;
         }
       },
 
@@ -138,7 +196,7 @@
     },
 
     beforeMount() {
-      this.getCalTimes();
+      this.determineAction();
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="center">
     <!-- Standard process -->
-    <div>
+    <div v-if="standard !== false">
       <form action="">
         <md-card class="md-layout-item md-size-50 md-small-size-100 center">
           <md-card-header>
@@ -49,8 +49,41 @@
       </form>
     </div>
     <!-- Part Process -->
-    <div>
+    <div v-if="standard === false">
+      <form action="">
+        <md-card class="md-layout-item md-size-50 md-small-size-100 center">
+          <md-card-header>
+            <div class="md-title">{{title}}</div>
+          </md-card-header>
 
+          <md-card-content>
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item md-small-size-100">
+                <md-field>
+                  <label for="Calendar Name">Calendar Name</label>
+                  <md-input name="calendarName" id="calendarName" v-model="form.calendarName"/>
+                  <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
+                  <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
+                </md-field>
+              </div>
+
+              <div class="md-layout-item md-small-size-100">
+                <md-field>
+                  <label for="Calendar Name">Description</label>
+                  <md-input name="description" id="description" v-model="form.description"/>
+                  <span class="md-helper-text">(Optional)</span>
+                  <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
+                  <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
+                </md-field>
+              </div>
+            </div>
+          </md-card-content>
+          <!-- Standard part of process -->
+          <md-card-actions>
+            <md-button style="color: lime" @click="createInProcess">Add Calendar</md-button>
+          </md-card-actions>
+        </md-card>
+      </form>
     </div>
   </div>
 </template>
@@ -61,6 +94,7 @@
     name: 'add-Calender',
     // Angular equivaent of INPUT
     props: {
+      standard: true,
     },
     //  Variables
     data() {
@@ -76,6 +110,17 @@
     },
 
     methods: {
+      async createInProcess() {
+        let data = {
+          'name': this.form.calendarName,
+          'description': this.form.description
+        }
+        if (await this.createCalendar) {
+          this.standard === false ? this.$store.dispatch('updateCalendar', data) : null
+          this.$emit('added');
+        }
+      },
+
       async createCalendar() {
         return await http.post(`/api/calender/create`, {
           'name': this.form.calendarName,

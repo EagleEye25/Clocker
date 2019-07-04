@@ -73,6 +73,11 @@
               Assign Card To Employee
             </md-button>
           </md-menu-item>
+          <md-menu-item>
+            <md-button to="/management/assignCalenderTimes">
+              Assign Calendar Times To Calendar
+            </md-button>
+          </md-menu-item>
         </md-menu-content>
       </md-menu>
 
