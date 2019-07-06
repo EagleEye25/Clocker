@@ -117,6 +117,7 @@
     name: 'add-CalendarTimes',
     // Angular equivaent of INPUT
     props: {
+      standard: true,
     },
     //  Variables
     data() {
@@ -137,22 +138,30 @@
 
     methods: {
       async addCalTimes() {
-        return await http.post(`/api/calender_times/create`, {
-          'startWeek': this.form.sWeek,
-          'startDay': this.form.sDay,
-          'startTime': this.form.sTime,
-          'endWeek': this.form.eWeek,
-          'endDay': this.form.eDay,
-          'endTime': this.form.eTime
-        }).then((res) => {
-          console.log('Successfully created calendar times');
-          this.create ? this.returnToView() : null;
-          this.clearForm();
-          return true;
-        }).catch((err) => {
-          console.log(err);
-          return false;
-        });
+        if (!await this.checkCalTimes(this.form)) {
+          return await http.post(`/api/calender_times/create`, {
+            'startWeek': this.form.sWeek,
+            'startDay': this.form.sDay,
+            'startTime': this.form.sTime,
+            'endWeek': this.form.eWeek,
+            'endDay': this.form.eDay,
+            'endTime': this.form.eTime
+          }).then((res) => {
+            console.log('Successfully created calendar times');
+            if (this.standard === false) {
+              this.$store.dispatch('updateCalendarTime', res.data);
+              this.$emit('added');
+            }
+            this.create ? this.returnToView() : null;
+            this.clearForm();
+            return true;
+          }).catch((err) => {
+            console.log(err);
+            return false;
+          });
+        } else {
+          console.log('times already exist');
+        }
       },
 
       async UpdateTimes() {
@@ -182,6 +191,17 @@
         this.form.eWeek = null;
         this.form.eDay = null;
         this.form.eTime = null;
+        this.standard === false ? this.$emit('canceled') : null;
+      },
+
+      async checkCalTimes(c_times) {
+        return await http.get(`/api/calender_times/times/existing`, {c_times})
+          .then((resp) => {
+            console.log(resp);
+            return true
+          }).catch((err) => {
+            return false
+          });
       },
 
       determine() {

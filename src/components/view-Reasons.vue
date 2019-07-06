@@ -196,7 +196,6 @@
   }
 
   .md-table {
-    display: block;
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;

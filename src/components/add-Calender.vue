@@ -122,18 +122,21 @@
       },
 
       async createCalendar() {
-        return await http.post(`/api/calender/create`, {
-          'name': this.form.calendarName,
-          'description': this.form.description
-        }).then((res) => {
-          console.log('Successfully created calendar');
-          this.clearForm();
-          this.create ? this.returnToView() : null;
-          return true;
-        }).catch((err) => {
-          console.log(err);
-          return false;
-        });
+        if (!await this.checkCalender(this.form.calendarName)) {
+          return await http.post(`/api/calender/create`, {
+            'name': this.form.calendarName,
+            'description': this.form.description
+          }).then((res) => {
+            console.log('Successfully created calendar');
+            this.clearForm();
+            this.create ? this.returnToView() : null;
+            return true;
+          }).catch((err) => {
+            console.log(err);
+            return false;
+          });
+        }
+        console.log('Calendar already exists');
       },
 
       async updateCalendar() {
@@ -150,6 +153,15 @@
           console.log(err)
           return false
         });
+      },
+
+      async checkCalender(name) {
+        return await http.get(`/api/calender/findByName/${name}`)
+          .then((resp) => {
+            return true
+          }).catch((err) => {
+            return false
+          });
       },
 
       clearForm() {

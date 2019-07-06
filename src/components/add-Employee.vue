@@ -78,10 +78,6 @@
         </md-card-actions>
       </md-card>
     </form>
-    <div v-if="empInfo && !id">
-      <h1>Successfully added employee!</h1>
-      <h3>Please press continue</h3>
-    </div>
   </div>
 </template>
 
@@ -177,6 +173,8 @@
           if (resp.status === 201) {
             if (this.standard === false) {
               this.$store.dispatch('updateEmployeeInfo', resp.data);
+              console.log(resp.data);
+              this.$emit('added');
             }
             this.clearForm();
             console.log('added');

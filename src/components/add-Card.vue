@@ -135,8 +135,8 @@
 
        async checkCardExists() {
         return await http.get(`/api/card/card_no/${this.form.tag}`)
-          .then((data) => false)
-          .catch(err => true);
+          .then((data) => {return false})
+          .catch(err => {return true});
       },
 
       validateUser() {

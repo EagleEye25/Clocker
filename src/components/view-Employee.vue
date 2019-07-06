@@ -39,7 +39,11 @@
     </div>
     <div v-if="addEmployee">
       <!-- Create a new employee -->
-      <addEmployee @canceled='canceledAdd' v-bind:standard=false></addEmployee>
+      <addEmployee @canceled='canceledAdd' @added="added = true" v-bind:standard=false></addEmployee>
+    </div>
+    <div v-if="added">
+      <h1>Successfully added employee!</h1>
+      <h3>Please press continue</h3>
     </div>
   </div>
 </template>
@@ -75,6 +79,7 @@
         title: 'Employees',
         addEmployee: false,
         updateEmp: false,
+        added: false,
       }
     },
 
@@ -172,7 +177,6 @@
   }
 
   .md-table {
-    display: block;
     padding-top: 10px;
     margin: 0 auto;
     text-align: center;

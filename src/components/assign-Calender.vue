@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="center">
     <md-steppers :md-active-step.sync="active" md-vertical md-linear>
         <md-step id="first" md-label="Select Calendar" :md-editable=editable :md-done.sync="first">
           <addCalender v-if="!showCreatedCal" v-bind:standard=false @added="setDone('first', 'second')"></addCalender>
@@ -20,15 +20,16 @@
         <!-- Not Assigned -->
         <div v-if="!assigned">
           <md-list class="md-triple-line">
-              <md-list-item>
+              <md-list-item class="center">
 
                 <div class="md-list-item-text">
                   <span>Calendar:</span>
                   <span>Name: {{ this.calendarData.name }}</span>
+                  <span>Description: {{ this.calendarData.description }}</span>
                 </div>
 
               </md-list-item>
-              <md-list-item>
+              <md-list-item class="center">
 
                 <div class="md-list-item-text">
                   <span>Employee:</span>
@@ -37,7 +38,7 @@
 
               </md-list-item>
           </md-list>
-          <md-button class="md-raised md-primary">Assign Calendar</md-button>
+          <md-button class="md-raised md-primary" @click="assign">Assign Calendar</md-button>
         </div>
         <!-- Assigned -->
         <div v-if="assigned">
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+  import http from '../../public/app.service.ts';
   import addCalender from './add-Calender';
   import viewCalender from './view-Calender';
   import viewEmployee from './view-Employee';
@@ -79,6 +81,21 @@
     },
 
     methods: {
+      async assign() {
+        return await http.post(`/api/employee_calender/create`, {
+          'employee_id': this.employeeInfo.id,
+          'calender_id': this.calendarData.id,
+          'active_date': Date.now(),
+        }).then((res) => {
+          console.log('Successfully assigned employee to calender!');
+          this.assigned = true;
+          return true;
+        }).catch((err) => {
+          console.log(err);
+          return false;
+        });
+      },
+
       setDone (id, index) {
         this[id] = true
 
@@ -95,6 +112,10 @@
         this.third = false;
         this.active = 'first';
         this.showCreatedCal = false;
+        this.$store.dispatch('updateEmployeeInfo', null);
+        this.$store.dispatch('updateCalendarTime', null);
+        this.showCreatedCal = false;
+        this.assigned = false;
       },
     },
 
@@ -111,6 +132,20 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: 50%; */
+  }
+
+  .md-steppers {
+    width: 70%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
 </style>

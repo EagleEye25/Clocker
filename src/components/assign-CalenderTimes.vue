@@ -164,6 +164,13 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+
+  .md-steppers {
+    width: 82%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
 </style>

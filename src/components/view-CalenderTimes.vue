@@ -21,7 +21,7 @@
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="Nr" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
+          <md-table-cell md-label="Nr" md-sort-by="id" md-numeric> {{ item }} </md-table-cell>
           <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
@@ -45,7 +45,8 @@
     <!-- Process -->
     <div v-if="standard === false">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table">
+                @md-selected="onSelect" class="table"
+                v-if="!addCalTimes">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Created Calenders Times </h1>
@@ -59,7 +60,7 @@
         <md-table-empty-state
           md-label="No calendar Times found"
           :md-description="`No calendar times found for this '${search}' query. Try a different search term or create a new calendar.`">
-          <md-button class="md-primary md-raised" @click="updateCalTimes(false)">Create Calendar Time</md-button>
+          <md-button class="md-primary md-raised" @click="addCalTimes = true">Create Calendar Time</md-button>
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
@@ -72,13 +73,20 @@
           <md-table-cell md-label="Ending Time" md-sort-by="endTime">{{ item.endTime }}</md-table-cell>
         </md-table-row>
       </md-table>
+      <div v-if="addCalTimes">
+        <addCalTimes v-bind:standard=false @canceled="addCalTimes = false" @added="added = true"></addCalTimes>
+      </div>
+      <div v-if="added">
+        <h1>Successfully added Calendar Times!</h1>
+        <h3>Please press continue</h3>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import http from '../../public/app.service.ts';
-
+  import addCalTimes from './add-CalenderTimes.vue';
 
  const toLower = text => {
     return text.toString().toLowerCase();
@@ -108,7 +116,14 @@
         mdTitle: '',
         mdDescription: '',
         confirmedUnassign: false,
+        count: 0,
+        addCalTimes: false,
+        added: false
       }
+    },
+
+    components: {
+      addCalTimes
     },
 
     methods: {
@@ -190,6 +205,7 @@
 
     created () {
       this.searched = this.calTimes;
+      console.log(this.searched);
     },
 
     beforeMount() {
@@ -209,7 +225,6 @@
   }
 
   .md-table {
-    display: block;
     padding-top: 10px;
     margin: 0 auto;
     text-align: center;

@@ -18,15 +18,15 @@
 
           <md-table-empty-state
             md-label="No unused cards found"
-            :md-description="`No card found for this '${search}' query. Try a different search term or create a new card.`">
-            <md-button class="md-primary md-raised" @click="cancelAdd">Create New Card</md-button>
+            :md-description="`No card found for this '${search}' query. Try a different search term or create a new card.
+                              Please press 'BACK' to create a new card`">
           </md-table-empty-state>
-            <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-              <md-table-cell md-label="Nr." md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-              <md-table-cell md-label="Card Number" md-sort-by="card_no">{{ item.card_no }}</md-table-cell>
-            </md-table-row>
-          </md-table>
-        </div>
+          <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+            <md-table-cell md-label="Nr." md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
+            <md-table-cell md-label="Card Number" md-sort-by="card_no">{{ item.card_no }}</md-table-cell>
+          </md-table-row>
+        </md-table>
+      </div>
       <!-- Standard Process -->
       <div v-if="showNorm === true">
         <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
@@ -307,7 +307,6 @@
   }
 
   .md-table {
-    display: block;
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
