@@ -93,11 +93,11 @@
           'calender_id': this.calendarData.id,
           'active_date': Date.now(),
         }).then((res) => {
-          console.log('Successfully assigned employee to calender!');
+          this.$awn.success('Successfully Assigned Employee To Calendar');
           this.assigned = true;
           return true;
         }).catch((err) => {
-          console.log(err);
+          this.$awn.alert('Could Not Assign Employee To Calendar');
           return false;
         });
       },

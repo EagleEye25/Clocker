@@ -22,7 +22,7 @@
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
           <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-          <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}</md-table-cell>
+          <md-table-cell md-label="Description" md-sort-by="description">{{ item.description ? item.description : 'No Description' }}</md-table-cell>
           <md-table-cell md-label="Update" >
             <md-button class="md-raised md-primary" @click="updateCalendar(item)">
               Update
@@ -116,9 +116,8 @@
               }
               this.calendars.push(data);
             });
-            console.log('Got unassigned Calenders')
           }).catch((err) => {
-            console.log(err)
+            this.$awn.alert('Could Not Get Calendars');
           });
       },
 
@@ -145,9 +144,8 @@
               }
               this.calendars.push(data);
             });
-            console.log('Got Calenders')
           }).catch((err) => {
-            console.log(err)
+            this.$awn.alert('Could Not Get Calendars');
           });
       },
 

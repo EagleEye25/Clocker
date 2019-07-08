@@ -141,10 +141,10 @@
           'work': work,
           'active': this.state
         }).then((resp) => {
-          console.log('successfully changed reason state');
+          this.$awn.success('Successfully Updated Reason State');
           return true;
         }).catch((err) => {
-          console.log(err);
+          this.$awn.alert('Could Not Update Reason State');
           return false;
         });
       },
@@ -163,9 +163,8 @@
               }
               this.reasons.push(data);
             });
-            console.log('got reasons');
           }).catch((err) => {
-            console.log(err);
+            this.$awn.alert('Could Not Get Reasons');
           });
       },
 

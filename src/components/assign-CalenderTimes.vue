@@ -121,12 +121,12 @@
           'endDay': d.endDay,
           'endTime': d.endTime
         }).then((res) => {
-          console.log('Successfully assigned calendar times');
+          this.$awn.success('Successfully Assigned Calendar Times');
           this.editable = false;
           this.assigned = true;
           return true;
         }).catch((err) => {
-          console.log(err);
+          this.$awn.alert('Could Not Assign Calendar Times');
           return false;
         });
       },

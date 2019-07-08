@@ -111,19 +111,15 @@
           http.post(`/api/card/create`, {
             'card_no': this.form.tag
           }).then((resp) => {
-            if (resp.status === 201) {
-              console.log('created');
-              this.$store.dispatch('updateCardNo', this.form.tag);
-              this.form.tag = '';
-              document.getElementById('tag').focus();
-              this.$awn.success('Your custom message')
-            }
+            this.$store.dispatch('updateCardNo', this.form.tag);
+            this.form.tag = '';
+            document.getElementById('tag').focus();
+            this.$awn.success('Successfully Added Card');
           }).catch((err) => {
-            console.log('AN ERROR HAS OCCURED');
-            console.log(err);
+            this.$awn.alert('Could Not Add Card');
           });
         } else {
-          console.log('card already exists');
+          this.$awn.warning('Card Already Exists');
           this.form.tag = '';
           this.cardExists = true;
         }

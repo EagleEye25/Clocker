@@ -96,7 +96,7 @@
       async getEmployees() {
         let api = '';
         (this.standard !== false) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
-        (this.calUnAssigned !== false) ? api = '/api/employee/unassigned/employees/calender' : null;
+        // (this.calUnAssigned !== false) ? api = '/api/employee/unassigned/employees/calender' : null;
         return await http.get(api)
           .then((res) => {
             res.data.forEach(d => {
@@ -114,9 +114,8 @@
               this.employees.push(data);
               return true;
             });
-          console.log('Successfully got employees');
         }).catch((error) => {
-          console.log(error);
+          this.$awn.alert('Could Not Get Employees');
           return false;
         });
       },

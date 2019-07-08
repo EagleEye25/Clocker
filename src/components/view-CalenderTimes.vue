@@ -21,7 +21,6 @@
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="Nr" md-sort-by="id" md-numeric> {{ item }} </md-table-cell>
           <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
@@ -64,7 +63,6 @@
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="Nr" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
           <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
@@ -147,10 +145,9 @@
               }
               this.calTimes.push(data);
             });
-            console.log('Successfully got calender times');
             return true;
           }).catch((err) => {
-            console.log(err);
+            this.$awn.alert('Could Not Get Calendar Times');
             return false;
           });
       },
@@ -183,10 +180,9 @@
               }
               this.calTimes.push(data);
             });
-            console.log('Successfully got calender times');
             return true;
           }).catch((err) => {
-            console.log(err);
+            this.$awn.alert('Could Not Get Calendar Times');
             return false;
           });
       },
@@ -206,7 +202,6 @@
 
     created () {
       this.searched = this.calTimes;
-      console.log(this.searched);
     },
 
     beforeMount() {

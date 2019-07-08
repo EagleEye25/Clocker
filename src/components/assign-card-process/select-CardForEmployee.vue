@@ -195,10 +195,10 @@
         if (this.itemID) {
           return await http.delete(`/api/employee_card/${this.itemID}`)
             .then((resp) => {
-              console.log('unassigned employee')
+              this.$awn.success('Successfully Unassigned Employee');
               return true;
             }).catch((err) => {
-              console.log(err)
+              this.$awn.alert('Could Not Unassign Employee');
             });
         }
       },
@@ -212,10 +212,10 @@
           'active': active
         })
         .then((resp) => {
-          console.log('successfully deactivated card!');
+          this.$awn.success('Successfully Deactivated Card');
           return true;
         }).catch((error) => {
-          console.log(error)
+          this.$awn.alert('Could Not Deactivate Card');
           return false
         });
       },
@@ -236,7 +236,7 @@
               this.cardData.push(data);
             });
         }).catch((error) => {
-          console.log(error);
+          this.$awn.alert('Could Not Get Cards');
         });
       },
 
@@ -263,7 +263,7 @@
               this.cardData.push(data);
             });
         }).catch((error) => {
-          console.log(error);
+          this.$awn.alert('Could Not Get Cards');
         });
       },
 

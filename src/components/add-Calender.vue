@@ -128,16 +128,17 @@
             'name': this.form.calendarName,
             'description': this.form.description
           }).then((res) => {
-            console.log('Successfully created calendar');
+            this.$awn.success('Successfully Created Calendar');
             this.clearForm();
             this.create ? this.returnToView() : null;
             return true;
           }).catch((err) => {
-            console.log(err);
+            this.$awn.alert('Could Not Create Calendar');
             return false;
           });
+        } else {
+          this.$awn.warning('A Calendar with this name already exists');
         }
-        console.log('Calendar already exists');
       },
 
       async updateCalendar() {
@@ -147,11 +148,11 @@
           'name': this.form.calendarName,
           'description': this.form.description
         }).then((res) => {
-          console.log('Successfully Updated Calendar');
+          this.$awn.success('Successfully Updated Calendar');
           this.returnToView();
           return false
         }).catch((err) => {
-          console.log(err)
+          this.$awn.alert('Could Not Update Calendar');
           return false
         });
       },

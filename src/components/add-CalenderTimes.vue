@@ -147,7 +147,7 @@
             'endDay': this.form.eDay,
             'endTime': this.form.eTime
           }).then((res) => {
-            console.log('Successfully created calendar times');
+            this.$awn.success('Successfully Created Calendar Times');
             if (this.standard === false) {
               this.$store.dispatch('updateCalendarTime', res.data);
               this.$emit('added');
@@ -156,11 +156,11 @@
             this.clearForm();
             return true;
           }).catch((err) => {
-            console.log(err);
+            this.$awn.alert('Could Not Create Calendar Times');
             return false;
           });
         } else {
-          console.log('times already exist');
+          this.$awn.warning('Calendar Times Already Exist');
         }
       },
 
@@ -175,11 +175,11 @@
           'endDay': this.form.eDay,
           'endTime': this.form.eTime
         }).then((res) => {
-          console.log('Successfully updated calendar times');
+          this.$awn.success('Successfully Updated Calendar Times');
           this.returnToView();
           return true;
         }).catch((err) => {
-          console.log(err);
+          this.$awn.alert('Could Not Update Calendar Times');
           return false;
         });
       },
@@ -197,7 +197,6 @@
       async checkCalTimes(c_times) {
         return await http.get(`/api/calender_times/times/existing`, {c_times})
           .then((resp) => {
-            console.log(resp);
             return true
           }).catch((err) => {
             return false

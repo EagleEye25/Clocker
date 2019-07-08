@@ -138,10 +138,10 @@
             this.clearForm();
             this.$store.dispatch('updateEmp', null);
             this.$router.push('/management/viewEmployee');
-            console.log('successfully updated employee')
+            this.$awn.success('Successfully Updated Employee');
             return true
           }).catch((err) => {
-            console.log(err)
+            this.$awn.alert('Could Not Update Employee');
             return false
           });
       },
@@ -161,15 +161,15 @@
               this.$emit('added');
             }
             this.clearForm();
-            console.log('added');
+            this.$awn.success('Successfully Added Employee');
             return true;
           }
         }).catch((err) => {
-          console.log('err');
+          this.$awn.alert('Could Not Update Employee');
           return false;
         })
         } else {
-          console.log('employee exists');
+          this.$awn.warn('Successfully Updated Employee');
         }
       },
 
@@ -200,10 +200,8 @@
         return await http.get(`/api/employee/${this.id}`)
           .then((resp) => {
             this.updateInfo = resp.data;
-            console.log('got infor');
             return true
           }).catch((err) => {
-            console.log(err)
             return false
           });
       },

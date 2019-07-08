@@ -52,24 +52,6 @@
               </span>
             </md-list-item>
           </md-list>
-          <!-- <md-list class="md-triple-line">
-            <md-list-item>
-
-              <div class="md-list-item-text">
-                <span>Employee:</span>
-                <span>{{ this.employeeName }}</span>
-              </div>
-
-            </md-list-item>
-            <md-list-item>
-
-              <div class="md-list-item-text">
-                <span>Card Number:</span>
-                <span>{{ this.cardNumber }}</span>
-              </div>
-
-            </md-list-item>
-          </md-list> -->
         </div>
         <div v-if="completed">
           <h1 v-if="completed">Successfully Assigned Card To Employee</h1>
@@ -124,8 +106,6 @@
           if (!this.showCreatedCards) {
             this.setDone('first', 'second');
           }
-        } else {
-          console.log('new value is null');
         }
       }
       }
@@ -181,10 +161,10 @@
           }).then((resp) => {
             this.completed = true;
             this.editable = false;
-            console.log('assigned');
+            this.$awn.success('Successfully Assigned Card');
             this.clearStore();
           }).catch((err) => {
-
+            this.$awn.alert('Could Not Assign Card');
           })
         }
       },

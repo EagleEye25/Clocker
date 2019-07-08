@@ -4,7 +4,8 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@import 'vue-awesome-notifications/dist/styles/style.scss';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
