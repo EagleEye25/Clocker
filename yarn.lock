@@ -1461,6 +1461,11 @@ autoprefixer@^9.5.1:
     postcss "^7.0.16"
     postcss-value-parser "^3.3.1"
 
+awesome-notifications@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/awesome-notifications/-/awesome-notifications-3.0.3.tgz#5fe9a351410f4a63e2e47a969f0a8dcfc3f16e87"
+  integrity sha512-dKrkW6JH9lNbozEJ55s4bjuR/vKw1UKpgGIze4sDZfMM9L9lKuYEbvp1GLzg7wGwM9tJYLkh9iYo9JuCyLgzqw==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -8451,6 +8456,13 @@ vm-browserify@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
   integrity sha512-iq+S7vZJE60yejDYM0ek6zg308+UZsdtPExWP9VZoCFCz1zkJoXFnAX7aZfd/ZwrkidzdUZL0C/ryW+JwAiIGw==
+
+vue-awesome-notifications@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vue-awesome-notifications/-/vue-awesome-notifications-3.0.3.tgz#aed7f4787afa810cf85484f83e40a8084b51cc2d"
+  integrity sha512-8ZJki2OjANy3IJCvVwsto5VASsZr8+xxXknx2V/7usFoYgo/3LiFzHQbX4TVjj7vqSCImI5SHPcdPfwMHH1hxg==
+  dependencies:
+    awesome-notifications "^3.0.3"
 
 vue-ctk-date-time-picker@^2.1.1:
   version "2.1.1"

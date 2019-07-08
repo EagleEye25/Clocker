@@ -20,7 +20,7 @@
 
       <md-step id="second" md-label="Assign Card To Employee" :md-error="secondStepError"
                 :md-done.sync="second" :md-editable="editable">
-        <viewEmployee v-bind:standard=false></viewEmployee>
+        <viewEmployee v-bind:standard=false v-bind:calUnAssigned=false></viewEmployee>
         <md-button class="md-raised md-primary" @click="setDone('second', 'third')"
                     :disabled='!$store.getters.employeeInfo'>
           Continue
@@ -29,7 +29,30 @@
 
       <md-step id="third" md-label="Complete" :md-done.sync="third">
         <div v-if="employeeName">
-          <md-list class="md-triple-line">
+          <md-list>
+            <md-list-item class="center">
+              <md-icon>perm_identity</md-icon>
+              <span class="md-list-item-text">Employee:
+                <br>
+                <div style="margin-left:2em">
+                  <span>Name: {{ employeeName }}</span>
+                </div>
+              </span>
+            </md-list-item>
+            <br>
+            <md-divider class="md-inset"></md-divider>
+            <br>
+            <md-list-item class="center">
+              <md-icon>credit_card</md-icon>
+              <span class="md-list-item-text">Card Number:
+                <br>
+                <div style="margin-left:2em">
+                  <span>Name: {{ cardNumber }}</span>
+                </div>
+              </span>
+            </md-list-item>
+          </md-list>
+          <!-- <md-list class="md-triple-line">
             <md-list-item>
 
               <div class="md-list-item-text">
@@ -46,7 +69,7 @@
               </div>
 
             </md-list-item>
-          </md-list>
+          </md-list> -->
         </div>
         <div v-if="completed">
           <h1 v-if="completed">Successfully Assigned Card To Employee</h1>
@@ -213,6 +236,10 @@
       setError () {
         this.secondStepError = 'This is an error!';
       },
+    },
+
+    beforeMount() {
+      this.clearStore();
     },
 
     computed: {

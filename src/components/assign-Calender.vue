@@ -12,31 +12,37 @@
         </md-step>
 
       <md-step id="second" md-label="Select Employee" :md-editable=editable :md-done.sync="second">
-        <viewEmployee v-bind:standard=false></viewEmployee>
+        <viewEmployee v-bind:standard=false v-bind:calUnAssigned="true"></viewEmployee>
         <md-button class="md-raised md-primary" :disabled="!employeeInfo" @click="setDone('second', 'third')">Continue</md-button>
       </md-step>
 
       <md-step id="third" md-label="Assign" :md-editable=editable :md-done.sync="third">
         <!-- Not Assigned -->
-        <div v-if="!assigned">
-          <md-list class="md-triple-line">
-              <md-list-item class="center">
-
-                <div class="md-list-item-text">
-                  <span>Calendar:</span>
-                  <span>Name: {{ this.calendarData.name }}</span>
-                  <span>Description: {{ this.calendarData.description }}</span>
+        <div v-if="!assigned" class="center">
+          <md-list>
+            <md-list-item class="center">
+              <md-icon>calendar_today</md-icon>
+              <span class="md-list-item-text">Calendar:
+                <br>
+                <div style="margin-left:2em">
+                  <span>Name: {{ calendarData.name }}</span>
+                  <br>
+                  <span>Description: {{ calendarData.description ? calendarData.description : 'No Description' }}</span>
                 </div>
-
-              </md-list-item>
-              <md-list-item class="center">
-
-                <div class="md-list-item-text">
-                  <span>Employee:</span>
-                  <span>{{ this.employeeInfo.name }}</span>
+              </span>
+            </md-list-item>
+            <br>
+            <md-divider class="md-inset"></md-divider>
+            <br>
+            <md-list-item class="center">
+              <md-icon>perm_identity</md-icon>
+              <span class="md-list-item-text">Employee:
+                <br>
+                <div style="margin-left:2em">
+                  <span>Name: {{ employeeInfo.name }}</span>
                 </div>
-
-              </md-list-item>
+              </span>
+            </md-list-item>
           </md-list>
           <md-button class="md-raised md-primary" @click="assign">Assign Calendar</md-button>
         </div>
@@ -106,19 +112,26 @@
         }
       },
 
+      clearStore() {
+        this.$store.dispatch('updateEmployeeInfo', null);
+        this.$store.dispatch('updateCalendar', null);
+      },
+
       resetStepper() {
         this.first = false;
         this.second = false;
         this.third = false;
         this.active = 'first';
         this.showCreatedCal = false;
-        this.$store.dispatch('updateEmployeeInfo', null);
-        this.$store.dispatch('updateCalendarTime', null);
         this.showCreatedCal = false;
         this.assigned = false;
+        this.clearStore();
       },
     },
 
+    beforeMount() {
+      this.clearStore();
+    },
 
     computed: {
       calendarData() {

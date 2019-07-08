@@ -116,6 +116,7 @@
               this.$store.dispatch('updateCardNo', this.form.tag);
               this.form.tag = '';
               document.getElementById('tag').focus();
+              this.$awn.success('Your custom message')
             }
           }).catch((err) => {
             console.log('AN ERROR HAS OCCURED');

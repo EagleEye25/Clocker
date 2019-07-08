@@ -132,7 +132,7 @@
         },
         title: 'Create Calendar Times',
         update: false,
-        create: false
+        create: false,
       }
     },
 

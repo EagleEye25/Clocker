@@ -56,15 +56,6 @@
               </md-field>
             </div>
           </div>
-          <!-- Fourth part -->
-          <div class="md-layout md-gutter">
-            <!-- Calender -->
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('calender_id')">
-                <p>Calender Coming soon</p>
-              </md-field>
-            </div>
-          </div>
         </md-card-content>
         <md-card-actions v-if="standard !== false">
           <md-button style="color: orange"  v-on:click="clearForm" v-if="!id">cancel</md-button>
@@ -104,7 +95,6 @@
           lastName: '',
           admin: false,
           reporting_admin: false,
-          calender_id: null,
           password: null,
         },
         processing: null,
@@ -131,10 +121,7 @@
         },
         reporting_admin: {
           required
-        },
-        // calender_id: {
-        //   // required
-        // },
+        }
       }
     },
 
@@ -147,7 +134,6 @@
           'admin': this.form.admin,
           'reporting_admin': this.form.reporting_admin,
           'password': this.form.password,
-          'calender': this.form.calender_id
         }).then((resp) => {
             this.clearForm();
             this.$store.dispatch('updateEmp', null);
@@ -168,12 +154,10 @@
           'admin': this.form.admin,
           'reporting_admin': this.form.reporting_admin,
           'password': this.form.password,
-          'calender': this.form.calender_id
         }).then((resp) => {
           if (resp.status === 201) {
             if (this.standard === false) {
               this.$store.dispatch('updateEmployeeInfo', resp.data);
-              console.log(resp.data);
               this.$emit('added');
             }
             this.clearForm();

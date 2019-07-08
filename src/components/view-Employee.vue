@@ -68,6 +68,7 @@
     // Angular equivaent of INPUT
     props: {
       standard: true,
+      calUnAssigned: false,
     },
     //  Variables
     data() {
@@ -92,10 +93,11 @@
     },
 
     methods: {
-      getEmployees() {
+      async getEmployees() {
         let api = '';
         (this.standard !== false) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
-        http.get(api)
+        (this.calUnAssigned !== false) ? api = '/api/employee/unassigned/employees/calender' : null;
+        return await http.get(api)
           .then((res) => {
             res.data.forEach(d => {
               let boolAdmin = 'no';
@@ -110,10 +112,12 @@
                 'reporting_admin': boolReport,
               }
               this.employees.push(data);
+              return true;
             });
           console.log('Successfully got employees');
         }).catch((error) => {
           console.log(error);
+          return false;
         });
       },
 

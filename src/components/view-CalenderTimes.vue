@@ -46,7 +46,7 @@
     <div v-if="standard === false">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
                 @md-selected="onSelect" class="table"
-                v-if="!addCalTimes">
+                v-if="!addCalTimes && !added">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Created Calenders Times </h1>
@@ -194,6 +194,7 @@
       onSelect(item) {
         if (item) {
           this.selectedReason = item;
+          item.selected = true;
           this.standard === false ? this.$store.dispatch('updateCalendarTime', item) : null;
         }
       },

@@ -8,6 +8,14 @@ import router from './router'
 import store from './store/store';
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import VueAWN from "vue-awesome-notifications"
+
+let options = {
+  position: 'bottom-right',
+  maxNotifications: 5,
+};
+
+Vue.use(VueAWN, options);
 
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 
@@ -19,5 +27,6 @@ new Vue({
   router,
   store,
   VueCtkDateTimePicker,
+  VueAWN,
   render: h => h(App)
 }).$mount('#app')

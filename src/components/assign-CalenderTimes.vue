@@ -20,47 +20,49 @@
         <md-step id="third" md-label="Third Step" :md-editable="false" :md-done.sync="third">
           <!-- Not Assigned -->
           <div v-if="!assigned">
-            <md-list class="md-triple-line">
-              <md-list-item>
-
-                <div class="md-list-item-text">
-                  <span>Calendar:</span>
-                  <span>Name: {{ this.calendarData.name }}</span>
-                </div>
-
-              </md-list-item>
-              <md-list-item>
-
-                <div class="md-list-item-text">
-                  <span>Calendar Times:</span>
-                  <!-- Starting -->
-                  <div>
-                    <span>Starting:</span>
+            <md-list>
+              <md-list-item class="center">
+                <md-icon>calendar_today</md-icon>
+                <span class="md-list-item-text">Calendar:
+                  <br>
+                  <div style="margin-left:2em">
+                    <span>Name: {{ calendarData.name }}</span>
                     <br>
-                    <div style="padding-left: 5%">
-                      <br>
-                      <span> Week: {{ this.timeData.startWeek }}</span>
-                      <br>
-                      <span> Day: {{ this.timeData.startDay }}</span>
-                      <br>
-                      <span> Time: {{ this.timeData.startTime }}</span>
-                    </div>
+                    <span>Description: {{ calendarData.description ? calendarData.description : 'No Description' }}</span>
                   </div>
-                  <!-- Ending -->
-                  <div>
-                      <span>ending:</span>
-                      <br>
-                    <div style="padding-left: 5%">
-                      <br>
-                      <span> Week:{{ this.timeData.endWeek }}</span>
-                      <br>
-                      <span> Day: {{ this.timeData.endDay }}</span>
-                      <br>
-                      <span> Time: {{ this.timeData.endTime }}</span>
-                    </div>
+                </span>
+              </md-list-item>
+              <br>
+              <md-divider class="md-inset"></md-divider>
+              <br>
+              <md-list-item class="center">
+                <md-icon>access_time</md-icon>
+                <span class="md-list-item-text">Calendar Times:
+                  <br>
+                  <div style="margin-left:2em">
+                    <span> Starting:</span>
+                    <br>
                   </div>
-                </div>
-
+                  <div style="margin-left:4.7em">
+                    <span> Week: {{ timeData.startWeek }}</span>
+                    <br>
+                    <span> Day: {{ timeData.startDay }}</span>
+                    <br>
+                    <span> Time: {{ timeData.startTime }}</span>
+                  </div>
+                  <br>
+                  <div style="margin-left:2em">
+                    <span> Ending:</span>
+                    <br>
+                  </div>
+                  <div style="margin-left:4em">
+                    <span> Week:{{ timeData.endWeek }}</span>
+                    <br>
+                    <span> Day: {{ timeData.endDay }}</span>
+                    <br>
+                    <span> Time: {{ timeData.endTime }}</span>
+                  </div>
+                </span>
               </md-list-item>
             </md-list>
             <md-button class="md-raised md-primary" @click="assignTimes">Assign Calendar Times</md-button>
@@ -139,17 +141,24 @@
         }
       },
 
-      resetStepper() {
+      clearStore() {
         this.$store.dispatch('updateCalendar', null);
         this.$store.dispatch('updateCalendarTime', null);
+      },
+
+      resetStepper() {
         this.first = false;
         this.second = false;
         this.third = false;
         this.active = 'first';
         this.showCreatedCal = false;
+        this.clearStore();
       },
     },
 
+    beforeMount() {
+      this.clearStore();
+    },
 
     computed: {
       calendarData() {
@@ -171,6 +180,13 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: 50%; */
   }
 
 </style>

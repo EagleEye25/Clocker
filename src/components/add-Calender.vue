@@ -111,11 +111,12 @@
 
     methods: {
       async createInProcess() {
+        // await this.createCalendar();
         let data = {
           'name': this.form.calendarName,
           'description': this.form.description
         }
-        if (await this.createCalendar) {
+        if (await this.createCalendar()) {
           this.standard === false ? this.$store.dispatch('updateCalendar', data) : null
           this.$emit('added');
         }
