@@ -78,8 +78,7 @@
             this.showDialog('InSuccess');
             this.tag = '';
           }
-        }).catch((error) => {
-          console.log(error);
+        }).catch(() => {
           if (error) {
             this.showDialog('InFail');
           }
@@ -95,13 +94,12 @@
         'clock_out': Date.now(),
         'overtime': null
       })
-      .then((resp) => {
+      .then(() => {
         this.action = 'completed'
         this.showDialog('OutSuccess');
         this.tag = '';
-      }).catch((error) => {
+      }).catch(() => {
         this.showDialog('InFail');
-        console.log(error)
       });
       },
 
@@ -122,7 +120,7 @@
             this.reasons.push(data);
           });
           this.reasons.toString();
-        }).catch((error) => {
+        }).catch(() => {
 
         });
       },

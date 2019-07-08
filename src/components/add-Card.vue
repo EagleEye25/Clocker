@@ -110,12 +110,12 @@
         if (await this.checkCardExists()) {
           http.post(`/api/card/create`, {
             'card_no': this.form.tag
-          }).then((resp) => {
+          }).then(() => {
             this.$store.dispatch('updateCardNo', this.form.tag);
             this.form.tag = '';
             document.getElementById('tag').focus();
             this.$awn.success('Successfully Added Card');
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Add Card');
           });
         } else {
@@ -132,8 +132,8 @@
 
        async checkCardExists() {
         return await http.get(`/api/card/card_no/${this.form.tag}`)
-          .then((data) => {return false})
-          .catch(err => {return true});
+          .then(() => {return false})
+          .catch(() => {return true});
       },
 
       validateUser() {

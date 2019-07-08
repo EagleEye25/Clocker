@@ -145,8 +145,7 @@
           .then((resp) => {
             this.cardID = resp.data.id;
             return true;
-          }).catch((err) => {
-            console.log(err);
+          }).catch(() => {
             return false;
           });
       },
@@ -158,12 +157,12 @@
             'card_id': this.cardID,
             'issued_at': Date.now(),
             'active': true
-          }).then((resp) => {
+          }).then(() => {
             this.completed = true;
             this.editable = false;
             this.$awn.success('Successfully Assigned Card');
             this.clearStore();
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Assign Card');
           })
         }

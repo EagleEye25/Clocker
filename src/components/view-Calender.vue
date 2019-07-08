@@ -116,7 +116,7 @@
               }
               this.calendars.push(data);
             });
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Get Calendars');
           });
       },
@@ -144,7 +144,7 @@
               }
               this.calendars.push(data);
             });
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Get Calendars');
           });
       },

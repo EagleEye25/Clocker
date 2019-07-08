@@ -134,13 +134,13 @@
           'admin': this.form.admin,
           'reporting_admin': this.form.reporting_admin,
           'password': this.form.password,
-        }).then((resp) => {
+        }).then(() => {
             this.clearForm();
             this.$store.dispatch('updateEmp', null);
             this.$router.push('/management/viewEmployee');
             this.$awn.success('Successfully Updated Employee');
             return true
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Update Employee');
             return false
           });
@@ -164,7 +164,7 @@
             this.$awn.success('Successfully Added Employee');
             return true;
           }
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Update Employee');
           return false;
         })
@@ -201,7 +201,7 @@
           .then((resp) => {
             this.updateInfo = resp.data;
             return true
-          }).catch((err) => {
+          }).catch(() => {
             return false
           });
       },
@@ -214,9 +214,9 @@
 
       async checkUser(name) {
         return await http.get(`/api/employee/findByName/${name}`)
-          .then((resp) => {
+          .then(() => {
             return true
-          }).catch((err) => {
+          }).catch(() => {
             return false
           });
       },

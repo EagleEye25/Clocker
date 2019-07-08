@@ -140,10 +140,10 @@
           'description': this.selectedReason.description,
           'work': work,
           'active': this.state
-        }).then((resp) => {
+        }).then(() => {
           this.$awn.success('Successfully Updated Reason State');
           return true;
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Update Reason State');
           return false;
         });
@@ -163,7 +163,7 @@
               }
               this.reasons.push(data);
             });
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Get Reasons');
           });
       },

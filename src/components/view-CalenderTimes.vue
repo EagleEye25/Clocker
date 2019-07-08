@@ -146,7 +146,7 @@
               this.calTimes.push(data);
             });
             return true;
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Get Calendar Times');
             return false;
           });
@@ -181,7 +181,7 @@
               this.calTimes.push(data);
             });
             return true;
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Get Calendar Times');
             return false;
           });

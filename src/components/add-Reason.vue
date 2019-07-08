@@ -108,13 +108,13 @@
           'description': this.form.description,
           'work': this.form.work,
           'active': this.form.active
-        }).then((resp) => {
+        }).then(() => {
           this.clearForm();
           this.$awn.success('Successfully Updated Reason');
           this.$store.dispatch('updateReason', null);
           this.$router.push('/management/viewReasons');
           return true;
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Update Reason');
           return false;
         });
@@ -131,7 +131,7 @@
             document.getElementById('description').focus();
           }
           this.$awn.success('Successfully Added Reason');
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Add Reason');
         })
       },

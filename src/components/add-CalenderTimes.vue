@@ -155,7 +155,7 @@
             this.create ? this.returnToView() : null;
             this.clearForm();
             return true;
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Create Calendar Times');
             return false;
           });
@@ -174,11 +174,11 @@
           'endWeek': this.form.eWeek,
           'endDay': this.form.eDay,
           'endTime': this.form.eTime
-        }).then((res) => {
+        }).then(() => {
           this.$awn.success('Successfully Updated Calendar Times');
           this.returnToView();
           return true;
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Update Calendar Times');
           return false;
         });
@@ -196,7 +196,7 @@
 
       async checkCalTimes(c_times) {
         return await http.get(`/api/calender_times/times/existing`, {c_times})
-          .then((resp) => {
+          .then(() => {
             return true
           }).catch((err) => {
             return false

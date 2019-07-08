@@ -114,7 +114,7 @@
               this.employees.push(data);
               return true;
             });
-        }).catch((error) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Get Employees');
           return false;
         });

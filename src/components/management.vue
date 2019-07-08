@@ -128,7 +128,6 @@
 </template>
 
 <script>
-  import addEmployee from '../components/add-Employee.vue';
   export default {
     name: 'management',
     // Angular equivaent of INPUT

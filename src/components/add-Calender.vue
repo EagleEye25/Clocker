@@ -159,7 +159,7 @@
 
       async checkCalender(name) {
         return await http.get(`/api/calender/findByName/${name}`)
-          .then((resp) => {
+          .then(() => {
             return true
           }).catch((err) => {
             return false
