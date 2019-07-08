@@ -72,6 +72,7 @@
             <h1>Successfully Assigned Calendar to Calendar Times!</h1>
             <md-button class="md-raised" style="color: lime;" to="/management">Back To Management</md-button>
             <md-button class="md-raised" style="color: yellow;" @click="resetStepper">Assign Another Calendar</md-button>
+            <md-button class="md-raised" style="color: orange;" to="/management/assignCalendar">Assign Calendar To Employee</md-button>
           </div>
         </md-step>
       </md-steppers>
@@ -152,6 +153,7 @@
         this.third = false;
         this.active = 'first';
         this.showCreatedCal = false;
+        this.editable = true;
         this.clearStore();
       },
     },

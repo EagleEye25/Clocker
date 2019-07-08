@@ -88,15 +88,8 @@
       addEmployee,
     },
 
-    created: () => {
-      this.getEmployees();
-    },
-
     methods: {
-      async getEmployees() {
-        let api = '';
-        (this.standard !== false) ? api ='/api/employee/' : api = '/api/employee/unassigned/employees';
-        // (this.calUnAssigned !== false) ? api = '/api/employee/unassigned/employees/calender' : null;
+      async getEmployees(api) {
         return await http.get(api)
           .then((res) => {
             res.data.forEach(d => {
@@ -118,6 +111,18 @@
           this.$awn.alert('Could Not Get Employees');
           return false;
         });
+      },
+
+      async determine() {
+        if (this.standard !== false) {
+          this.title = 'Employees';
+          let api = '/api/employee/';
+          await this.getEmployees(api);
+        } else if (this.standard === false) {
+          this.title = 'Select Unassigned Employee';
+          let api = '/api/employee/unassigned/employees';
+          await this.getEmployees(api);
+        }
       },
 
       updateEmployee(item) {
@@ -143,10 +148,6 @@
         }
       },
 
-      newCard () {
-        window.alert('Noop')
-      },
-
       searchOnTable () {
         this.searched = searchByName(this.employees, this.search);
       }
@@ -158,7 +159,7 @@
 
 
     beforeMount() {
-      this.getEmployees();
+      this.determine();
     },
 
     computed: {

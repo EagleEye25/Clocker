@@ -95,6 +95,7 @@
         }).then(() => {
           this.$awn.success('Successfully Assigned Employee To Calendar');
           this.assigned = true;
+          this.editable = false;
           return true;
         }).catch(() => {
           this.$awn.alert('Could Not Assign Employee To Calendar');
@@ -125,6 +126,7 @@
         this.showCreatedCal = false;
         this.showCreatedCal = false;
         this.assigned = false;
+        this.editable = true;
         this.clearStore();
       },
     },

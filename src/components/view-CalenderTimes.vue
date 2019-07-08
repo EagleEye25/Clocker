@@ -3,7 +3,7 @@
     <!-- Stnadard -->
     <div v-if="standard !== false">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table">
+                class="table">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Created Calenders Times </h1>
@@ -20,7 +20,7 @@
           <md-button class="md-primary md-raised" @click="updateCalTimes(false)">Create Calendar Time</md-button>
         </md-table-empty-state>
 
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
           <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>

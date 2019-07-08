@@ -163,7 +163,9 @@
               }
               this.reasons.push(data);
             });
-          }).catch(() => {
+          }).catch((err) => {
+            let error = err.toString().indexOf('404');
+            (error) ? this.$awn.warning('No Reasons Please Add A Reason') :
             this.$awn.alert('Could Not Get Reasons');
           });
       },

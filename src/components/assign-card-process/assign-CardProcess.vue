@@ -20,7 +20,7 @@
 
       <md-step id="second" md-label="Assign Card To Employee" :md-error="secondStepError"
                 :md-done.sync="second" :md-editable="editable">
-        <viewEmployee v-bind:standard=false v-bind:calUnAssigned=false></viewEmployee>
+        <viewEmployee v-if="active === 'second'" v-bind:standard=false v-bind:calUnAssigned=false></viewEmployee>
         <md-button class="md-raised md-primary" @click="setDone('second', 'third')"
                     :disabled='!$store.getters.employeeInfo'>
           Continue
@@ -112,29 +112,6 @@
     },
 
     methods: {
-      // async addCard() {
-      //   console.log('herer:',this.employeeName);
-      //   if(!this.alreadyCreated){
-      //     if (!await this.checkCardExists()) {
-      //       http.post(`/api/card/create`, {
-      //         'card_no': this.cardNumber
-      //       }).then((resp) => {
-      //         if (resp.status === 201) {
-      //           console.log('created');
-      //           return true
-      //         }
-      //       }).catch((err) => {
-      //         console.log('AN ERROR HAS OCCURED');
-      //         console.log(err);
-      //       });
-      //     } else {
-      //       console.log('card already exists');
-      //     }
-      //   } else {
-      //     return true
-      //   }
-      // },
-
       cancelAddInSelect() {
         this.showCreatedCards = false
         this.cancelAdd = true;
@@ -161,7 +138,6 @@
             this.completed = true;
             this.editable = false;
             this.$awn.success('Successfully Assigned Card');
-            this.clearStore();
           }).catch(() => {
             this.$awn.alert('Could Not Assign Card');
           })
@@ -184,21 +160,6 @@
         this.clearStore();
         this.showCreatedCards = false;
       },
-
-      //  async checkCardExists() {
-      //    console.log('here');
-      //   return await http.get(`/api/card/card_no/${this.cardNumber}`)
-      //     .then((data) => {
-      //       console.log('here', data);
-      //       this.test = data.id;
-      //       console.log(this.test);
-      //       return false
-      //     })
-      //     .catch(err => {
-      //       console.log('in the error');
-      //       return true;
-      //     });
-      // },
 
       setDone (id, index) {
         this[id] = true;

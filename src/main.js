@@ -11,7 +11,7 @@ import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import VueAWN from "vue-awesome-notifications"
 
 let options = {
-  position: 'bottom-right',
+  position: 'top-right',
   maxNotifications: 5,
 };
 

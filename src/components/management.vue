@@ -75,7 +75,7 @@
           </md-menu-item>
           <md-menu-item>
             <md-button to="/management/assignCalendarTimes">
-              Assign Calendar Times To Calendar
+              Assign Calendar To Times
             </md-button>
           </md-menu-item>
             <md-menu-item>
