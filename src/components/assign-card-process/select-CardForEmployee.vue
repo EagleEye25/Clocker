@@ -4,7 +4,7 @@
       <!-- Part of process -->
       <div v-if="showNorm === false">
         <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                  @md-selected="onSelect" class="table">
+                  @md-selected="onSelect" class="table box">
           <md-table-toolbar>
             <div class="md-toolbar-section-start">
               <h1 class="md-title"> {{ title }} </h1>
@@ -323,5 +323,10 @@
 
   .md-table-toolbar {
     text-align: left;
+  }
+
+  .box {
+    -webkit-border-radius: 20px 20px 20px 20px;
+    border-radius: 20px 20px 20px 20px;
   }
 </style>

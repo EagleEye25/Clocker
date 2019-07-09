@@ -2,7 +2,7 @@
   <div class="center">
     <div>
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table" v-if="!showReason">
+                @md-selected="onSelect" class="table box" v-if="!showReason">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Reasons for Clocking Out </h1>
@@ -226,5 +226,10 @@
 
   .md-table-toolbar {
     text-align: left;
+  }
+
+  .box {
+    -webkit-border-radius: 20px 20px 20px 20px;
+    border-radius: 20px 20px 20px 20px;
   }
 </style>

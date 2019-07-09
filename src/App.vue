@@ -6,24 +6,23 @@
 
 <style lang="scss">
 @import 'vue-awesome-notifications/dist/styles/style.scss';
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  height: 99%;
-  width: 99.5%;
-  // background-image: url('../public/pictures/background.png');
-  // background-repeat: no-repeat;
-  // background-size: cover;
-  // background-position: center center;
-  // height: calc(100vh - 60px);
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+    height: 99%;
+    width: 99.5%;
+    // background-image: url('../public/pictures/background.png');
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // background-position: center center;
+    // height: calc(100vh - 60px);
+  }
 
-html, body {
-  overflow: hidden;
-}
-
+  html, body {
+    overflow: hidden;
+  }
 </style>

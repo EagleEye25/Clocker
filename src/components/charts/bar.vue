@@ -19,6 +19,10 @@ export default {
    data: function() {
     return {
       chartOptions: {
+        theme: {
+          mode: 'dark',
+          palette: 'palette1',
+        },
         plotOptions: {
           bar: {
             horizontal: false,
@@ -36,6 +40,11 @@ export default {
         },
         xaxis: {
           categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+          style: {
+            fontSize: '50px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            colors: ['#ffffff']
+        },
         },
         yaxis: {
           title: {

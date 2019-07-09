@@ -3,7 +3,7 @@
     <!-- Standard process -->
     <div v-if="standard !== false">
       <form action="">
-        <md-card class="md-layout-item md-size-50 md-small-size-100 center">
+        <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
           <md-card-header>
             <div class="md-title">{{title}}</div>
           </md-card-header>
@@ -51,7 +51,7 @@
     <!-- Part Process -->
     <div v-if="standard === false">
       <form action="">
-        <md-card class="md-layout-item md-size-50 md-small-size-100 center">
+        <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
           <md-card-header>
             <div class="md-title">{{title}}</div>
           </md-card-header>
@@ -213,6 +213,11 @@
     margin-left: auto;
     margin-right: auto;
     /* width: 50%; */
+  }
+
+  .box {
+    -webkit-border-radius: 20px 20px 20px 20px;
+    border-radius: 20px 20px 20px 20px;
   }
 
 </style>
