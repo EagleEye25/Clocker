@@ -192,7 +192,7 @@
   }
 
   .box {
-    -webkit-border-radius: 20px 20px 20px 20px;
-    border-radius: 20px 20px 20px 20px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
   }
 </style>

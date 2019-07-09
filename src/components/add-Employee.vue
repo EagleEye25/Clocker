@@ -162,6 +162,7 @@
           'admin': this.form.admin,
           'reporting_admin': this.form.reporting_admin,
           'password': this.form.password,
+          'active': true,
         }).then((resp) => {
           if (resp.status === 201) {
             if (this.standard === false) {
@@ -258,6 +259,10 @@
         this.form.admin = false
         this.form.reporting_admin = false
         this.form.password = null
+        const el = document.querySelector('#first-name');
+          if (el) {
+            el.focus();
+          }
         if (this.id) {
           this.$router.push('/management/viewEmployee');
         }
@@ -310,7 +315,7 @@
   }
 
   .box {
-    -webkit-border-radius: 20px 20px 20px 20px;
-    border-radius: 20px 20px 20px 20px;
+    -webkit-border-radius: 6px;;
+    border-radius: 6px;;
   }
 </style>

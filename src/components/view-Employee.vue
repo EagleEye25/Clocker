@@ -1,11 +1,14 @@
 <template>
   <div>
     <div class="center" v-if="!addEmployee">
-      <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+      <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header
                 @md-selected="onSelect" class="table box">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title">{{ title }}</h1>
+              <md-checkbox v-model="showDeleted" v-if="standard !== false">
+                Show Deleted Employees
+              </md-checkbox>
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
@@ -19,21 +22,47 @@
           <md-button class="md-primary md-raised" @click="addEmployee = true">Create New Employee</md-button>
         </md-table-empty-state>
 
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-          <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
-          <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-          <md-table-cell v-if="standard !== false">
+          <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+            <!-- NOT DELTED -->
+            <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+            <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
+            <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
+            <md-table-cell v-if="standard !== false">
+              <md-button class="md-raised md-primary" @click="updateEmployee(item)">
+                Update
+              </md-button>
+            </md-table-cell>
+            <md-table-cell v-if="standard !== false">
+              <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
+                delete
+              </md-button>
+            </md-table-cell>
+          </md-table-row>
+          <!-- <md-table-cell v-if="item.active === 'active'" md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+          <md-table-cell v-if="item.active  === 'active'" md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
+          <md-table-cell v-if="item.active  === 'active'" md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
+          <md-table-cell v-if="item.active  === 'active' && standard !== false" md-label="Status" md-sort-by="active">{{ item.active }}</md-table-cell>
+          <md-table-cell v-if="standard !== false && item.active  === 'active'">
             <md-button class="md-raised md-primary" @click="updateEmployee(item)">
               Update
             </md-button>
           </md-table-cell>
-          <md-table-cell v-if="standard !== false">
-            <md-button class="md-raised md-accent">
+          <md-table-cell v-if="standard !== false && item.active  === 'active'">
+            <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
               delete
             </md-button>
-          </md-table-cell>
-        </md-table-row>
+          </md-table-cell> -->
+          <!-- DELTED -->
+          <!-- <md-table-cell v-if="item.active === 'deleted' && showDeleted" md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+          <md-table-cell v-if="item.active  === 'deleted' && showDeleted" md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
+          <md-table-cell v-if="item.active  === 'deleted' && showDeleted" md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
+          <md-table-cell v-if="item.active  === 'deleted' && showDeleted" md-label="Status" md-sort-by="active">{{ item.active }}</md-table-cell>
+          <md-table-cell v-if="showDeleted && item.active  === 'deleted' ">
+            <md-button class="md-raised md-primary" @click="deleteEmp(item, true)">
+              Restore
+            </md-button>
+          </md-table-cell> -->
+
       </md-table>
     </div>
     <div v-if="addEmployee">
@@ -80,6 +109,7 @@
         addEmployee: false,
         updateEmp: false,
         added: false,
+        showDeleted: false,
       }
     },
 
@@ -97,15 +127,19 @@
 
               let boolReport = 'no';
               (d.reporting_admin !== 0) ? boolReport = 'yes' : '';
+
+              let active = false;
+              (d.active !== 0) ? active = true : active = false;
               let data = {
                 'id': d.id,
                 'name': d.name,
                 'admin': boolAdmin,
                 'reporting_admin': boolReport,
+                'active': active
               }
               this.employees.push(data);
-              return true;
             });
+          return true;
         }).catch((err) => {
           let error = err.toString().indexOf('404');
           (error) ? this.$awn.warning('No Unassigned Employees') :
@@ -113,6 +147,25 @@
           console.log(err)
           return false;
         });
+      },
+
+      async deleteEmp(item, bool) {
+        return await http.put(`api/employee/delete/${item.id}`, {
+          'id': item.id,
+          'active': bool,
+        }).then(() => {
+            const idx = this.employees.findIndex((emp) => emp.id === item.id);
+            for (let k = 0; k < this.employees.lenght; k++) {
+              if (this.employees[k].id === item.id) {
+                (bool) ? this.employees[k].active = 'active' : this.employees[k].active = 'deleted';
+              }
+            }
+            this.$awn.success('Successfully Deleted Employee');
+            return true
+          }).catch(() => {
+            this.$awn.alert('Could Not Delete Employee');
+            return false
+          });
       },
 
       async determine() {
@@ -186,7 +239,7 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: center;
-    width: 45%;
+    width: 50%;
   }
 
   .md-table-cell {
@@ -203,7 +256,7 @@
   }
 
   .box {
-    -webkit-border-radius: 20px 20px 20px 20px;
-    border-radius: 20px 20px 20px 20px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
   }
 </style>

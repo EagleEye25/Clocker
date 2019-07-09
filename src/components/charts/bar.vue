@@ -1,9 +1,9 @@
 <template>
   <div>
-    <apexcharts width="500" height="350" type="bar" :options="chartOptions" :series="series"></apexcharts>
-     <div>
+    <apexcharts width="800" height="350" type="bar" :options="chartOptions" :series="series"></apexcharts>
+     <!-- <div>
        <button @click="updateChart">Update!</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -19,6 +19,15 @@ export default {
    data: function() {
     return {
       chartOptions: {
+        title: {
+          text: 'title',
+          align: 'center',
+          floating: false,
+          style: {
+            fontSize:  '20px',
+            color:  '#ffffff'
+          },
+        },
         theme: {
           mode: 'dark',
           palette: 'palette1',
@@ -35,16 +44,11 @@ export default {
         },
         stroke: {
           show: true,
-          width: 2,
+          width: 4,
           colors: ['transparent']
         },
         xaxis: {
           categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-          style: {
-            fontSize: '50px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            colors: ['#ffffff']
-        },
         },
         yaxis: {
           title: {
@@ -74,20 +78,9 @@ export default {
       }],
     }
   },
-   methods: {
-      updateChart() {
-        const max = 100;
-        const min = 20;
-        let newSeries = [];
-        this.series.map((s) => {
-          const data = s.data.map(() => {
-            return Math.floor(Math.random() * (max - min + 1)) + min
-          })
-          newSeries.push({ data })
-        })
-        this.series = newSeries
-      }
-    }
+  methods: {
+
+  }
 
 }
 </script>

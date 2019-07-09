@@ -3,7 +3,7 @@
     <!-- Form for entering information -->
     <form novalidate class="md-layout" @submit.prevent="validateUser">
       <!-- Display inputs on card -->
-      <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
+      <md-card class="md-layout-item md-size-30 md-small-size-100 center box">
         <!-- Header for card -->
         <md-card-header>
           <div class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
@@ -160,7 +160,7 @@
   }
 
   .box {
-    -webkit-border-radius: 20px 20px 20px 20px;
-    border-radius: 20px 20px 20px 20px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
   }
 </style>
