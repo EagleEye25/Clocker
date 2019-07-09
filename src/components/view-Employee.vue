@@ -20,16 +20,15 @@
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
           <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
           <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
           <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-          <md-table-cell v-if="standard !== false" md-label="Update" >
+          <md-table-cell v-if="standard !== false">
             <md-button class="md-raised md-primary" @click="updateEmployee(item)">
               Update
             </md-button>
           </md-table-cell>
-          <md-table-cell v-if="standard !== false" md-label="Delete" >
+          <md-table-cell v-if="standard !== false">
             <md-button class="md-raised md-accent">
               delete
             </md-button>
@@ -107,8 +106,11 @@
               this.employees.push(data);
               return true;
             });
-        }).catch(() => {
+        }).catch((err) => {
+          let error = err.toString().indexOf('404');
+          (error) ? this.$awn.warning('No Unassigned Employees') :
           this.$awn.alert('Could Not Get Employees');
+          console.log(err)
           return false;
         });
       },
@@ -184,11 +186,11 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: center;
-    width: 50%;
+    width: 45%;
   }
 
   .md-table-cell {
-    text-align: center;
+    text-align: left;
     max-width: 120px;
   }
 

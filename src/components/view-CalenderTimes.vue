@@ -224,12 +224,12 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: center;
-    width: 70%;
+    width: 50%;
   }
 
   .md-table-cell {
-    text-align: center;
-    max-width: 80px;
+    text-align: left;
+    max-width: 10px;
   }
 
   .md-field {

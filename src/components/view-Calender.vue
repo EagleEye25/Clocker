@@ -59,7 +59,7 @@
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
           <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-          <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}</md-table-cell>
+          <md-table-cell md-label="Description" md-sort-by="description">{{ item.description ? item.description : 'No Description'}}</md-table-cell>
         </md-table-row>
       </md-table>
     </div>
@@ -102,7 +102,8 @@
 
     methods: {
       async determineAction() {
-        this.standard === false ? await this.getUnassigned() : await this.getCalendars()
+        await this.getCalendars();
+        // this.standard === false ? await this.getUnassigned() : await this.getCalendars()
       },
 
       async getUnassigned() {
@@ -116,7 +117,9 @@
               }
               this.calendars.push(data);
             });
-          }).catch(() => {
+          }).catch((err) => {
+            let error = err.toString().indexOf('404');
+            (error) ? this.$awn.warning('No Calendars Found') :
             this.$awn.alert('Could Not Get Calendars');
           });
       },
@@ -185,11 +188,11 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
-    width: 50%;
+    width: 40%;
   }
 
   .md-table-cell {
-    text-align: center;
+    text-align: left;
   }
 
   .md-field {

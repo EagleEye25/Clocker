@@ -2,7 +2,7 @@
   <div class="center">
     <div>
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table">
+                @md-selected="onSelect" class="table" v-if="!showReason">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Reasons for Clocking Out </h1>
@@ -16,11 +16,10 @@
         <md-table-empty-state
           md-label="No reasons found"
           :md-description="`No reason found for this '${search}' query. Try a different search term or create a new reason.`">
-          <md-button class="md-primary md-raised">Create Reason</md-button>
+          <md-button class="md-primary md-raised" @click="showReason = true">Create Reason</md-button>
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="Nr." md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
           <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}</md-table-cell>
           <md-table-cell md-label="Work Related" md-sort-by="work">{{ item.work }}</md-table-cell>
           <md-table-cell md-label="Update" >
@@ -39,6 +38,7 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <addReason v-bind:standard=false v-if="showReason" @canceled="showReason = false" @added="refresh"></addReason>
       <md-dialog-confirm
         :md-active.sync="dialogActive"
         :md-title= mdTitle
@@ -53,7 +53,7 @@
 
 <script>
   import http from '../../public/app.service.ts';
-
+  import addReason from '../components/add-Reason.vue';
  const toLower = text => {
     return text.toString().toLowerCase();
   }
@@ -82,7 +82,12 @@
         mdDescription: '',
         state: false,
         confirmedUnassign: false,
+        showReason: false,
       }
+    },
+
+    components: {
+      addReason
     },
 
     methods: {
@@ -149,8 +154,16 @@
         });
       },
 
-      getReasons() {
-        http.get(`/api/reason`)
+      async refresh() {
+        this.search = null;
+        this.searched = [];
+        this.reasons = [];
+        await this.getReasons();
+        this.showReason = false;
+      },
+
+      async getReasons() {
+        return await http.get(`/api/reason`)
           .then((resp) => {
             resp.data.forEach(d => {
               let work = '';

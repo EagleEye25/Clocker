@@ -15,6 +15,11 @@
   margin-top: 60px;
   height: 99%;
   width: 99.5%;
+  // background-image: url('../public/pictures/background.png');
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  // background-position: center center;
+  // height: calc(100vh - 60px);
 }
 
 html, body {

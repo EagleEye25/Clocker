@@ -16,7 +16,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tag')" >
                 <label for="tag">Enter card number / Scan card</label>
-                <md-input name="tag" id="tag" v-model="form.tag" :disabled="processing" @keyup.enter="onEnter" autofocus=true />
+                <md-input name="tag" id="tag" v-model="form.tag" :disabled="processing" autofocus=true />
                 <span class="md-error" v-if="!$v.form.tag.required">The card number is required</span>
                 <span class="md-error" v-else-if="!$v.form.tag.minlength">Invalid card number</span>
               </md-field>
@@ -112,8 +112,8 @@
             'card_no': this.form.tag
           }).then(() => {
             this.$store.dispatch('updateCardNo', this.form.tag);
-            this.form.tag = '';
             document.getElementById('tag').focus();
+            this.clearForm();
             this.$awn.success('Successfully Added Card');
           }).catch(() => {
             this.$awn.alert('Could Not Add Card');

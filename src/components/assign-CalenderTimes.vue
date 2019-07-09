@@ -178,7 +178,6 @@
 <style lang="scss" scoped>
 
   .md-steppers {
-    width: 82%;
     display: block;
     margin-left: auto;
     margin-right: auto;

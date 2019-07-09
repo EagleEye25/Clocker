@@ -7,25 +7,17 @@
       <md-menu md-size="medium" md-align-trigger :mdCloseOnSelect=true>
         <md-button md-menu-trigger>Calenders</md-button>
         <md-menu-content>
-          <md-menu-item>
-            <md-button to="/management/addCalendar">
-              Add Calendar
-            </md-button>
+          <md-menu-item to="/management/addCalendar">
+            Add Calendar
           </md-menu-item>
-          <md-menu-item>
-            <md-button to="/management/addCalendarTimes">
-              Add Calendar Times
-            </md-button>
+          <md-menu-item to="/management/addCalendarTimes">
+            Add Calendar Times
           </md-menu-item>
-          <md-menu-item>
-            <md-button to="/management/viewCalendar">
-              View Calendars
-            </md-button>
+          <md-menu-item to="/management/viewCalendar">
+            View Calendars
           </md-menu-item>
-          <md-menu-item>
-            <md-button to="/management/viewCalendarTimes">
-              View Calendar Times
-            </md-button>
+          <md-menu-item to="/management/viewCalendarTimes">
+            View Calendar Times
           </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -34,15 +26,11 @@
       <md-menu md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Cards</md-button>
         <md-menu-content>
-          <md-menu-item>
-            <md-button to="/management/addCard">
-              Add Card
-            </md-button>
+          <md-menu-item to="/management/addCard">
+            Add Card
           </md-menu-item>
-          <md-menu-item>
-            <md-button to="/management/selectCardForEmployee">
-              View Employee Cards
-            </md-button>
+          <md-menu-item to="/management/selectCardForEmployee">
+            View Employee Cards
           </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -51,15 +39,11 @@
       <md-menu md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Employees</md-button>
         <md-menu-content>
-          <md-menu-item>
-            <md-button to="/management/addEmployee">
-              Add Employee
-            </md-button>
+          <md-menu-item to="/management/addEmployee">
+            Add Employee
           </md-menu-item>
-          <md-menu-item>
-            <md-button to="/management/viewEmployee">
-              View Employees
-            </md-button>
+          <md-menu-item to="/management/viewEmployee">
+            View Employees
           </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -68,20 +52,14 @@
       <md-menu md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Processes</md-button>
         <md-menu-content>
-          <md-menu-item>
-            <md-button to="/management/assignCardProcess">
-              Assign Card To Employee
-            </md-button>
+          <md-menu-item to="/management/assignCardProcess">
+            Assign Card To Employee
           </md-menu-item>
-          <md-menu-item>
-            <md-button to="/management/assignCalendarTimes">
-              Assign Calendar To Times
-            </md-button>
+          <md-menu-item to="/management/assignCalendarTimes">
+            Assign Calendar To Times
           </md-menu-item>
-            <md-menu-item>
-              <md-button to="/management/assignCalendar">
-                Assign Calendar To Employee
-              </md-button>
+            <md-menu-item to="/management/assignCalendar">
+             Assign Calendar To Employee
             </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -90,15 +68,11 @@
       <md-menu md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Reasons</md-button>
         <md-menu-content>
-          <md-menu-item>
-            <md-button to="/management/addReason">
-              Add Reason
-            </md-button>
+          <md-menu-item to="/management/addReason">
+            Add Reason
           </md-menu-item>
-          <md-menu-item>
-            <md-button to="/management/viewReasons">
-              View Reasons
-            </md-button>
+          <md-menu-item to="/management/viewReasons">
+            View Reasons
           </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -107,15 +81,8 @@
       <md-menu md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Reports</md-button>
         <md-menu-content>
-          <md-menu-item>
-            <md-button>
-              Add Employee Calenders
-            </md-button>
-          </md-menu-item>
-          <md-menu-item>
-            <md-button>
-              View Calenders
-            </md-button>
+          <md-menu-item to="/management/employeeReports">
+            Generate Employee Reports
           </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -128,6 +95,7 @@
 </template>
 
 <script>
+  import http from '../../public/app.service.ts';
   export default {
     name: 'management',
     // Angular equivaent of INPUT
@@ -141,7 +109,18 @@
     },
 
     methods: {
+      checkConnectivity() {
+        http.get(`/api`)
+        .then((result) => {
+          console.log(result);
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+    },
 
+    beforeMount() {
+      this.checkConnectivity();
     }
   }
 </script>

@@ -55,6 +55,13 @@
                 <md-input name="password" id="password" type="password" v-model="form.password" :disabled="processing"/>
               </md-field>
             </div>
+           <!-- Password -->
+            <div class="md-layout-item md-small-size-100">
+              <md-field v-show=form.password>
+                <label for="confirmPass">Confirm Password</label>
+                <md-input name="confirmPass" id="confirmPass" type="password" v-model="form.confirmPass" :disabled="processing"/>
+              </md-field>
+            </div>
           </div>
         </md-card-content>
         <md-card-actions v-if="standard !== false">
@@ -96,6 +103,7 @@
           admin: false,
           reporting_admin: false,
           password: null,
+          confirmPass: null,
         },
         processing: null,
         passVis: false,
@@ -165,7 +173,7 @@
             return true;
           }
         }).catch(() => {
-          this.$awn.alert('Could Not Update Employee');
+          this.$awn.alert('Could Not Add Employee');
           return false;
         })
         } else {

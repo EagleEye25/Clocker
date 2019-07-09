@@ -15,6 +15,7 @@ import viewCalender from '@/components/view-Calender.vue';
 import viewCalenderTimes from '@/components/view-CalenderTimes.vue';
 import assignCalenderTimes from '@/components/assign-CalenderTimes.vue';
 import assignCalender from '@/components/assign-Calender.vue'
+import generateEmpReports from '@/components/generate-EmpReports.vue';
 
 
 Vue.use(Router)
@@ -86,6 +87,10 @@ export default new Router({
         {
           path: 'assignCalendar',
           component: assignCalender
+        },
+        {
+          path: 'employeeReports',
+          component: generateEmpReports
         },
       ]
     }

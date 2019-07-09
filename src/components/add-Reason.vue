@@ -37,12 +37,12 @@
         <md-card-actions>
           <!-- Normal add -->
           <div v-if="!reasonData">
-            <md-button style="color: orange">Cancel</md-button>
+            <md-button style="color: orange" @click="clearForm">Cancel</md-button>
             <md-button style="color: lime" v-on:click="addReason">Add Reason</md-button>
           </div>
           <!-- Update Reason -->
           <div v-if="reasonData">
-            <md-button style="color: orange" to="/management/viewReasons">Cancel</md-button>
+            <md-button style="color: orange" to="/management/viewReasons" @click="clearForm">Cancel</md-button>
             <md-button style="color: lime" v-on:click="updateReason">Update Reason</md-button>
           </div>
         </md-card-actions>
@@ -65,6 +65,7 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
+      standard: false,
     },
     //  Variables
     data() {
@@ -128,6 +129,7 @@
         }).then((resp) => {
           if (resp.status === 201) {
             this.clearForm();
+            (this.standard === false) ? this.$emit('added') : null;
             document.getElementById('description').focus();
           }
           this.$awn.success('Successfully Added Reason');

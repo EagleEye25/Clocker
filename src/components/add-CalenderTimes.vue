@@ -37,7 +37,6 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label for="sTime">Starting Time</label>
                 <VueCtkDateTimePicker id="sTime" name="sTime" v-model="form.sTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="Starting Time"
