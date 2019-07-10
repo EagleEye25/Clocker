@@ -54,7 +54,7 @@
     <br>
     <!-- CHARTS -->
     <div class="md-layout" v-if="!displayCharts">
-      <md-card class="md-layout-item md-size-75 md-small-size-100 center box">
+      <md-card class="md-layout-item md-size-78 md-small-size-100 center box">
         <md-card-content>
           <!-- LEVEL 1 -->
           <div class="md-layout md-gutter">
@@ -81,6 +81,10 @@
             <!-- Rank of Reasons  -->
             <div class="md-layout-item md-small-size-100">
               <apexcharts width="400" height="350" type="radar" :options="reasonsRankData" :series="reasonsRankSeries"></apexcharts>
+            </div>
+            <!-- Rank of Reasons  -->
+            <div class="md-layout-item md-small-size-100" style="padding-left: 38%">
+              <apexcharts width="400" height="350" type="radar" :options="employeeRankData" :series="employeeRankSeries"></apexcharts>
             </div>
           </div>
           <!-- LEVEL 3 -->
@@ -345,6 +349,59 @@
           }
         },
         reasonsRankSeries: [{
+          name: 'Series 1',
+          data: [20, 100, 40, 30, 50, 80, 33],
+        }],
+        // Rank of employees
+        employeeRankData: {
+          theme: {
+            mode: 'dark',
+            palette: 'palette1',
+          },
+          labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          plotOptions: {
+            radar: {
+              size: 140,
+              polygons: {
+                strokeColor: '#A6A6A6',
+                fill: {
+                  colors: ['#A6A6A6', '#fff']
+                }
+              }
+            }
+          },
+          title: {
+            text: 'Rank of Employees'
+          },
+          colors: ['#FF4560'],
+          markers: {
+            size: 4,
+            colors: ['#fff'],
+            strokeColor: '#FF4560',
+            strokeWidth: 2,
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                return val
+              }
+            }
+          },
+          yaxis: {
+            show: false,
+            tickAmount: 7,
+            labels: {
+              formatter: function(val, i) {
+                if(i % 2 === 0) {
+                  return val
+                } else {
+                  return ''
+                }
+              }
+            }
+          }
+        },
+        employeeRankSeries: [{
           name: 'Series 1',
           data: [20, 100, 40, 30, 50, 80, 33],
         }],

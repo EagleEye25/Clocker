@@ -13,6 +13,7 @@
     text-align: center;
     color: #2c3e50;
     height: 99%;
-    width: 99%;
+    width: 99.8%;
+    padding-left: 0.2%;
   }
 </style>
