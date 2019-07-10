@@ -13,6 +13,6 @@
     text-align: center;
     color: #2c3e50;
     height: 99%;
-    width: 99.5%;
+    width: 99%;
   }
 </style>

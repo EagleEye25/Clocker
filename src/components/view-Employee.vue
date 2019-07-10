@@ -6,7 +6,7 @@
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title">{{ title }}</h1>
-              <md-checkbox v-model="showDeleted" v-if="standard !== false">
+              <md-checkbox v-model="showDeleted" @click="changeView" v-if="standard !== false">
                 Show Deleted Employees
               </md-checkbox>
           </div>
@@ -27,14 +27,19 @@
             <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
             <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
             <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-            <md-table-cell v-if="standard !== false">
+            <md-table-cell v-if="standard !== false && !showDeleted">
               <md-button class="md-raised md-primary" @click="updateEmployee(item)">
                 Update
               </md-button>
             </md-table-cell>
-            <md-table-cell v-if="standard !== false">
+            <md-table-cell v-if="standard !== false && !showDeleted">
               <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
                 delete
+              </md-button>
+            </md-table-cell>
+            <md-table-cell v-if="standard !== false && showDeleted">
+              <md-button class="md-raised md-accent" @click="deleteEmp(item, true)">
+                Restore
               </md-button>
             </md-table-cell>
           </md-table-row>
@@ -110,11 +115,20 @@
         updateEmp: false,
         added: false,
         showDeleted: false,
+        delEmp: [],
       }
     },
 
     components: {
       addEmployee,
+    },
+
+    watch: {
+      showDeleted: {
+        handler(newValue, old) {
+          this.changeView();
+        }
+      }
     },
 
     methods: {
@@ -137,14 +151,13 @@
                 'reporting_admin': boolReport,
                 'active': active
               }
-              this.employees.push(data);
+              active ? this.employees.push(data) : this.delEmp.push(data);
             });
           return true;
         }).catch((err) => {
           let error = err.toString().indexOf('404');
           (error) ? this.$awn.warning('No Unassigned Employees') :
           this.$awn.alert('Could Not Get Employees');
-          console.log(err)
           return false;
         });
       },
@@ -157,15 +170,25 @@
             const idx = this.employees.findIndex((emp) => emp.id === item.id);
             for (let k = 0; k < this.employees.lenght; k++) {
               if (this.employees[k].id === item.id) {
-                (bool) ? this.employees[k].active = 'active' : this.employees[k].active = 'deleted';
+                (bool) ? this.employees[k].active = true : this.employees[k].active = false;
               }
             }
-            this.$awn.success('Successfully Deleted Employee');
+            !bool ? this.$awn.success('Successfully Deleted Employee') :
+              this.$awn.success('Successfully Restored Employee Employee');
             return true
           }).catch(() => {
             this.$awn.alert('Could Not Delete Employee');
             return false
           });
+      },
+
+      changeView() {
+        console.log('here');
+        if (this.showDeleted) {
+          this.searched = this.delEmp
+        } else {
+          this.searched = this.employees;
+        }
       },
 
       async determine() {

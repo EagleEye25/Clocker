@@ -77,7 +77,8 @@
                 <label for="eTime">Ending Time</label>
                 <VueCtkDateTimePicker id="eTime" name="eTime" v-model="form.eTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
-                                     color="#27C96D" :dark=true label="Ending Time">
+                                     color="#27C96D" :dark=true label="Ending Time"
+                                     input-size="lg">
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
               </md-field>

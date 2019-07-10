@@ -109,18 +109,18 @@
     },
 
     methods: {
-      checkConnectivity() {
-        http.get(`/api`)
-        .then((result) => {
-          console.log(result);
-        }).catch((err) => {
-          console.log(err);
-        });
-      }
+      // checkConnectivity() {
+      //   http.get(`/api`)
+      //   .then((result) => {
+      //     console.log(result);
+      //   }).catch((err) => {
+      //     console.log(err);
+      //   });
+      // }
     },
 
     beforeMount() {
-      this.checkConnectivity();
+      // this.checkConnectivity();
     }
   }
 </script>
