@@ -40,7 +40,7 @@
                 <VueCtkDateTimePicker id="sTime" name="sTime" v-model="form.sTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="Starting Time"
-                                     class="center">
+                                     class="center" auto-close=ture>
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
               </md-field>
@@ -78,7 +78,7 @@
                 <VueCtkDateTimePicker id="eTime" name="eTime" v-model="form.eTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="Ending Time"
-                                     input-size="lg">
+                                     input-size="lg" auto-close=ture>
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
               </md-field>

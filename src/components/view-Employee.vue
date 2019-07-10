@@ -198,7 +198,7 @@
           await this.getEmployees(api);
         } else if (this.standard === false) {
           this.title = 'Select Unassigned Employee';
-          let api = '/api/employee/unassigned/employees';
+          let api = '/api/employee/';
           await this.getEmployees(api);
         }
       },

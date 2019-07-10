@@ -2,88 +2,90 @@
   <div>
     <!-- INPUTS -->
     <div>
-      <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table box">
-        <md-table-toolbar>
-          <div class="md-toolbar-section-start">
-            <h1 class="md-title"> Employees </h1>
-          </div>
-
-          <md-field md-clearable class="md-toolbar-section-end">
-            <md-input placeholder="Search by calendar name..." v-model="search" @input="searchOnTable"/>
-          </md-field>
-        </md-table-toolbar>
-
-        <md-table-empty-state
-          md-label="No employees's found"
-          :md-description="`No employee's found for this '${search}' query. Try a different search term.`">
-        </md-table-empty-state>
-
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
-          <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-          <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
-          <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-        </md-table-row>
-      </md-table>
-      <br>
       <div class="md-layout">
-          <md-card class="md-layout-item md-size-30 center box">
+        <md-card class="md-layout-item md-size-70 md-small-size-100 center box">
+          <md-card-header>
+            this is a header
+          </md-card-header>
+          <md-card-content>
             <div class="md-layout md-gutter">
-              <div class="md-layout-item md-small-size-100">
-                <VueCtkDateTimePicker id="range" name="range" v-model="range" label="Select Date Range"
-                                      format="YYYY-MM-DD" :range=true :inline=true
-                                      color="#27C96D" :dark=true>
-                </VueCtkDateTimePicker>
-              </div>
+            <!-- EMPLOYEES LEFT -->
+            <div class="md-layout-item md-small-size-100">
+              <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+                @md-selected="onSelect" class="table box">
+                <md-table-toolbar>
+                  <div class="md-toolbar-section-start">
+                    <h1 class="md-title"> Employees </h1>
+                  </div>
+
+                  <md-field md-clearable class="md-toolbar-section-end">
+                    <md-input placeholder="Search by calendar name..." v-model="search" @input="searchOnTable"/>
+                  </md-field>
+                </md-table-toolbar>
+
+                <md-table-empty-state
+                  md-label="No employees's found"
+                  :md-description="`No employee's found for this '${search}' query. Try a different search term.`">
+                </md-table-empty-state>
+
+                <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
+                  <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+                  <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
+                  <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
+                </md-table-row>
+              </md-table>
             </div>
-          </md-card>
+            <!-- CALENDAR RIGHT -->
+            <div class="md-layout-item md-small-size-100">
+              <md-card style="height: 50%">
+                <VueCtkDateTimePicker id="range" name="range" v-model="range" label="Select Date Range"
+                                      format="YYYY-MM-DD" :range=true :inline=true formatted="ll"
+                                      color="#27C96D" :dark=true :persistent=true :isSelected=true>
+                </VueCtkDateTimePicker>
+              </md-card>
+            </div>
+             </div>
+          </md-card-content>
+        </md-card>
       </div>
-      <!-- <md-card class="center" style="width: 300px">
-        <md-card-content> -->
-          <!-- <md-field>
-          <label for="range">Please select range:</label>
-          <md-select v-model="range" name="range" id="range" class="center">
-            <md-option value="day">Day</md-option>
-            <md-option value="week">Week</md-option>
-            <md-option value="month">Month</md-option>
-            <md-option value="all">All Time</md-option>
-          </md-select>
-          </md-field> -->
-        <!-- </md-card-content>
-      </md-card> -->
     </div>
+    <br>
+    <md-divider class="md-inset"></md-divider>
+    <br>
     <!-- CHARTS -->
-    <div class="md-layout" v-if="displayCharts">
-      <md-card class="md-layout-item md-size-80 md-small-size-100 center box">
+    <div class="md-layout" v-if="!displayCharts">
+      <md-card class="md-layout-item md-size-75 md-small-size-100 center box">
         <md-card-content>
           <!-- LEVEL 1 -->
           <div class="md-layout md-gutter">
             <!-- Worked Hours  -->
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item md-small-size-100 center" style="padding-left: 3%">
               <apexcharts width="800" height="350" type="bar" :options="workHrsData" :series="workSeries"></apexcharts>
             </div>
             <!-- Clock Reasons TIme Not Worked  -->
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item md-small-size-100 center" style="padding-left: 4%">
               <apexcharts width="400" height="332" type="radialBar" :options="clockReasonsNonWork" :series="clockReasonsNonWorkSeries"></apexcharts>
             </div>
-          </div>
-          <!-- LEVEL 2 -->
-          <div class="md-layout md-gutter">
             <!-- Clock Reasons TIme Worked  -->
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item md-small-size-100 center" style="padding-left: 3%">
               <apexcharts width="400" height="325" type="radialBar" :options="clockReasonsWork" :series="clockReasonsWorkSeries"></apexcharts>
             </div>
-            <!-- Clock Reasons TIme Not Worked  -->
-            <div class="md-layout-item md-small-size-100">
-              <apexcharts height="350" type="line" :options="overNotClockingData" :series="overNotClockingSeries"></apexcharts>
-            </div>
           </div>
-          <!-- LEVEL 3 -->
+          <br>
+          <!-- LEVEL 2 -->
           <div class="md-layout md-gutter">
+            <!-- Clock Reasons TIme Not Worked  -->
+            <div class="md-layout-item md-small-size-100" style="padding-left: 16%">
+              <apexcharts width="800" height="350" type="line" :options="overNotClockingData" :series="overNotClockingSeries"></apexcharts>
+            </div>
             <!-- Rank of Reasons  -->
             <div class="md-layout-item md-small-size-100">
               <apexcharts width="400" height="350" type="radar" :options="reasonsRankData" :series="reasonsRankSeries"></apexcharts>
             </div>
+          </div>
+          <!-- LEVEL 3 -->
+          <div class="md-layout md-gutter">
+
             <!-- Clock Reasons TIme Not Worked  -->
             <div class="md-layout-item md-small-size-100">
 
@@ -427,7 +429,7 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
-    width: 30%;
+    width: 80%
   }
 
   .md-table-cell {

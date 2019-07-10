@@ -57,7 +57,7 @@
             </div>
            <!-- Password -->
             <div class="md-layout-item md-small-size-100">
-              <md-field v-show=form.password>
+              <md-field v-show=form.admin>
                 <label for="confirmPass">Confirm Password</label>
                 <md-input name="confirmPass" id="confirmPass" type="password" v-model="form.confirmPass" :disabled="processing"/>
               </md-field>
@@ -156,29 +156,31 @@
 
       async addEmployee() {
         this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
-        if (!await this.checkUser(this.combinedName)) {
-          http.post(`/api/employee/create`, {
-          'name': this.combinedName,
-          'admin': this.form.admin,
-          'reporting_admin': this.form.reporting_admin,
-          'password': this.form.password,
-          'active': true,
-        }).then((resp) => {
-          if (resp.status === 201) {
-            if (this.standard === false) {
-              this.$store.dispatch('updateEmployeeInfo', resp.data);
-              this.$emit('added');
+        let same = '';
+        this.form.password === this.form.confirmPass ? same = true : same = false;
+        if (!await this.checkUser(this.combinedName) && same) {
+            http.post(`/api/employee/create`, {
+            'name': this.combinedName,
+            'admin': this.form.admin,
+            'reporting_admin': this.form.reporting_admin,
+            'password': this.form.password,
+            'active': true,
+          }).then((resp) => {
+            if (resp.status === 201) {
+              if (this.standard === false) {
+                this.$store.dispatch('updateEmployeeInfo', resp.data);
+                this.$emit('added');
+              }
+              this.clearForm();
+              this.$awn.success('Successfully Added Employee');
+              return true;
             }
-            this.clearForm();
-            this.$awn.success('Successfully Added Employee');
-            return true;
-          }
-        }).catch(() => {
-          this.$awn.alert('Could Not Add Employee');
-          return false;
-        })
+          }).catch(() => {
+            this.$awn.alert('Could Not Add Employee');
+            return false;
+          })
         } else {
-          this.$awn.warn('Successfully Updated Employee');
+          this.$awn.warning('Employee Already Exists');
         }
       },
 
@@ -259,6 +261,7 @@
         this.form.admin = false
         this.form.reporting_admin = false
         this.form.password = null
+        this.form.confirmPass = null;
         const el = document.querySelector('#first-name');
           if (el) {
             el.focus();
