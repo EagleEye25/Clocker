@@ -15,7 +15,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('firstName')">
                 <label>First Name</label>
-                <md-input :class="firstName" v-model="form.firstName" :disabled="processing" />
+                <md-input class="firstName" v-model="form.firstName" :disabled="processing" />
                 <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
                 <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
               </md-field>

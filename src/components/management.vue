@@ -89,12 +89,10 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-      <md-button @click="call">Help</md-button>
     </md-toolbar>
     </div>
     <br>
     <router-view></router-view>
-    <v-tour style="padding-top: 1.5%" name="myTour" :steps="steps"></v-tour>
   </div>
 </template>
 
@@ -108,12 +106,7 @@
     //  Variables
     data() {
       return {
-        steps: [
-          {
-            target: '#v-step-0',  // We're using document.querySelector() under the hood
-            content: `All available actions for <strong>admins</strong> can be found in this toolbar`
-          },
-        ]
+
       }
     },
 
@@ -126,9 +119,6 @@
       //     console.log(err);
       //   });
       // }
-      call() {
-        this.$tours['myTour'].start()
-      }
     },
 
     beforeMount() {
