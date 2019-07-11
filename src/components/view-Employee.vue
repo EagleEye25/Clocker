@@ -16,58 +16,37 @@
           </md-field>
         </md-table-toolbar>
 
-        <md-table-empty-state
-          md-label="No unassigned Employees found"
+        <md-table-empty-state v-if="!showDeleted"
+          md-label="No Employees found"
           :md-description="`No Employees found for this '${search}' query. Try a different search term or create a new Employee.`">
           <md-button class="md-primary md-raised" @click="addEmployee = true">Create New Employee</md-button>
         </md-table-empty-state>
 
-          <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-            <!-- NOT DELTED -->
-            <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-            <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
-            <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-            <md-table-cell v-if="standard !== false && !showDeleted">
-              <md-button class="md-raised md-primary" @click="updateEmployee(item)">
-                Update
-              </md-button>
-            </md-table-cell>
-            <md-table-cell v-if="standard !== false && !showDeleted">
-              <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
-                delete
-              </md-button>
-            </md-table-cell>
-            <md-table-cell v-if="standard !== false && showDeleted">
-              <md-button class="md-raised md-accent" @click="deleteEmp(item, true)">
-                Restore
-              </md-button>
-            </md-table-cell>
-          </md-table-row>
-          <!-- <md-table-cell v-if="item.active === 'active'" md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-          <md-table-cell v-if="item.active  === 'active'" md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
-          <md-table-cell v-if="item.active  === 'active'" md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-          <md-table-cell v-if="item.active  === 'active' && standard !== false" md-label="Status" md-sort-by="active">{{ item.active }}</md-table-cell>
-          <md-table-cell v-if="standard !== false && item.active  === 'active'">
+        <md-table-empty-state v-if="showDeleted"
+          md-label="No Employees found"
+          :md-description="`No Employees found for this '${search}' query. Try a different search term.`">
+        </md-table-empty-state>
+
+        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+          <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+          <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
+          <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
+          <md-table-cell v-if="standard !== false && !showDeleted">
             <md-button class="md-raised md-primary" @click="updateEmployee(item)">
               Update
             </md-button>
           </md-table-cell>
-          <md-table-cell v-if="standard !== false && item.active  === 'active'">
+          <md-table-cell v-if="standard !== false && !showDeleted">
             <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
               delete
             </md-button>
-          </md-table-cell> -->
-          <!-- DELTED -->
-          <!-- <md-table-cell v-if="item.active === 'deleted' && showDeleted" md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-          <md-table-cell v-if="item.active  === 'deleted' && showDeleted" md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
-          <md-table-cell v-if="item.active  === 'deleted' && showDeleted" md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
-          <md-table-cell v-if="item.active  === 'deleted' && showDeleted" md-label="Status" md-sort-by="active">{{ item.active }}</md-table-cell>
-          <md-table-cell v-if="showDeleted && item.active  === 'deleted' ">
-            <md-button class="md-raised md-primary" @click="deleteEmp(item, true)">
+          </md-table-cell>
+          <md-table-cell v-if="standard !== false && showDeleted">
+            <md-button class="md-raised md-accent" @click="deleteEmp(item, true)">
               Restore
             </md-button>
-          </md-table-cell> -->
-
+          </md-table-cell>
+        </md-table-row>
       </md-table>
     </div>
     <div v-if="addEmployee">
@@ -167,12 +146,33 @@
           'id': item.id,
           'active': bool,
         }).then(() => {
-            const idx = this.employees.findIndex((emp) => emp.id === item.id);
-            for (let k = 0; k < this.employees.lenght; k++) {
-              if (this.employees[k].id === item.id) {
-                (bool) ? this.employees[k].active = true : this.employees[k].active = false;
+            if (!bool) {
+              const idx = this.employees.findIndex((emp) => emp.id === item.id);
+              if (idx > -1) {
+                this.employees[idx].active = bool;
+                this.delEmp.push(this.employees[idx]);
+                this.employees.splice(idx, 1);
+              }
+            } else {
+              const idx = this.delEmp.findIndex((emp) => emp.id === item.id);
+              if (idx > -1) {
+                this.delEmp[idx].active = bool;
+                this.employees.push(this.delEmp[idx]);
+                this.delEmp.splice(idx, 1);
               }
             }
+            // const idx = this.employees.findIndex((emp) => emp.id === item.id);
+            // if (idx > -1) {
+            //   if (bool) {
+            //     this.delEmp.active = bool;
+            //     this.employees.push(this.delEmp[idx]);
+            //   } else {
+            //     this.employees
+            //   }
+            //   console.log(this.employees.active)
+            //   this.employees.active = bool;
+            //   console.log(this.employees.active)
+            // }
             !bool ? this.$awn.success('Successfully Deleted Employee') :
               this.$awn.success('Successfully Restored Employee Employee');
             return true
@@ -183,7 +183,6 @@
       },
 
       changeView() {
-        console.log('here');
         if (this.showDeleted) {
           this.searched = this.delEmp
         } else {

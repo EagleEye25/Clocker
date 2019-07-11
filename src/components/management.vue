@@ -133,4 +133,8 @@
   .md-button {
     color: aqua;
   }
+
+  .md-toolbar {
+    background-color: #424242;
+  }
 </style>
