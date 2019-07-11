@@ -3,9 +3,9 @@
     <!-- Standard Process -->
     <div>
       <form action="">
-        <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
+        <md-card class="md-layout-item md-size-40 md-small-size-100 center box">
         <md-card-header>
-          <div class="md-title">{{ title }}</div>
+          <div id="startT" class="md-title">{{ title }}</div>
         </md-card-header>
 
         <md-card-content>
@@ -31,19 +31,18 @@
                   <md-option value="sunday">Sunday</md-option>
                 </md-select>
                 <span class="md-error">The starting day is required</span>
+                <div id="sDayT"></div>
               </md-field>
             </div>
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
                 <VueCtkDateTimePicker id="sTime" name="sTime" v-model="form.sTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="Starting Time"
-                                     class="center" auto-close=ture>
+                                     class="center" :auto-close=true>
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
-              </md-field>
             </div>
           </div>
           <!-- Ending -->
@@ -68,27 +67,25 @@
                   <md-option value="sunday">Sunday</md-option>
                 </md-select>
                 <span class="md-error">The starting day is required</span>
+                <div id="eDayT"></div>
               </md-field>
             </div>
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
-                <label for="eTime">Ending Time</label>
                 <VueCtkDateTimePicker id="eTime" name="eTime" v-model="form.eTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="Ending Time"
-                                     input-size="lg" auto-close=ture>
+                                     class="center" :auto-close=true>
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
-              </md-field>
             </div>
           </div>
         </md-card-content>
           <!-- standard -->
           <md-card-actions v-if="!update && !create">
-            <md-button style="color: orange" @click="clearForm">Cancel</md-button>
-            <md-button style="color: lime" @click="addCalTimes">Add Times</md-button>
+            <md-button id="cancelNorm" style="color: orange" @click="clearForm">Cancel</md-button>
+            <md-button id="addNorm" style="color: lime" @click="addCalTimes">Add Times</md-button>
           </md-card-actions>
           <!-- update, return -->
           <md-card-actions v-if="update">
@@ -100,12 +97,15 @@
             <md-button style="color: orange" @click="returnToView">Cancel</md-button>
             <md-button style="color: lime" @click="addCalTimes">Add Times</md-button>
           </md-card-actions>
+          <v-tour name="addTimes" :steps="steps"></v-tour>
         </md-card>
       </form>
     </div>
     <!-- Part of Process -->
     <div>
-
+      <md-button @click="help">
+        Help
+      </md-button>
     </div>
   </div>
 </template>
@@ -122,6 +122,71 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#startT',
+            content: `This is where all times for calendars are created.`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '#sWeek',
+            content: `Firstly start by entering a starting week (1 - 52)`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '#sDayT',
+            content: `Then enter a starting day`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '#sTime',
+            content: `Then select a starting time`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '#eWeek',
+            content: `Enter a ending week (1 - 52)`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '#eDayT',
+            content: `Then enter a ending day`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '#eTime',
+            content: `Then enter a ending time.`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '#cancelNorm',
+            content: `If you decide that you dont want to create the calendar Times, simply click here to cancel the process.`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+          {
+            target: '#addNorm',
+            content: `Once all information is entered, simply click here and your calendar Times will be created!`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+        ],
         form: {
           sWeek: null,
           sDay: null,
@@ -137,6 +202,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['addTimes'].start()
+      },
+
       async addCalTimes() {
         if (!await this.checkCalTimes(this.form)) {
           return await http.post(`/api/calender_times/create`, {
@@ -248,6 +317,9 @@
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+  }
+  .form {
+    width: 30%
   }
 
   .box {

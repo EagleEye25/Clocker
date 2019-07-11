@@ -32,19 +32,20 @@
           </md-card-content>
           <!-- Standard -->
           <md-card-actions v-if="!update && !create">
-            <md-button style="color: orange" @click="clearForm">cancel</md-button>
-            <md-button style="color: lime" @click="createCalendar">Add Calendar</md-button>
+            <md-button id="cancelNorm" style="color: orange" @click="clearForm">cancel</md-button>
+            <md-button id="addNorm" style="color: lime" @click="createCalendar">Add Calendar</md-button>
           </md-card-actions>
           <!-- Update, return to list -->
           <md-card-actions v-if="update">
-            <md-button style="color: orange" @click="returnToView">cancel</md-button>
-            <md-button style="color: lime" @click="updateCalendar">Update Calendar</md-button>
+            <md-button id="return1" style="color: orange" @click="returnToView">cancel</md-button>
+            <md-button id="update" style="color: lime" @click="updateCalendar">Update Calendar</md-button>
           </md-card-actions>
           <!-- Create, return to list -->
           <md-card-actions v-if="create">
-            <md-button style="color: orange" @click="returnToView">cancel</md-button>
-            <md-button style="color: lime" @click="createCalendar">Add Calendar</md-button>
+            <md-button id="return2" style="color: orange" @click="returnToView">cancel</md-button>
+            <md-button id="createReturn" style="color: lime" @click="createCalendar">Add Calendar</md-button>
           </md-card-actions>
+          <v-tour name="addCal" :steps="steps"></v-tour>
         </md-card>
       </form>
     </div>
@@ -85,6 +86,10 @@
         </md-card>
       </form>
     </div>
+    <md-button @click="help">
+      Help
+    </md-button>
+
   </div>
 </template>
 
@@ -96,20 +101,56 @@
     props: {
       standard: true,
     },
+
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#calendarName',
+            content: `Firstly start by entering a calendar name e.g. 9 - 5`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '#description',
+            content: `Descriptions are helpful in remembering what purpose the calendar serves (but is optional)`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '#cancelNorm',
+            content: `If you decide that you dont want to create the calendar, simply click here to cancel the process`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+          {
+            target: '#addNorm',
+            content: `Once all information is entered, simply click here and your calendar will be created!`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+        ],
         form: {
           calendarName: '',
           description: '',
         },
         title: 'Add Calendar',
         update: false,
-        create: false
+        create: false,
+        showTour: false,
       }
     },
 
     methods: {
+      help() {
+        this.$tours['addCal'].start()
+      },
+
       async createInProcess() {
         // await this.createCalendar();
         let data = {
