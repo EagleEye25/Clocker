@@ -19,6 +19,9 @@
           <md-menu-item to="/management/viewCalendarTimes">
             View Calendar Times
           </md-menu-item>
+          <md-menu-item to="/management/unassignCalFromEmp">
+            Unassign Calendar From Employee
+          </md-menu-item>
         </md-menu-content>
       </md-menu>
 
