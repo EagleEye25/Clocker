@@ -13,15 +13,15 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label for="sWeek">Starting Week</label>
-                <md-input type="number" id="sWeek" name="sWeek" autocomplete="sWeek" v-model="form.sWeek"/>
+                <label>Starting Week</label>
+                <md-input type="number" class="sWeek" v-model="form.sWeek"/>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label for="sDay">Starting Day</label>
-                <md-select name="sDay" id="sDay" v-model="form.sDay" md-dense>
+                <label>Starting Day</label>
+                <md-select class="sDay" v-model="form.sDay" md-dense>
                   <md-option value="1">Monday</md-option>
                   <md-option value="2">Tuesday</md-option>
                   <md-option value="3">Wednesday</md-option>
@@ -51,8 +51,8 @@
           <div class="md-layout md-gutter center">
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label for="eDay">Ending Day</label>
-                <md-select name="eDay" id="eDay" v-model="form.eDay" md-dense>
+                <label>Ending Day</label>
+                <md-select class="eDay" v-model="form.eDay" md-dense>
                   <md-option value="1">Monday</md-option>
                   <md-option value="2">Tuesday</md-option>
                   <md-option value="3">Wednesday</md-option>
@@ -79,8 +79,8 @@
         </md-card-content>
           <!-- standard -->
           <md-card-actions v-if="!update && !create">
-            <md-button id="cancelNorm" style="color: orange" @click="clearForm">Cancel</md-button>
-            <md-button id="addNorm" style="color: lime" @click="addCalTimes">Add Times</md-button>
+            <md-button class="cancelNorm" style="color: orange" @click="clearForm">Cancel</md-button>
+            <md-button class="addNorm" style="color: lime" @click="addCalTimes">Add Times</md-button>
           </md-card-actions>
           <!-- update, return -->
           <md-card-actions v-if="update">
@@ -126,7 +126,7 @@
             }
           },
           {
-            target: '#sWeek',
+            target: '.sWeek',
             content: `Firstly start by entering a starting week (1 - 52)`,
             params: {
               placement: 'left'
@@ -161,14 +161,14 @@
             }
           },
           {
-            target: '#cancelNorm',
+            target: '.cancelNorm',
             content: `If you decide that you dont want to create the calendar Times, simply click here to cancel the process.`,
             params: {
               placement: 'bottom'
             }
           },
           {
-            target: '#addNorm',
+            target: '.addNorm',
             content: `Once all information is entered, simply click here and your calendar Times will be created!`,
             params: {
               placement: 'bottom'

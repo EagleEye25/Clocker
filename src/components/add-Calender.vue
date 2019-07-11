@@ -13,7 +13,7 @@
               <div class="md-layout-item md-small-size-100">
                 <md-field>
                   <label for="Calendar Name">Calendar Name</label>
-                  <md-input name="calendarName" id="calendarName" v-model="form.calendarName"/>
+                  <md-input class="calendarName" v-model="form.calendarName"/>
                   <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
                   <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
                 </md-field>
@@ -22,7 +22,7 @@
               <div class="md-layout-item md-small-size-100">
                 <md-field>
                   <label for="Calendar Name">Description</label>
-                  <md-input name="description" id="description" v-model="form.description"/>
+                  <md-input class="description" v-model="form.description"/>
                   <span class="md-helper-text">(Optional)</span>
                   <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
                   <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
@@ -32,18 +32,18 @@
           </md-card-content>
           <!-- Standard -->
           <md-card-actions v-if="!update && !create">
-            <md-button id="cancelNorm" style="color: orange" @click="clearForm">cancel</md-button>
-            <md-button id="addNorm" style="color: lime" @click="createCalendar">Add Calendar</md-button>
+            <md-button class="cancelNorm" style="color: orange" @click="clearForm">cancel</md-button>
+            <md-button class="addNorm" style="color: lime" @click="createCalendar">Add Calendar</md-button>
           </md-card-actions>
           <!-- Update, return to list -->
           <md-card-actions v-if="update">
-            <md-button id="return1" style="color: orange" @click="returnToView">cancel</md-button>
-            <md-button id="update" style="color: lime" @click="updateCalendar">Update Calendar</md-button>
+            <md-button style="color: orange" @click="returnToView">cancel</md-button>
+            <md-button style="color: lime" @click="updateCalendar">Update Calendar</md-button>
           </md-card-actions>
           <!-- Create, return to list -->
           <md-card-actions v-if="create">
-            <md-button id="return2" style="color: orange" @click="returnToView">cancel</md-button>
-            <md-button id="createReturn" style="color: lime" @click="createCalendar">Add Calendar</md-button>
+            <md-button style="color: orange" @click="returnToView">cancel</md-button>
+            <md-button style="color: lime" @click="createCalendar">Add Calendar</md-button>
           </md-card-actions>
           <v-tour name="addCal" :steps="steps"></v-tour>
         </md-card>
@@ -61,8 +61,8 @@
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
                 <md-field>
-                  <label for="Calendar Name">Calendar Name</label>
-                  <md-input name="calendarName" id="calendarName" v-model="form.calendarName"/>
+                  <label>Calendar Name</label>
+                  <md-input v-model="form.calendarName"/>
                   <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
                   <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
                 </md-field>
@@ -70,8 +70,8 @@
 
               <div class="md-layout-item md-small-size-100">
                 <md-field>
-                  <label for="Calendar Name">Description</label>
-                  <md-input name="description" id="description" v-model="form.description"/>
+                  <label>Description</label>
+                  <md-input v-model="form.description"/>
                   <span class="md-helper-text">(Optional)</span>
                   <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
                   <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
@@ -107,28 +107,28 @@
       return {
         steps: [
           {
-            target: '#calendarName',
+            target: '.calendarName',
             content: `Firstly start by entering a calendar name e.g. 9 - 5`,
             params: {
               placement: 'left'
             }
           },
           {
-            target: '#description',
+            target: '.description',
             content: `Descriptions are helpful in remembering what purpose the calendar serves (but is optional)`,
             params: {
               placement: 'right'
             }
           },
           {
-            target: '#cancelNorm',
+            target: '.cancelNorm',
             content: `If you decide that you dont want to create the calendar, simply click here to cancel the process`,
             params: {
               placement: 'bottom'
             }
           },
           {
-            target: '#addNorm',
+            target: '.addNorm',
             content: `Once all information is entered, simply click here and your calendar will be created!`,
             params: {
               placement: 'bottom'

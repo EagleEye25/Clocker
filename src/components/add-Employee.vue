@@ -14,8 +14,8 @@
             <!-- First Name -->
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('firstName')">
-                <label for="first-name">First Name</label>
-                <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="processing" />
+                <label>First Name</label>
+                <md-input :class="firstName" v-model="form.firstName" :disabled="processing" />
                 <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
                 <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
               </md-field>
@@ -23,8 +23,8 @@
             <!-- Last Name -->
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('lastName')">
-                <label for="last-name">Last Name</label>
-                <md-input name="last-name" id="last-name" autocomplete="given-name" v-model="form.lastName" :disabled="processing" />
+                <label>Last Name</label>
+                <md-input v-model="form.lastName" :disabled="processing" />
                 <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
                 <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
               </md-field>
@@ -52,14 +52,14 @@
             <div class="md-layout-item md-small-size-100">
               <md-field v-show=form.admin>
                 <label for="password">Password</label>
-                <md-input name="password" id="password" type="password" v-model="form.password" :disabled="processing"/>
+                <md-input type="password" v-model="form.password" :disabled="processing"/>
               </md-field>
             </div>
            <!-- Password -->
             <div class="md-layout-item md-small-size-100">
               <md-field v-show=form.admin>
                 <label for="confirmPass">Confirm Password</label>
-                <md-input name="confirmPass" id="confirmPass" type="password" v-model="form.confirmPass" :disabled="processing"/>
+                <md-input type="password" v-model="form.confirmPass" :disabled="processing"/>
               </md-field>
             </div>
           </div>

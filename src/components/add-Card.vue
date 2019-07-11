@@ -6,7 +6,7 @@
       <md-card class="md-layout-item md-size-30 md-small-size-100 center box">
         <!-- Header for card -->
         <md-card-header>
-          <div class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
+          <div  id="addCardS" class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
           <div class="md-title" v-if="standard === false ">{{ titelProcess }}</div>
         </md-card-header>
         <!-- Content to be displayed on cards -->
@@ -16,7 +16,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tag')" >
                 <label for="tag">Enter card number / Scan card</label>
-                <md-input name="tag" id="tag" v-model="form.tag" :disabled="processing" autofocus=true />
+                <md-input class="tag" v-model="form.tag" :disabled="processing" autofocus=true />
                 <span class="md-error" v-if="!$v.form.tag.required">The card number is required</span>
                 <span class="md-error" v-else-if="!$v.form.tag.minlength">Invalid card number</span>
               </md-field>
@@ -31,8 +31,8 @@
         </md-card-content>
         <div v-if="standard !== false">
           <md-card-actions >
-            <md-button style="color: orange" v-on:click="clearForm">Cancel</md-button>
-            <md-button style="color: lime" v-on:click="addCard">Add Card</md-button>
+            <md-button id="cancel" style="color: orange" v-on:click="clearForm">Cancel</md-button>
+            <md-button id="add" style="color: lime" v-on:click="addCard">Add Card</md-button>
           </md-card-actions>
         </div>
         <!-- Part of assign card process -->
@@ -42,8 +42,12 @@
             <md-button style="color: orange" v-on:click="onEnter">Validate Card</md-button>
           </md-card-actions>
         </div>
+        <v-tour name="addCard" :steps="steps"></v-tour>
       </md-card>
     </form>
+    <md-button @click="help">
+      Help
+    </md-button>
   </div>
 </template>
 
@@ -66,6 +70,36 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#addCardS',
+            content: `This is where all cards that are going to be used to clock in and out will be created.`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '.tag',
+            content: `Simply scan / enter the RFID card at hand`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '#cancel',
+            content: `If you decide that you dont want to create the card, simply click here to cancel the process`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+          {
+            target: '#add',
+            content: `Once the information is entered, simply click here and your card will be created!`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+        ],
         form: {
           tag: '',
           // assign: false,
@@ -91,6 +125,10 @@
     },
 
     methods: {
+
+      help() {
+        this.$tours['addCard'].start();
+      },
 
       onEnter() {
         this.addCard();
