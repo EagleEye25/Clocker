@@ -156,9 +156,11 @@
 
       async addEmployee() {
         this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
-        let same = '';
-        this.form.password === this.form.confirmPass ? same = true : same = false;
-        if (!await this.checkUser(this.combinedName) && same) {
+        if (this.form.password !== this.form.confirmPass) {
+          this.$awn.warning('Passwords do not match');
+          return;
+        }
+        if (!await this.checkUser(this.combinedName)) {
             http.post(`/api/employee/create`, {
             'name': this.combinedName,
             'admin': this.form.admin,

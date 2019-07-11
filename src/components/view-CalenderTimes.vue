@@ -24,7 +24,6 @@
           <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
-          <md-table-cell md-label="Ending Week" md-sort-by="endWeek">{{ item.endWeek }}</md-table-cell>
           <md-table-cell md-label="Ending Day" md-sort-by="endDay">{{ item.endDay }}</md-table-cell>
           <md-table-cell md-label="Ending Time" md-sort-by="endTime">{{ item.endTime }}</md-table-cell>
           <md-table-cell md-label="" >
@@ -66,7 +65,6 @@
           <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
-          <md-table-cell md-label="Ending Week" md-sort-by="endWeek">{{ item.endWeek }}</md-table-cell>
           <md-table-cell md-label="Ending Day" md-sort-by="endDay">{{ item.endDay }}</md-table-cell>
           <md-table-cell md-label="Ending Time" md-sort-by="endTime">{{ item.endTime }}</md-table-cell>
         </md-table-row>
@@ -139,7 +137,6 @@
                 'startWeek': d.startWeek,
                 'startDay': d.startDay,
                 'startTime': d.startTime,
-                'endWeek': d.endWeek,
                 'endDay': d.endDay,
                 'endTime': d.endTime
               }
@@ -174,7 +171,6 @@
                 'startWeek': d.startWeek,
                 'startDay': d.startDay,
                 'startTime': d.startTime,
-                'endWeek': d.endWeek,
                 'endDay': d.endDay,
                 'endTime': d.endTime
               }

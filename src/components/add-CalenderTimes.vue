@@ -22,13 +22,13 @@
               <md-field>
                 <label for="sDay">Starting Day</label>
                 <md-select name="sDay" id="sDay" v-model="form.sDay" md-dense>
-                  <md-option value="monday">Monday</md-option>
-                  <md-option value="tuesday">Tuesday</md-option>
-                  <md-option value="wednesday">Wednesday</md-option>
-                  <md-option value="thursday">Thursday</md-option>
-                  <md-option value="friday">Friday</md-option>
-                  <md-option value="saturday">Saturday</md-option>
-                  <md-option value="sunday">Sunday</md-option>
+                  <md-option value="1">Monday</md-option>
+                  <md-option value="2">Tuesday</md-option>
+                  <md-option value="3">Wednesday</md-option>
+                  <md-option value="4">Thursday</md-option>
+                  <md-option value="5">Friday</md-option>
+                  <md-option value="6">Saturday</md-option>
+                  <md-option value="7">Sunday</md-option>
                 </md-select>
                 <span class="md-error">The starting day is required</span>
                 <div id="sDayT"></div>
@@ -45,26 +45,21 @@
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
             </div>
           </div>
+          <br>
+          <md-divider></md-divider>
           <!-- Ending -->
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
-              <md-field>
-                <label for="eWeek">Ending Week</label>
-                <md-input type="number" id="eWeek" name="eWeek" autocomplete="eWeek" v-model="form.eWeek"/>
-                <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
-              </md-field>
-            </div>
+          <div class="md-layout md-gutter center">
             <div class="md-layout-item md-small-size-100">
               <md-field>
                 <label for="eDay">Ending Day</label>
                 <md-select name="eDay" id="eDay" v-model="form.eDay" md-dense>
-                  <md-option value="monday">Monday</md-option>
-                  <md-option value="tuesday">Tuesday</md-option>
-                  <md-option value="wednesday">Wednesday</md-option>
-                  <md-option value="thursday">Thursday</md-option>
-                  <md-option value="friday">Friday</md-option>
-                  <md-option value="saturday">Saturday</md-option>
-                  <md-option value="sunday">Sunday</md-option>
+                  <md-option value="1">Monday</md-option>
+                  <md-option value="2">Tuesday</md-option>
+                  <md-option value="3">Wednesday</md-option>
+                  <md-option value="4">Thursday</md-option>
+                  <md-option value="5">Friday</md-option>
+                  <md-option value="6">Saturday</md-option>
+                  <md-option value="7">Sunday</md-option>
                 </md-select>
                 <span class="md-error">The starting day is required</span>
                 <div id="eDayT"></div>
@@ -152,13 +147,6 @@
             }
           },
           {
-            target: '#eWeek',
-            content: `Enter a ending week (1 - 52)`,
-            params: {
-              placement: 'left'
-            }
-          },
-          {
             target: '#eDayT',
             content: `Then enter a ending day`,
             params: {
@@ -191,7 +179,6 @@
           sWeek: null,
           sDay: null,
           sTime: null,
-          eWeek: null,
           eDay: null,
           eTime: null
         },
@@ -212,7 +199,6 @@
             'startWeek': this.form.sWeek,
             'startDay': this.form.sDay,
             'startTime': this.form.sTime,
-            'endWeek': this.form.eWeek,
             'endDay': this.form.eDay,
             'endTime': this.form.eTime
           }).then((res) => {
@@ -240,7 +226,6 @@
           'startWeek': this.form.sWeek,
           'startDay': this.form.sDay,
           'startTime': this.form.sTime,
-          'endWeek': this.form.eWeek,
           'endDay': this.form.eDay,
           'endTime': this.form.eTime
         }).then(() => {
@@ -257,7 +242,6 @@
         this.form.sWeek = null;
         this.form.sDay = null;
         this.form.sTime = null;
-        this.form.eWeek = null;
         this.form.eDay = null;
         this.form.eTime = null;
         this.standard === false ? this.$emit('canceled') : null;
@@ -281,7 +265,6 @@
           this.form.sWeek = d.startWeek;
           this.form.sDay = d.startDay;
           this.form.sTime = d.startTime;
-          this.form.eWeek = d.endWeek;
           this.form.eDay = d.endDay;
           this.form.eTime = d.endTime;
         } else if (this.timeData.create) {
