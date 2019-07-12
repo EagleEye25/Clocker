@@ -18,7 +18,7 @@
 
           <md-table-empty-state
             md-label="No unused cards found"
-            :md-description="`No card found for this '${search}' query. Try a different search term or create a new card.
+            :md-description="`No card found for this search term. Try a different search term or create a new card.
                               Please press 'BACK' to create a new card`">
           </md-table-empty-state>
           <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
@@ -44,7 +44,7 @@
 
         <md-table-empty-state
           md-label="No Assigned Employees Found"
-          :md-description="`No Assigned Employees found for this '${search}' query. Try a different search term or create assign an employee.`">
+          :md-description="`No Assigned Employees found for this search term. Try a different search term or create assign an employee.`">
           <md-button class="md-primary md-raised" to="/management/assignCardProcess">Assing Employee to card</md-button>
         </md-table-empty-state>
           <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" >

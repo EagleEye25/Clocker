@@ -18,13 +18,13 @@
 
         <md-table-empty-state v-if="!showDeleted"
           md-label="No Employees found"
-          :md-description="`No Employees found for this '${search}' query. Try a different search term or create a new Employee.`">
+          :md-description="`No Employees found for this search term. Try a different search term or create a new Employee.`">
           <md-button class="md-primary md-raised" @click="addEmployee = true">Create New Employee</md-button>
         </md-table-empty-state>
 
         <md-table-empty-state v-if="showDeleted"
           md-label="No Employees found"
-          :md-description="`No Employees found for this '${search}' query. Try a different search term.`">
+          :md-description="`No Employees found for this search term. Try a different search term.`">
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">

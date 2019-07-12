@@ -45,7 +45,7 @@
 
         <md-table-empty-state
           md-label="No calendar's found"
-          :md-description="`No Employee's found for this '${search}' query. Try a different search term.`"
+          :md-description="`No Employee's found for this search term. Try a different search term.`"
         ></md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }">

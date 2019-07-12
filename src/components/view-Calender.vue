@@ -16,7 +16,7 @@
 
         <md-table-empty-state
           md-label="No calendar's found"
-          :md-description="`No calendar found for this '${search}' query. Try a different search term or create a new calendar.`">
+          :md-description="`No calendar found for this search term. Try a different search term or create a new calendar.`">
           <md-button class="md-primary md-raised" @click="updateCalendar(false)">Create Calendar</md-button>
         </md-table-empty-state>
 
@@ -54,7 +54,7 @@
 
         <md-table-empty-state
           md-label="No calendar's found"
-          :md-description="`No calendar found for this '${search}' query. Try a different search term or create a new calendar.
+          :md-description="`No calendar found for this search term. Try a different search term or create a new calendar.
             Please press 'BACK' to create a calender`">
         </md-table-empty-state>
 

@@ -107,7 +107,7 @@
         </md-card>
       </form>
     </div>
-    <md-button @click="help">
+    <md-button v-if="standard !== false" @click="help">
       Help
     </md-button>
 

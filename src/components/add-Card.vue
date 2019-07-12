@@ -54,7 +54,7 @@
         <v-tour name="addCard" :steps="steps"></v-tour>
       </md-card>
     </form>
-    <md-button @click="help">
+    <md-button v-if="standard !== false" @click="help">
       Help
     </md-button>
   </div>

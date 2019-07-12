@@ -16,7 +16,7 @@
 
         <md-table-empty-state
           md-label="No calendar Times found"
-          :md-description="`No calendar times found for this '${search}' query. Try a different search term or create a new calendar.`">
+          :md-description="`No calendar times found for this search term. Try a different search term or create a new calendar.`">
           <md-button class="md-primary md-raised" @click="updateCalTimes(false)">Create Calendar Time</md-button>
         </md-table-empty-state>
 
@@ -59,7 +59,7 @@
 
         <md-table-empty-state
           md-label="No calendar Times found"
-          :md-description="`No calendar times found for this '${search}' query. Try a different search term or create a new calendar.`">
+          :md-description="`No calendar times found for this search term. Try a different search term or create a new calendar.`">
           <md-button class="md-primary md-raised" @click="addCalTimes = true">Create Calendar Time</md-button>
         </md-table-empty-state>
 
