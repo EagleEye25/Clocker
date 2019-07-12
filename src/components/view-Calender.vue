@@ -147,7 +147,9 @@
               }
               this.calendars.push(data);
             });
-          }).catch(() => {
+          }).catch((err) => {
+            let error = err.toString().indexOf('404');
+            error ? this.$awn.warning('No created calendars, please create a calendar') :
             this.$awn.alert('Could Not Get Calendars');
           });
       },

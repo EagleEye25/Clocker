@@ -177,7 +177,9 @@
               this.calTimes.push(data);
             });
             return true;
-          }).catch(() => {
+          }).catch((err) => {
+            let error = err.toString().indexOf('404');
+            error ? this.$awn.warning('No created calendar times, please create a calendar time') :
             this.$awn.alert('Could Not Get Calendar Times');
             return false;
           });
