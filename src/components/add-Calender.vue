@@ -7,7 +7,7 @@
     <br>
     <!-- Standard process -->
     <div v-if="standard !== false">
-      <form action="">
+      <form novalidate class="md-layout" @submit.prevent="validateCal">
         <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
           <md-card-header>
             <div id="startACT" class="md-title">{{title}}</div>
@@ -16,11 +16,11 @@
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
-                <md-field>
+                <md-field :class="getValidationClass('calendarName')">
                   <label for="Calendar Name">* Calendar Name</label>
                   <md-input class="calendarName" v-model="form.calendarName"/>
-                  <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
-                  <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
+                  <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
+                  <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span>
                 </md-field>
               </div>
 
@@ -42,7 +42,7 @@
               <md-icon>cancel</md-icon>
               cancel
             </md-button>
-            <md-button class="addNorm" style="color: lime" @click="createCalendar">
+            <md-button class="addNorm" style="color: lime" type="submit">
               <md-icon>done</md-icon>
               Add Calendar
             </md-button>
@@ -53,7 +53,7 @@
               <md-icon>cancel</md-icon>
               cancel
             </md-button>
-            <md-button style="color: lime" @click="updateCalendar">
+            <md-button style="color: lime" type="submit">
               <md-icon>update</md-icon>
               Update Calendar
             </md-button>
@@ -64,7 +64,7 @@
               <md-icon>cancel</md-icon>
               cancel
             </md-button>
-            <md-button style="color: lime" @click="createCalendar">
+            <md-button style="color: lime" type="submit">
               <md-icon>done</md-icon>
               Add Calendar
             </md-button>
@@ -75,7 +75,7 @@
     </div>
     <!-- Part Process -->
     <div v-if="standard === false">
-      <form action="">
+      <form novalidate class="md-layout" @submit.prevent="validateCal">
         <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
           <md-card-header>
             <div class="md-title">{{title}}</div>
@@ -84,11 +84,11 @@
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
-                <md-field>
+                 <md-field :class="getValidationClass('calendarName')">
                   <label>Calendar Name</label>
                   <md-input v-model="form.calendarName"/>
-                  <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
-                  <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->
+                  <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
+                  <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span>
                 </md-field>
               </div>
 
@@ -105,7 +105,7 @@
           </md-card-content>
           <!-- Standard part of process -->
           <md-card-actions>
-            <md-button style="color: lime" @click="createInProcess">
+            <md-button style="color: lime" type="submit">
               <md-icon>done</md-icon>
               Add Calendar
             </md-button>
@@ -117,9 +117,16 @@
 </template>
 
 <script>
+  import { validationMixin } from 'vuelidate';
+  import {
+    required,
+    minLength,
+    maxLength
+  } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts';
   export default {
     name: 'add-Calender',
+    mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
       standard: true,
@@ -174,6 +181,15 @@
         create: false,
         showTour: false,
       }
+    },
+
+    validations: {
+      form: {
+        calendarName: {
+          required,
+          minLength: minLength(4)
+        }
+      },
     },
 
     methods: {
@@ -238,6 +254,7 @@
       },
 
       clearForm() {
+        this.$v.$reset();
         this.form.calendarName = '';
         this.form.description = '';
       },
@@ -260,6 +277,30 @@
         this.clearForm();
         this.$store.dispatch('updateCalendar', null);
         this.$router.push('/management/viewCalendar');
+      },
+
+      getValidationClass(fieldName) {
+        const field = this.$v.form[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
+      },
+
+      validateCal() {
+        this.$v.$touch()
+
+        if (!this.$v.$invalid) {
+          if (this.update) {
+            this.updateCalendar();
+          } else if (this.standard !== false) {
+            this.createCalendar()
+          } else if (this.standard === false && !this.update) {
+            this.createInProcess();
+          }
+        }
       }
     },
 
@@ -270,7 +311,7 @@
     computed: {
       calendarData() {
         return this.$store.getters.calendarData;
-      }
+      },
     }
 
   }

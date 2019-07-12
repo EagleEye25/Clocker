@@ -6,7 +6,7 @@
     </md-button>
     <br>
     <!-- Form for entering information -->
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
+    <form novalidate class="md-layout" @submit.prevent="validateCard">
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-30 md-small-size-100 center box">
         <!-- Header for card -->
@@ -21,7 +21,7 @@
             <!-- tag -->
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tag')" >
-                <label for="tag">* Scan card / Enter card number</label>
+                <label>* Scan card / Enter card number</label>
                 <md-input class="tag" v-model="form.tag" :disabled="processing" autofocus=true />
                 <span class="md-error" v-if="!$v.form.tag.required">The card number is required</span>
                 <span class="md-error" v-else-if="!$v.form.tag.minlength">Invalid card number</span>
@@ -42,7 +42,7 @@
               <md-icon>cancel</md-icon>
               Cancel
             </md-button>
-            <md-button id="add" style="color: lime" v-on:click="addCard">
+            <md-button id="add" style="color: lime" type="submit">
               <md-icon>done</md-icon>
               Add Card
             </md-button>
@@ -53,7 +53,7 @@
           <p v-if="cardExists" style="color: red"> Card already exits...<br> Please create a new card </p>
           <md-divider></md-divider>
           <md-card-actions>
-            <md-button style="color: orange" v-on:click="onEnter">
+            <md-button style="color: orange" type="submit">
               <md-icon>done</md-icon>
               Validate Card
             </md-button>
@@ -116,7 +116,6 @@
         ],
         form: {
           tag: '',
-          // assign: false,
         },
         processing: null,
         showCreated: false,
@@ -164,10 +163,10 @@
             'card_no': this.form.tag
           }).then(() => {
             this.$store.dispatch('updateCardNo', this.form.tag);
-            document.getElementById('tag').focus();
             this.clearForm();
             this.$awn.success('Successfully Added Card');
-          }).catch(() => {
+          }).catch((err) => {
+            console.log(err);
             this.$awn.alert('Could Not Add Card');
           });
         } else {
@@ -188,8 +187,11 @@
           .catch(() => {return true});
       },
 
-      validateUser() {
+      validateCard() {
         this.$v.$touch()
+        if (!this.$v.$invalid) {
+          this.addCard();
+        }
       }
     }
   }

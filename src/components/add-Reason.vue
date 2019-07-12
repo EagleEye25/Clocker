@@ -6,7 +6,7 @@
     </md-button>
     <br>
     <!-- Form for entering information -->
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
+    <form novalidate class="md-layout" @submit.prevent="validateReason">
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="startRT">
         <!-- Header for card -->
@@ -47,7 +47,7 @@
               <md-icon>cancel</md-icon>
               Cancel
             </md-button>
-            <md-button id="add" style="color: lime" v-on:click="addReason">
+            <md-button id="add" style="color: lime" type="submit">
               <md-icon>done</md-icon>
               Add Reason
             </md-button>
@@ -58,7 +58,7 @@
               <md-icon>cancel</md-icon>
               Cancel
             </md-button>
-            <md-button style="color: lime" v-on:click="updateReason">
+            <md-button style="color: lime" type="submit">
               <md-icon>update</md-icon>
               Update Reason
             </md-button>
@@ -146,7 +146,7 @@
       form: {
         description: {
           required,
-          minLength: minLength(3)
+          minLength: minLength(4)
         }
       },
     },
@@ -222,11 +222,11 @@
         this.form.active = false;
       },
 
-      validateUser() {
+      validateReason() {
         this.$v.$touch()
 
         if (!this.$v.$invalid) {
-          this.saveUser()
+          (!this.reasonData) ? this.addReason() : this.updateReason();
         }
       }
     },

@@ -243,7 +243,8 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: center;
-    width: 58%;
+    width: auto;
+    max-width: 60%;
   }
 
   .md-table-cell {

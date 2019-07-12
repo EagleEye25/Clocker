@@ -152,7 +152,7 @@
           this.$store.dispatch('updateCalendar', item);
         } else {
           let create = {'create': true};
-          this.$store.dispatch('updateCalendarTime', create);
+          this.$store.dispatch('updateCalendar', create);
         }
         this.$router.push('/management/addCalendar');
       },
@@ -211,7 +211,8 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
-    width: 40%;
+    width: auto;
+    max-width: 50%;
   }
 
   .md-table-cell {

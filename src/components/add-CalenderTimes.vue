@@ -7,7 +7,7 @@
     <br>
     <!-- Standard Process -->
     <div>
-      <form action="">
+      <form novalidate class="md-layout" @submit.prevent="validateCalTimes">
         <md-card class="md-layout-item md-size-40 md-small-size-100 center box">
         <md-card-header>
           <div id="startT" class="md-title">{{ title }}</div>
@@ -17,14 +17,15 @@
           <!-- Starting -->
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getValidationClass('sWeek')">
                 <label>* Starting Week</label>
                 <md-input type="number" class="sWeek" v-model="form.sWeek"/>
-                <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
+                <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span>
+                <span class="md-error" v-else-if="!$v.form.sWeek.between">The starting week has to be between 1 AND 52</span>
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getValidationClass('sDay')">
                 <label>* Starting Day</label>
                 <md-select class="sDay" v-model="form.sDay" md-dense>
                   <md-option value="1">Monday</md-option>
@@ -42,11 +43,14 @@
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('sTime')">
                 <VueCtkDateTimePicker id="sTime" name="sTime" v-model="form.sTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="* Starting Time"
                                      class="center">
                 </VueCtkDateTimePicker>
+                <span class="md-error">The starting time is required</span>
+              </md-field>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
             </div>
           </div>
@@ -55,7 +59,7 @@
           <!-- Ending -->
           <div class="md-layout md-gutter center">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getValidationClass('eDay')">
                 <label>* Ending Day</label>
                 <md-select class="eDay" v-model="form.eDay" md-dense>
                   <md-option value="1">Monday</md-option>
@@ -66,18 +70,21 @@
                   <md-option value="6">Saturday</md-option>
                   <md-option value="7">Sunday</md-option>
                 </md-select>
-                <span class="md-error">The starting day is required</span>
+                <span class="md-error">The ending day is required</span>
                 <div id="eDayT"></div>
               </md-field>
             </div>
           </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
+              <md-field :class="getValidationClass('eTime')">
                 <VueCtkDateTimePicker id="eTime" name="eTime" v-model="form.eTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="* Ending Time"
                                      class="center">
                 </VueCtkDateTimePicker>
+                <span class="md-error">The ending time is required</span>
+              </md-field>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
             </div>
           </div>
@@ -89,7 +96,7 @@
               <md-icon>cancel</md-icon>
               Cancel
             </md-button>
-            <md-button class="addNorm" style="color: lime" @click="addCalTimes">
+            <md-button class="addNorm" style="color: lime" type="submit">
               <md-icon>done</md-icon>
               Add Times
             </md-button>
@@ -100,7 +107,7 @@
               <md-icon>cancel</md-icon>
               Cancel
             </md-button>
-            <md-button style="color: lime" @click="UpdateTimes">
+            <md-button style="color: lime" type="submit">
               <md-icon>update</md-icon>
               Update Times
             </md-button>
@@ -111,7 +118,7 @@
               <md-icon>cancel</md-icon>
               Cancel
             </md-button>
-            <md-button style="color: lime" @click="addCalTimes">
+            <md-button style="color: lime" type="submit">
               <md-icon>done</md-icon>
               Add Times
             </md-button>
@@ -127,10 +134,17 @@
 </template>
 
 <script>
+  import { validationMixin } from 'vuelidate';
+  import {
+    required,
+    minLength,
+    between
+  } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts';
 
   export default {
     name: 'add-CalendarTimes',
+    mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
       standard: true,
@@ -209,6 +223,27 @@
       }
     },
 
+    validations: {
+      form: {
+        sWeek: {
+          required,
+          between: between(1, 52)
+        },
+        sDay: {
+          required,
+        },
+        sTime: {
+          required,
+        },
+        eDay: {
+          required,
+        },
+        eTime: {
+          required,
+        },
+      },
+    },
+
     methods: {
       help() {
         this.$tours['addTimes'].start()
@@ -260,6 +295,7 @@
       },
 
       clearForm() {
+        this.$v.$reset();
         this.form.sWeek = null;
         this.form.sDay = null;
         this.form.sTime = null;
@@ -298,6 +334,28 @@
         this.clearForm();
         this.$store.dispatch('updateCalendarTime', null);
         this.$router.push('/management/viewCalendarTimes');
+      },
+
+      getValidationClass(fieldName) {
+        const field = this.$v.form[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
+      },
+
+      validateCalTimes() {
+        this.$v.$touch()
+
+        if (!this.$v.$invalid) {
+          if (!this.update) {
+            this.addCalTimes()
+          } else if (this.update) {
+            this.UpdateTimes();
+          }
+        }
       }
     },
 
