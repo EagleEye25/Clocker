@@ -98,7 +98,7 @@
       <!-- Reports -->
       <md-menu md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>
-          <md-icon>insert_chart</md-icon>
+          <md-icon>insert_chart_outlined</md-icon>
           Reports
         </md-button>
         <md-menu-content>

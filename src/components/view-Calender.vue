@@ -31,6 +31,7 @@
           <!-- Activate / Deactivate -->
           <md-table-cell md-label="Delete" >
             <md-button class="md-raised md-accent">
+              <md-icon>warning</md-icon>
               Delete
             </md-button>
           </md-table-cell>

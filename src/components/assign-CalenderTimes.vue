@@ -17,7 +17,7 @@
           <md-button class="md-raised md-primary" :disabled=!timeData @click="setDone('second', 'third')">Continue</md-button>
         </md-step>
 
-        <md-step id="third" md-label="Third Step" :md-editable="false" :md-done.sync="third">
+        <md-step id="third" md-label="Complete" :md-editable="false" :md-done.sync="third">
           <!-- Not Assigned -->
           <div v-if="!assigned">
             <md-list>

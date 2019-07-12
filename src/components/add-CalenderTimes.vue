@@ -79,18 +79,36 @@
         </md-card-content>
           <!-- standard -->
           <md-card-actions v-if="!update && !create">
-            <md-button class="cancelNorm" style="color: orange" @click="clearForm">Cancel</md-button>
-            <md-button class="addNorm" style="color: lime" @click="addCalTimes">Add Times</md-button>
+            <md-button class="cancelNorm" style="color: orange" @click="clearForm">
+              <md-icon>cancel</md-icon>
+              Cancel
+            </md-button>
+            <md-button class="addNorm" style="color: lime" @click="addCalTimes">
+              <md-icon>done</md-icon>
+              Add Times
+            </md-button>
           </md-card-actions>
           <!-- update, return -->
           <md-card-actions v-if="update">
-            <md-button style="color: orange" @click="returnToView">Cancel</md-button>
-            <md-button style="color: lime" @click="UpdateTimes">Update Times</md-button>
+            <md-button style="color: orange" @click="returnToView">
+              <md-icon>cancel</md-icon>
+              Cancel
+            </md-button>
+            <md-button style="color: lime" @click="UpdateTimes">
+              <md-icon>update</md-icon>
+              Update Times
+            </md-button>
           </md-card-actions>
           <!-- create, return -->
           <md-card-actions v-if="create">
-            <md-button style="color: orange" @click="returnToView">Cancel</md-button>
-            <md-button style="color: lime" @click="addCalTimes">Add Times</md-button>
+            <md-button style="color: orange" @click="returnToView">
+              <md-icon>cancel</md-icon>
+              Cancel
+            </md-button>
+            <md-button style="color: lime" @click="addCalTimes">
+              <md-icon>done</md-icon>
+              Add Times
+            </md-button>
           </md-card-actions>
           <v-tour name="addTimes" :steps="steps"></v-tour>
         </md-card>

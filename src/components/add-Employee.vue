@@ -65,14 +65,32 @@
           </div>
         </md-card-content>
         <md-card-actions v-if="standard !== false">
-          <md-button style="color: orange"  v-on:click="clearForm" v-if="!id">cancel</md-button>
-          <md-button style="color: lime"  v-on:click="addEmployee" v-if="!id">Add Employee</md-button>
-          <md-button style="color: orange" v-if="id" @click="clearForm">Cancel</md-button>
-          <md-button style="color: lime" v-if="id" v-on:click="updateEmployee">Update Employee</md-button>
+          <md-button style="color: orange"  v-on:click="clearForm" v-if="!id">
+            <md-icon>cancel</md-icon>
+            cancel
+          </md-button>
+          <md-button style="color: lime"  v-on:click="addEmployee" v-if="!id">
+            <md-icon>done</md-icon>
+            Add Employee
+          </md-button>
+          <md-button style="color: orange" v-if="id" @click="clearForm">
+            <md-icon>cancel</md-icon>
+            Cancel
+          </md-button>
+          <md-button style="color: lime" v-if="id" v-on:click="updateEmployee">
+            <md-icon>update</md-icon>
+            Update Employee
+          </md-button>
         </md-card-actions>
         <md-card-actions v-if="standard === false">
-          <md-button style="color: orange" v-if="!$store.getters.employeeInfo" v-on:click="cancelAdd">cancel</md-button>
-          <md-button style="color: lime" v-if="!$store.getters.employeeInfo" v-on:click="addEmployee">Add Employee</md-button>
+          <md-button style="color: orange" v-if="!$store.getters.employeeInfo" v-on:click="cancelAdd">
+            <md-icon>cancel</md-icon>
+            cancel
+          </md-button>
+          <md-button style="color: lime" v-if="!$store.getters.employeeInfo" v-on:click="addEmployee">
+            <md-icon>done</md-icon>
+            Add Employee
+          </md-button>
         </md-card-actions>
       </md-card>
     </form>

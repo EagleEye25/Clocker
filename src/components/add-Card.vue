@@ -15,7 +15,7 @@
             <!-- tag -->
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tag')" >
-                <label for="tag">Enter card number / Scan card</label>
+                <label for="tag">Scan card / Enter card number</label>
                 <md-input class="tag" v-model="form.tag" :disabled="processing" autofocus=true />
                 <span class="md-error" v-if="!$v.form.tag.required">The card number is required</span>
                 <span class="md-error" v-else-if="!$v.form.tag.minlength">Invalid card number</span>
@@ -31,15 +31,24 @@
         </md-card-content>
         <div v-if="standard !== false">
           <md-card-actions >
-            <md-button id="cancel" style="color: orange" v-on:click="clearForm">Cancel</md-button>
-            <md-button id="add" style="color: lime" v-on:click="addCard">Add Card</md-button>
+            <md-button id="cancel" style="color: orange" v-on:click="clearForm">
+              <md-icon>cancel</md-icon>
+              Cancel
+            </md-button>
+            <md-button id="add" style="color: lime" v-on:click="addCard">
+              <md-icon>done</md-icon>
+              Add Card
+            </md-button>
           </md-card-actions>
         </div>
         <!-- Part of assign card process -->
         <div v-if="standard === false">
           <p v-if="cardExists" style="color: red"> Card already exits...<br> Please create a new card </p>
           <md-card-actions>
-            <md-button style="color: orange" v-on:click="onEnter">Validate Card</md-button>
+            <md-button style="color: orange" v-on:click="onEnter">
+              <md-icon>done</md-icon>
+              Validate Card
+            </md-button>
           </md-card-actions>
         </div>
         <v-tour name="addCard" :steps="steps"></v-tour>

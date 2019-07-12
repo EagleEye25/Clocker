@@ -6,7 +6,7 @@
         <div class="md-layout-item center">
           <md-field class="center">
             <label for="calenders">Please select a calendar</label>
-            <md-select v-model="selectedCalID" name="calenders" id="calenders">
+            <md-select v-model="selectedCalID" name="calenders" id="calenders" disabled="!calenders">
               <md-option
                 v-for="(item, index) in calenders"
                 :key="index"
@@ -182,9 +182,12 @@ export default {
             };
             this.calenders.push(data);
           });
+          return true;
         })
-        .catch(() => {
+        .catch((err) => {
+          let error = err.toString().indexOf('404') ? this.$awn.warning("No created calendars, please add a calendar") :
           this.$awn.alert("Could Not Get Calendars");
+          return false;
         });
     },
 

@@ -33,11 +33,13 @@
           <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
           <md-table-cell v-if="standard !== false && !showDeleted">
             <md-button class="md-raised md-primary" @click="updateEmployee(item)">
+              <md-icon>update</md-icon>
               Update
             </md-button>
           </md-table-cell>
           <md-table-cell v-if="standard !== false && !showDeleted">
             <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
+              <md-icon>warning</md-icon>
               delete
             </md-button>
           </md-table-cell>

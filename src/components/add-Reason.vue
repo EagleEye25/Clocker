@@ -37,13 +37,25 @@
         <md-card-actions>
           <!-- Normal add -->
           <div v-if="!reasonData">
-            <md-button style="color: orange" @click="clearForm">Cancel</md-button>
-            <md-button style="color: lime" v-on:click="addReason">Add Reason</md-button>
+            <md-button style="color: orange" @click="clearForm">
+              <md-icon>cancel</md-icon>
+              Cancel
+            </md-button>
+            <md-button style="color: lime" v-on:click="addReason">
+              <md-icon>done</md-icon>
+              Add Reason
+            </md-button>
           </div>
           <!-- Update Reason -->
           <div v-if="reasonData">
-            <md-button style="color: orange" to="/management/viewReasons" @click="clearForm">Cancel</md-button>
-            <md-button style="color: lime" v-on:click="updateReason">Update Reason</md-button>
+            <md-button style="color: orange" to="/management/viewReasons" @click="clearForm">
+              <md-icon>cancel</md-icon>
+              Cancel
+            </md-button>
+            <md-button style="color: lime" v-on:click="updateReason">
+              <md-icon>update</md-icon>
+              Update Reason
+            </md-button>
           </div>
         </md-card-actions>
       </md-card>

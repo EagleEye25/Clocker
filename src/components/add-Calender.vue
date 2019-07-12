@@ -32,18 +32,36 @@
           </md-card-content>
           <!-- Standard -->
           <md-card-actions v-if="!update && !create">
-            <md-button class="cancelNorm" style="color: orange" @click="clearForm">cancel</md-button>
-            <md-button class="addNorm" style="color: lime" @click="createCalendar">Add Calendar</md-button>
+            <md-button class="cancelNorm" style="color: orange" @click="clearForm">
+              <md-icon>cancel</md-icon>
+              cancel
+            </md-button>
+            <md-button class="addNorm" style="color: lime" @click="createCalendar">
+              <md-icon>done</md-icon>
+              Add Calendar
+            </md-button>
           </md-card-actions>
           <!-- Update, return to list -->
           <md-card-actions v-if="update">
-            <md-button style="color: orange" @click="returnToView">cancel</md-button>
-            <md-button style="color: lime" @click="updateCalendar">Update Calendar</md-button>
+            <md-button style="color: orange" @click="returnToView">
+              <md-icon>cancel</md-icon>
+              cancel
+            </md-button>
+            <md-button style="color: lime" @click="updateCalendar">
+              <md-icon>update</md-icon>
+              Update Calendar
+            </md-button>
           </md-card-actions>
           <!-- Create, return to list -->
           <md-card-actions v-if="create">
-            <md-button style="color: orange" @click="returnToView">cancel</md-button>
-            <md-button style="color: lime" @click="createCalendar">Add Calendar</md-button>
+            <md-button style="color: orange" @click="returnToView">
+              <md-icon>cancel</md-icon>
+              cancel
+            </md-button>
+            <md-button style="color: lime" @click="createCalendar">
+              <md-icon>done</md-icon>
+              Add Calendar
+            </md-button>
           </md-card-actions>
           <v-tour name="addCal" :steps="steps"></v-tour>
         </md-card>
@@ -81,7 +99,10 @@
           </md-card-content>
           <!-- Standard part of process -->
           <md-card-actions>
-            <md-button style="color: lime" @click="createInProcess">Add Calendar</md-button>
+            <md-button style="color: lime" @click="createInProcess">
+              <md-icon>done</md-icon>
+              Add Calendar
+            </md-button>
           </md-card-actions>
         </md-card>
       </form>

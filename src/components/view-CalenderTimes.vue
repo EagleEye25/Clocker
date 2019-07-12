@@ -28,12 +28,14 @@
           <md-table-cell md-label="Ending Time" md-sort-by="endTime">{{ item.endTime }}</md-table-cell>
           <md-table-cell md-label="" >
             <md-button class="md-raised md-primary" @click="updateCalTimes(item)">
+              <md-icon>update</md-icon>
               Update
             </md-button>
           </md-table-cell>
           <!-- Activate / Deactivate -->
           <md-table-cell md-label="" >
             <md-button class="md-raised md-accent">
+              <md-icon>warning</md-icon>
               Delete
             </md-button>
           </md-table-cell>
