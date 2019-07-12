@@ -12,6 +12,7 @@
         <md-card-header>
           <div class="md-title">Add Reason For Clocking Out</div>
         </md-card-header>
+        <md-divider></md-divider>
         <!-- Content to be displayed on cards -->
         <md-card-content>
           <div class="md-layout md-gutter" >

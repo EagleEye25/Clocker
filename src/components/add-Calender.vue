@@ -6,12 +6,12 @@
       <form action="">
         <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
           <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-            <md-icon>help_outline</md-icon>
+            <md-icon >help_outline</md-icon>
           </md-button>
           <md-card-header>
-            <div class="md-title">{{title}}</div>
+            <div id="startACT" class="md-title">{{title}}</div>
           </md-card-header>
-
+          <md-divider></md-divider>
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
@@ -128,6 +128,13 @@
     data() {
       return {
         steps: [
+          {
+            target: '#startACT',
+            content: `This is where all calendars that will be assigned to employees will be created`,
+            params: {
+              placement: 'left'
+            }
+          },
           {
             target: '.calendarName',
             content: `Firstly start by entering a calendar name e.g. 9 - 5`,

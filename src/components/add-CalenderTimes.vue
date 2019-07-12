@@ -11,7 +11,7 @@
         <md-card-header>
           <div id="startT" class="md-title">{{ title }}</div>
         </md-card-header>
-
+        <md-divider></md-divider>
         <md-card-content>
           <!-- Starting -->
           <div class="md-layout md-gutter">

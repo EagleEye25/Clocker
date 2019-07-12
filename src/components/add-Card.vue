@@ -13,6 +13,7 @@
           <div  id="addCardS" class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
           <div class="md-title" v-if="standard === false ">{{ titelProcess }}</div>
         </md-card-header>
+        <md-divider></md-divider>
         <!-- Content to be displayed on cards -->
         <md-card-content>
           <div class="md-layout md-gutter" >
