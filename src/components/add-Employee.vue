@@ -1,14 +1,15 @@
 <template>
   <div>
+    <br>
     <!-- Form for entering information -->
     <form v-if="!empInfo" novalidate class="md-layout" @submit.prevent="validateUser" >
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="empST">
+        <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+          <md-icon>help_outline</md-icon>
+        </md-button>
         <!-- Header for card -->
         <md-card-header>
-          <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-            <md-icon>help_outline</md-icon>
-          </md-button>
           <div class="md-title">Add Employee To Clocker</div>
         </md-card-header>
         <!-- Content to be displayed on cards -->

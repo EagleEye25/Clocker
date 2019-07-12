@@ -1,13 +1,14 @@
 <template>
   <div>
+    <br>
     <!-- Standard Process -->
     <div>
       <form action="">
         <md-card class="md-layout-item md-size-40 md-small-size-100 center box">
-        <md-card-header>
           <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
             <md-icon>help_outline</md-icon>
           </md-button>
+        <md-card-header>
           <div id="startT" class="md-title">{{ title }}</div>
         </md-card-header>
 

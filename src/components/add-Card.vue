@@ -1,14 +1,15 @@
 <template>
   <div>
+    <br>
     <!-- Form for entering information -->
     <form novalidate class="md-layout" @submit.prevent="validateUser">
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-30 md-small-size-100 center box">
+        <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+          <md-icon>help_outline</md-icon>
+        </md-button>
         <!-- Header for card -->
         <md-card-header>
-          <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-            <md-icon>help_outline</md-icon>
-          </md-button>
           <div  id="addCardS" class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
           <div class="md-title" v-if="standard === false ">{{ titelProcess }}</div>
         </md-card-header>

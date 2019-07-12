@@ -1,13 +1,14 @@
 <template>
   <div class="center">
+    <br>
     <!-- Standard process -->
     <div v-if="standard !== false">
       <form action="">
         <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
+          <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+            <md-icon>help_outline</md-icon>
+          </md-button>
           <md-card-header>
-            <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-              <md-icon>help_outline</md-icon>
-            </md-button>
             <div class="md-title">{{title}}</div>
           </md-card-header>
 
