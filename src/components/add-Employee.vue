@@ -6,6 +6,9 @@
       <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="empST">
         <!-- Header for card -->
         <md-card-header>
+          <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+            <md-icon>help_outline</md-icon>
+          </md-button>
           <div class="md-title">Add Employee To Clocker</div>
         </md-card-header>
         <!-- Content to be displayed on cards -->
@@ -96,9 +99,6 @@
 
       </md-card>
     </form>
-    <md-button v-if="standard !== false" @click="help">
-      Help
-    </md-button>
   </div>
 </template>
 
@@ -402,5 +402,11 @@
   .box {
     -webkit-border-radius: 6px;;
     border-radius: 6px;;
+  }
+
+  .topLeft {
+    position: absolute;
+    right:    0;
+    top: 100;
   }
 </style>

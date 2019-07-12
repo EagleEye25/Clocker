@@ -6,6 +6,9 @@
       <md-card class="md-layout-item md-size-30 md-small-size-100 center box">
         <!-- Header for card -->
         <md-card-header>
+          <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+            <md-icon>help_outline</md-icon>
+          </md-button>
           <div  id="addCardS" class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
           <div class="md-title" v-if="standard === false ">{{ titelProcess }}</div>
         </md-card-header>
@@ -54,9 +57,6 @@
         <v-tour name="addCard" :steps="steps"></v-tour>
       </md-card>
     </form>
-    <md-button v-if="standard !== false" @click="help">
-      Help
-    </md-button>
   </div>
 </template>
 
@@ -209,5 +209,11 @@
   .box {
     -webkit-border-radius: 6px;
     border-radius: 6px;
+  }
+
+  .topLeft {
+    position: absolute;
+    right:    0;
+    top: 100;
   }
 </style>
