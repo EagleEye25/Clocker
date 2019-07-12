@@ -39,13 +39,21 @@
           </md-table-cell>
           <!-- Activate / Deactivate -->
           <md-table-cell md-label="" >
-            <md-button class="md-raised md-accent">
+            <md-button class="md-raised md-accent" @click="callDelete(item.id)">
               <md-icon>warning</md-icon>
               Delete
             </md-button>
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <md-dialog-confirm
+        :md-active.sync="dialogActive"
+        :md-title= mdTitle
+        :md-content= mdDescription
+        md-confirm-text="Agree"
+        md-cancel-text="Cancel"
+        @md-cancel="onCancel"
+        @md-confirm="onConfirm" />
       <v-tour name="viewCal" :steps="steps"></v-tour>
     </div>
     <!-- Process -->
@@ -131,7 +139,8 @@
         confirmedUnassign: false,
         count: 0,
         addCalTimes: false,
-        added: false
+        added: false,
+        itemID: null,
       }
     },
 
@@ -140,6 +149,33 @@
     },
 
     methods: {
+      onCancel() {
+        this.dialogActive = false;
+      },
+
+      async onConfirm() {
+        let confirm = await this.deleteTimes()
+        if (confirm) {
+          this.removeFromTable();
+        }
+        this.dialogActive = true;
+      },
+
+      callDelete(id) {
+        this.itemID = id;
+        this.mdTitle = 'Delete Calendar Times';
+        this.mdDescription = `Are you sure you want to delete this time? <br> This time will be removed from all calendars,
+                              and report data may be affected.`;
+        this.dialogActive = true;
+      },
+
+      removeFromTable() {
+        const idx = this.calTimes.findIndex((times) => times.id === this.itemID);
+        if (idx > -1) {
+          this.calTimes.splice(idx, 1);
+        }
+      },
+
       help() {
         this.$tours['viewCal'].start();
       },
@@ -203,6 +239,17 @@
             error ? this.$awn.warning('No created calendar times, please create a calendar time') :
             this.$awn.alert('Could Not Get Calendar Times');
             return false;
+          });
+      },
+
+      async deleteTimes() {
+        return await http.delete(`/api/calender_times/${this.itemID}`)
+          .then(() => {
+            this.$awn.success('Successfully Deleted Calendar Times');
+            return true
+          }).catch(() => {
+            this.$awn.alert('Could Not Delete Calendar Times');
+            return false
           });
       },
 

@@ -216,9 +216,14 @@
           this.title = 'Employees';
           let api = '/api/employee/';
           await this.getEmployees(api);
-        } else if (this.standard === false) {
+        } else if (this.standard === false && this.calUnAssigned !== true) {
           this.title = 'Select Unassigned Employee';
           let api = '/api/employee/';
+          await this.getEmployees(api);
+        } else if (this.standard === false && this.calUnAssigned === true) {
+          console.log('here');
+          this.title = 'Select Unassigned Employee';
+          let api = `/api/employee/unassigned/employees/calendars/${this.calData.id}`;
           await this.getEmployees(api);
         }
       },
@@ -263,6 +268,9 @@
     computed: {
       addCanceled() {
         return this.$store.getters.cancelAddEmp;
+      },
+      calData() {
+        return this.$store.getters.calendarData;
       }
     },
   }

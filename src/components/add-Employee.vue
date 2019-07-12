@@ -56,16 +56,19 @@
           <div class="md-layout md-gutter">
             <!-- Password -->
             <div class="md-layout-item md-small-size-100">
-              <md-field v-show=form.admin>
+              <md-field v-show=form.admin :class="getValidationClass('password')">
                 <label for="password">* Password</label>
-                <md-input type="password" v-model="form.password" :disabled="processing"/>
+                <md-input type="password" class="password" v-model="form.password" :disabled="processing"/>
+                <span class="md-error" v-if="!$v.form.password.required">Password is required</span>
+                <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
               </md-field>
             </div>
            <!-- Password -->
             <div class="md-layout-item md-small-size-100">
-              <md-field v-show=form.admin>
+              <md-field v-show=form.admin :class="getValidationClass('confirmPass')">
                 <label for="confirmPass">* Confirm Password</label>
-                <md-input type="password" v-model="form.confirmPass" :disabled="processing"/>
+                <md-input type="password" class="confirmPass" v-model="form.confirmPass" :disabled="processing"/>
+                <span class="md-error" v-if="!$v.form.confirmPass.sameAsPassword">Passwords much match</span>
               </md-field>
             </div>
           </div>
@@ -76,7 +79,7 @@
             <md-icon>cancel</md-icon>
             cancel
           </md-button>
-          <md-button id="add" style="color: lime"  v-on:click="addEmployee" v-if="!id">
+          <md-button id="add" style="color: lime"  type="submit" v-if="!id">
             <md-icon>done</md-icon>
             Add Employee
           </md-button>
@@ -84,7 +87,7 @@
             <md-icon>cancel</md-icon>
             Cancel
           </md-button>
-          <md-button style="color: lime" v-if="id" v-on:click="updateEmployee">
+          <md-button style="color: lime" v-if="id" type="submit">
             <md-icon>update</md-icon>
             Update Employee
           </md-button>
@@ -94,7 +97,7 @@
             <md-icon>cancel</md-icon>
             cancel
           </md-button>
-          <md-button style="color: lime" v-if="!$store.getters.employeeInfo" v-on:click="addEmployee">
+          <md-button style="color: lime" v-if="!$store.getters.employeeInfo" type="submit">
             <md-icon>done</md-icon>
             Add Employee
           </md-button>
@@ -111,6 +114,7 @@
   import {
     required,
     minLength,
+    sameAs
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts'
 
@@ -194,6 +198,7 @@
         id: null,
       }
     },
+    // TODO: fix when admin isnt clicked, also proper password validations
     validations: {
       form: {
         firstName: {
@@ -209,6 +214,12 @@
         },
         reporting_admin: {
           required
+        },
+        password: {
+          required
+        },
+        confirmPass: {
+          sameAsPassword: sameAs('password')
         }
       }
     },
@@ -361,7 +372,13 @@
         this.$v.$touch()
 
         if (!this.$v.$invalid) {
-          this.saveUser()
+                      console.log('here');
+          if (!this.id || this.standard === false) {
+            console.log('here');
+            this.addEmployee();
+          } else if (this.id) {
+            this.updateEmployee();
+          }
         }
       }
     },

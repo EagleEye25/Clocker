@@ -11,9 +11,9 @@
             <md-button class="md-raised md-primary" :disabled=!calendarData @click="setDone('first', 'second')">Continue</md-button>
           </div>
         </md-step>
-
+<!-- TODO: find way to query when select changes -->
       <md-step id="second" md-label="Select Employee" :md-editable=editable :md-done.sync="second">
-        <viewEmployee v-bind:standard=false v-bind:calUnAssigned="true"></viewEmployee>
+        <viewEmployee v-if="calendarData" v-bind:standard=false v-bind:calUnAssigned=true></viewEmployee>
         <md-button class="md-raised md-primary" :disabled="!employeeInfo" @click="setDone('second', 'third')">Continue</md-button>
       </md-step>
 

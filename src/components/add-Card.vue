@@ -166,7 +166,6 @@
             this.clearForm();
             this.$awn.success('Successfully Added Card');
           }).catch((err) => {
-            console.log(err);
             this.$awn.alert('Could Not Add Card');
           });
         } else {

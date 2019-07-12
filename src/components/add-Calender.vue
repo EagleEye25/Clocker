@@ -198,12 +198,13 @@
       },
 
       async createInProcess() {
-        // await this.createCalendar();
-        let data = {
-          'name': this.form.calendarName,
-          'description': this.form.description
-        }
-        if (await this.createCalendar()) {
+        let id = await this.createCalendar();
+        if (id) {
+          let data = {
+            'id': id,
+            'name': this.form.calendarName,
+            'description': this.form.description
+          }
           this.standard === false ? this.$store.dispatch('updateCalendar', data) : null
           this.$emit('added');
         }
@@ -218,7 +219,7 @@
             this.$awn.success('Successfully Created Calendar');
             this.clearForm();
             this.create ? this.returnToView() : null;
-            return true;
+            return res.data.id;
           }).catch((err) => {
             this.$awn.alert('Could Not Create Calendar');
             return false;

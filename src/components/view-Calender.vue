@@ -25,7 +25,7 @@
           <md-button class="md-primary md-raised" @click="updateCalendar(false)">Create Calendar</md-button>
         </md-table-empty-state>
 
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
           <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
           <md-table-cell md-label="Description" md-sort-by="description">{{ item.description ? item.description : 'No Description' }}</md-table-cell>
           <md-table-cell>
@@ -36,13 +36,21 @@
           </md-table-cell>
           <!-- Activate / Deactivate -->
           <md-table-cell>
-            <md-button class="md-raised md-accent">
+            <md-button class="md-raised md-accent" @click="callDelete(item.id)">
               <md-icon>warning</md-icon>
               Delete
             </md-button>
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <md-dialog-confirm
+        :md-active.sync="dialogActive"
+        :md-title= mdTitle
+        :md-content= mdDescription
+        md-confirm-text="Agree"
+        md-cancel-text="Cancel"
+        @md-cancel="onCancel"
+        @md-confirm="onConfirm" />
       <v-tour name="viewCal" :steps="steps"></v-tour>
     </div>
     <!-- Process -->
@@ -114,6 +122,7 @@
         mdTitle: '',
         mdDescription: '',
         updateCal: false,
+        calID: null,
       }
     },
 
@@ -175,6 +184,45 @@
           });
       },
 
+      onCancel() {
+        this.dialogActive = false;
+      },
+
+      async onConfirm() {
+        let confirm = await this.deleteCal()
+        if (confirm) {
+          this.removeFromTable();
+        }
+        this.dialogActive = false;
+      },
+
+      callDelete(id) {
+        this.calID = id;
+        this.mdTitle = 'Delete Calendar';
+        this.mdDescription = `Are you sure you want to delete this calendar? <br> This may affect reports.`;
+        this.dialogActive = true;
+      },
+
+      removeFromTable() {
+        const idx = this.calendars.findIndex((cal) => cal.id === this.calID);
+        if (idx > -1) {
+          this.calendars.splice(idx, 1);
+        }
+      },
+
+      async deleteCal() {
+        await http.delete(`/api/calender/${this.calID}`)
+          .then((res) => {
+            console.log(res);
+            this.$awn.success('Successfully deleted Calendar');
+            return true;
+          }).catch((err) => {
+            console.log(err);
+            this.$awn.alert('Could Not Delete Calendars');
+            return false;
+          });
+      },
+
       searchOnTable () {
         this.searched = searchByName(this.calendars, this.search);
       },
@@ -182,6 +230,7 @@
       onSelect(item) {
         if (item) {
           this.selectedCalendar = item;
+          console.log(item);
           this.standard === false ? this.$store.dispatch('updateCalendar', item) : null;
         }
       },
