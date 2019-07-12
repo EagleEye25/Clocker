@@ -17,7 +17,7 @@
         <md-card-content>
           <div class="md-layout md-gutter" >
             <!-- Description -->
-            <div class="md-layout-item md-small-size-100" style="padding-left: 180px;">
+            <div class="md-layout-item md-small-size-100" style="padding-left: 15%;">
               <md-field class="desc" :class="getValidationClass('description')" >
                 <label for="description">* Description of Reason</label>
                 <md-input v-model="form.description" :disabled="processing" autofocus=true />
@@ -31,7 +31,7 @@
                 Work related
               </md-checkbox>
             </div>
-            <div id="active" style="padding-right: 10%" class="md-layout-item md-small-size-100">
+            <div id="active" style="padding-right: 13%" class="md-layout-item md-small-size-100">
               <md-checkbox v-model="form.active">
                 Activate
               </md-checkbox>
