@@ -5,7 +5,10 @@
 
       <!-- Calenders -->
       <md-menu md-size="medium" md-align-trigger :mdCloseOnSelect=true>
-        <md-button md-menu-trigger>Calenders</md-button>
+        <md-button md-menu-trigger>
+          <md-icon>calendar_today</md-icon>
+          Calenders
+        </md-button>
         <md-menu-content>
           <md-menu-item to="/management/addCalendar">
             Add Calendar
@@ -27,7 +30,10 @@
 
       <!-- Cards -->
       <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Cards</md-button>
+        <md-button md-menu-trigger>
+          <md-icon>credit_card</md-icon>
+          Cards
+        </md-button>
         <md-menu-content>
           <md-menu-item to="/management/addCard">
             Add Card
@@ -40,7 +46,10 @@
 
       <!-- Employees -->
       <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Employees</md-button>
+        <md-button md-menu-trigger>
+          <md-icon>person</md-icon>
+          Employees
+        </md-button>
         <md-menu-content>
           <md-menu-item to="/management/addEmployee">
             Add Employee
@@ -53,23 +62,29 @@
 
       <!-- Processes -->
       <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Processes</md-button>
+        <md-button md-menu-trigger>
+          <md-icon>trending_up</md-icon>
+          Processes
+        </md-button>
         <md-menu-content>
           <md-menu-item to="/management/assignCardProcess">
-            Assign Card To Employee
+            1) Assign Card To Employee
           </md-menu-item>
           <md-menu-item to="/management/assignCalendarTimes">
-            Assign Calendar To Times
+            2) Assign Calendar To Times
           </md-menu-item>
-            <md-menu-item to="/management/assignCalendar">
-             Assign Calendar To Employee
-            </md-menu-item>
+          <md-menu-item to="/management/assignCalendar">
+            3) Assign Calendar To Employee
+          </md-menu-item>
         </md-menu-content>
       </md-menu>
 
       <!-- Reasons -->
       <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Reasons</md-button>
+        <md-button md-menu-trigger>
+          <md-icon>swap_vert</md-icon>
+          Reasons
+        </md-button>
         <md-menu-content>
           <md-menu-item to="/management/addReason">
             Add Reason
@@ -82,7 +97,10 @@
 
       <!-- Reports -->
       <md-menu md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Reports</md-button>
+        <md-button md-menu-trigger>
+          <md-icon>insert_chart</md-icon>
+          Reports
+        </md-button>
         <md-menu-content>
           <md-menu-item to="/management/employeeReports">
             Generate Employee Reports

@@ -236,8 +236,9 @@
               this.cardData.push(data);
             });
         }).catch((err) => {
-          let error = err.toString().indexOf('404') ? this.$awn.warning('No created employee cards, please assign a card to an employee ') :
-          this.$awn.alert('Could Not Get Cards');
+          let error = err.toString().indexOf('404') ?
+            this.$awn.warning('No created employee cards, please assign a card to an employee ') :
+              this.$awn.alert('Could Not Get Cards');
         });
       },
 
