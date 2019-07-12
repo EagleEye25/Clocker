@@ -1,5 +1,6 @@
 <template>
   <div class="center">
+    <br>
     <md-steppers :md-active-step.sync="active" md-vertical md-linear>
         <md-step id="first" md-label="Select Calendar" :md-editable=editable :md-done.sync="first">
           <addCalender v-if="!showCreatedCal" v-bind:standard=false @added="setDone('first', 'second')"></addCalender>

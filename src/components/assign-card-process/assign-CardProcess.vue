@@ -1,5 +1,6 @@
 <template>
   <div>
+    <br>
     <div>
       <md-steppers :md-active-step.sync="active" md-vertical md-linear md-dynamic-height>
       <md-step id="first" md-label="Add Card" :md-done.sync="first" :md-editable="editable">
