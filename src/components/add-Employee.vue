@@ -67,6 +67,7 @@
             </div>
           </div>
         </md-card-content>
+        <md-divider></md-divider>
         <md-card-actions v-if="standard !== false">
           <md-button id="cancel" style="color: orange"  v-on:click="clearForm" v-if="!id">
             <md-icon>cancel</md-icon>

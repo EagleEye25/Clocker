@@ -33,6 +33,7 @@
           </div>
         </md-card-content>
         <div v-if="standard !== false">
+          <md-divider></md-divider>
           <md-card-actions >
             <md-button id="cancel" style="color: orange" v-on:click="clearForm">
               <md-icon>cancel</md-icon>
@@ -47,6 +48,7 @@
         <!-- Part of assign card process -->
         <div v-if="standard === false">
           <p v-if="cardExists" style="color: red"> Card already exits...<br> Please create a new card </p>
+          <md-divider></md-divider>
           <md-card-actions>
             <md-button style="color: orange" v-on:click="onEnter">
               <md-icon>done</md-icon>

@@ -34,6 +34,7 @@
             </div>
           </md-card-content>
           <!-- Standard -->
+          <md-divider></md-divider>
           <md-card-actions v-if="!update && !create">
             <md-button class="cancelNorm" style="color: orange" @click="clearForm">
               <md-icon>cancel</md-icon>

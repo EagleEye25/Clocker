@@ -36,7 +36,7 @@
             </div>
           </div>
         </md-card-content>
-
+        <md-divider></md-divider>
         <md-card-actions>
           <!-- Normal add -->
           <div v-if="!reasonData">
