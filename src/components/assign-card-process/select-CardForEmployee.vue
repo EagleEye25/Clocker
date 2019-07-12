@@ -1,5 +1,9 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+        <md-icon>help_outline</md-icon>
+      </md-button>
+    <br>
     <div class="center">
       <!-- Part of process -->
       <div v-if="showNorm === false">
@@ -30,7 +34,7 @@
       <!-- Standard Process -->
       <div v-if="showNorm === true">
         <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-              @md-selected="onSelect" class="table">
+              @md-selected="onSelect" class="table" id="viewCardsST">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> {{ title }} </h1>
@@ -69,6 +73,7 @@
             </md-table-cell>
           </md-table-row>
         </md-table>
+        <v-tour name="viewCards" :steps="steps"></v-tour>
 
         <md-dialog-confirm
         :md-active.sync="active"
@@ -107,6 +112,15 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#viewCardsST',
+            content: `This is where all created cards can be updated / Unassigned.`,
+            params: {
+              placement: 'left'
+            }
+          }
+        ],
         cardData: [],
         selectedCard: null,
         search: null,
@@ -123,6 +137,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['viewCards'].start();
+      },
+
       cancelAdd() {
         this.$emit('canceled');
       },
@@ -330,5 +348,11 @@
   .box {
     -webkit-border-radius: 6px;
     border-radius: 6px;
+  }
+
+  .topLeft {
+    position: absolute;
+    right:    0;
+    top: 100;
   }
 </style>

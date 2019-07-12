@@ -1,9 +1,13 @@
 <template>
   <div class="center">
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
+    <br>
     <!-- Standard -->
     <div v-if="standard !== false">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table box">
+                @md-selected="onSelect" class="table box" id="createdCalST">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Created Calenders </h1>
@@ -23,13 +27,14 @@
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
           <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
           <md-table-cell md-label="Description" md-sort-by="description">{{ item.description ? item.description : 'No Description' }}</md-table-cell>
-          <md-table-cell md-label="Update" >
+          <md-table-cell>
             <md-button class="md-raised md-primary" @click="updateCalendar(item)">
+              <md-icon>update</md-icon>
               Update
             </md-button>
           </md-table-cell>
           <!-- Activate / Deactivate -->
-          <md-table-cell md-label="Delete" >
+          <md-table-cell>
             <md-button class="md-raised md-accent">
               <md-icon>warning</md-icon>
               Delete
@@ -37,6 +42,7 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <v-tour name="viewCal" :steps="steps"></v-tour>
     </div>
     <!-- Process -->
     <div v-if="standard === false">
@@ -90,6 +96,15 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#createdCalST',
+            content: `This is where all created calendars can be updated / deleted.`,
+            params: {
+              placement: 'left'
+            }
+          }
+        ],
         selectedCalendar: null,
         search: null,
         searched: [],
@@ -102,6 +117,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['viewCal'].start();
+      },
+
       async determineAction() {
         await this.getCalendars();
         // this.standard === false ? await this.getUnassigned() : await this.getCalendars()
@@ -209,5 +228,11 @@
   .box {
     -webkit-border-radius: 6px;
     border-radius: 6px;
+  }
+
+  .topLeft {
+    position: absolute;
+    right:    0;
+    top: 100;
   }
 </style>

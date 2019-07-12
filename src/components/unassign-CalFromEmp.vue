@@ -1,12 +1,15 @@
 <template>
   <div class="center">
-    <h2 style="color: white;">Unassign Calendar From Employee</h2>
+    <md-button class="md-icon-button md-dense topLeft" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
+    <h2 class="unassignCalT" style="color: white;">Unassign Calendar From Employee</h2>
     <div style="padding-left: 42.3%">
-      <md-card class="md-layout md-gutter box" style="width: 30%">
+      <md-card class="md-layout md-gutter box" style="width: 30%" id="calenders">
         <div class="md-layout-item center">
           <md-field class="center">
-            <label for="calenders">Please select a calendar</label>
-            <md-select v-model="selectedCalID" name="calenders" id="calenders" disabled="!calenders">
+            <label>Please select a calendar</label>
+            <md-select v-model="selectedCalID" :disabled="!calenders">
               <md-option
                 v-for="(item, index) in calenders"
                 :key="index"
@@ -20,7 +23,7 @@
     </div>
     <br />
     <div v-if="selectedCalID">
-      <md-table
+      <md-table id="empTable"
         v-model="searched"
         md-sort="id"
         md-sort-order="asc"
@@ -61,6 +64,7 @@
         </md-table-row>
       </md-table>
     </div>
+    <v-tour name="unCalS" :steps="steps"></v-tour>
 
     <md-dialog-confirm
     :md-active.sync="active"
@@ -96,6 +100,31 @@ export default {
   //  Variables
   data() {
     return {
+      steps: [
+        {
+          target: '.unassignCalT',
+          content: `This is where Calendars assigned to an employee can be unassigned`,
+          params: {
+            placement: 'left'
+          }
+        },
+        {
+          target: '#calenders',
+          content: `Firstly select a calendar`,
+          params: {
+            placement: 'left'
+          }
+        },
+        {
+          target: '#empTable',
+          content: `Select the employee you would like to unassign from the calendar,
+            a dialoge will prompt you to confirm, after confirmation the calendar will be
+            unassigned from the employee.`,
+          params: {
+            placement: 'top'
+          }
+        }
+      ],
       selectedEmp: null,
       search: null,
       searched: [],
@@ -117,6 +146,10 @@ export default {
   },
 
   methods: {
+    help() {
+      this.$tours['unCalS'].start();
+    },
+
     onCancel () {
       this.active = false;
     },

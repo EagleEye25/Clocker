@@ -1,13 +1,13 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
     <br>
     <!-- Standard Process -->
     <div>
       <form action="">
         <md-card class="md-layout-item md-size-40 md-small-size-100 center box">
-          <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-            <md-icon>help_outline</md-icon>
-          </md-button>
         <md-card-header>
           <div id="startT" class="md-title">{{ title }}</div>
         </md-card-header>
@@ -17,14 +17,14 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label>Starting Week</label>
+                <label>* Starting Week</label>
                 <md-input type="number" class="sWeek" v-model="form.sWeek"/>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label>Starting Day</label>
+                <label>* Starting Day</label>
                 <md-select class="sDay" v-model="form.sDay" md-dense>
                   <md-option value="1">Monday</md-option>
                   <md-option value="2">Tuesday</md-option>
@@ -43,7 +43,7 @@
             <div class="md-layout-item md-small-size-100">
                 <VueCtkDateTimePicker id="sTime" name="sTime" v-model="form.sTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
-                                     color="#27C96D" :dark=true label="Starting Time"
+                                     color="#27C96D" :dark=true label="* Starting Time"
                                      class="center">
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->
@@ -55,7 +55,7 @@
           <div class="md-layout md-gutter center">
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label>Ending Day</label>
+                <label>* Ending Day</label>
                 <md-select class="eDay" v-model="form.eDay" md-dense>
                   <md-option value="1">Monday</md-option>
                   <md-option value="2">Tuesday</md-option>
@@ -74,7 +74,7 @@
             <div class="md-layout-item md-small-size-100">
                 <VueCtkDateTimePicker id="eTime" name="eTime" v-model="form.eTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
-                                     color="#27C96D" :dark=true label="Ending Time"
+                                     color="#27C96D" :dark=true label="* Ending Time"
                                      class="center">
                 </VueCtkDateTimePicker>
                 <!-- <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span> -->

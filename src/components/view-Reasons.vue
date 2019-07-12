@@ -1,8 +1,12 @@
 <template>
   <div class="center">
+    <md-button class="md-icon-button md-dense topLeft" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
+    <br>
     <div>
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table box" v-if="!showReason">
+                @md-selected="onSelect" class="table box" v-if="!showReason" id="createdReasonsST">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Reasons for Clocking Out </h1>
@@ -38,6 +42,7 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <v-tour name="viewReasons" :steps="steps"></v-tour>
       <addReason v-bind:standard=false v-if="showReason" @canceled="showReason = false" @added="refresh"></addReason>
       <md-dialog-confirm
         :md-active.sync="dialogActive"
@@ -73,6 +78,15 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#createdReasonsST',
+            content: `This is where all created reasons can be updated / deleted.`,
+            params: {
+              placement: 'left'
+            }
+          }
+        ],
         selectedReason: null,
         search: null,
         searched: [],
@@ -91,6 +105,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['viewReasons'].start();
+      },
+
       updateReason(item) {
         this.$store.dispatch('updateReason', item);
         this.$router.push('/management/addReason');
@@ -231,5 +249,11 @@
   .box {
     -webkit-border-radius: 6px;
     border-radius: 6px;
+  }
+
+  .topLeft {
+    position: absolute;
+    right:    0;
+    top: 100;
   }
 </style>

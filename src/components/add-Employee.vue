@@ -1,13 +1,13 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
     <br>
     <!-- Form for entering information -->
     <form v-if="!empInfo" novalidate class="md-layout" @submit.prevent="validateUser" >
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="empST">
-        <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-          <md-icon>help_outline</md-icon>
-        </md-button>
         <!-- Header for card -->
         <md-card-header>
           <div class="md-title">Add Employee To Clocker</div>
@@ -19,7 +19,7 @@
             <!-- First Name -->
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('firstName')">
-                <label>First Name</label>
+                <label>* First Name</label>
                 <md-input class="firstName" v-model="form.firstName" :disabled="processing" />
                 <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
                 <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
@@ -28,7 +28,7 @@
             <!-- Last Name -->
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('lastName')">
-                <label>Last Name</label>
+                <label>* Last Name</label>
                 <md-input class="lastName" v-model="form.lastName" :disabled="processing" />
                 <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
                 <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
@@ -56,14 +56,14 @@
             <!-- Password -->
             <div class="md-layout-item md-small-size-100">
               <md-field v-show=form.admin>
-                <label for="password">Password</label>
+                <label for="password">* Password</label>
                 <md-input type="password" v-model="form.password" :disabled="processing"/>
               </md-field>
             </div>
            <!-- Password -->
             <div class="md-layout-item md-small-size-100">
               <md-field v-show=form.admin>
-                <label for="confirmPass">Confirm Password</label>
+                <label for="confirmPass">* Confirm Password</label>
                 <md-input type="password" v-model="form.confirmPass" :disabled="processing"/>
               </md-field>
             </div>

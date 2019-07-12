@@ -1,8 +1,12 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
+    <br>
     <div class="center" v-if="!addEmployee">
       <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header
-                @md-selected="onSelect" class="table box">
+                @md-selected="onSelect" class="table box" id="createdEmpST">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title">{{ title }}</h1>
@@ -50,6 +54,7 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <v-tour name="viewCal" :steps="steps"></v-tour>
     </div>
     <div v-if="addEmployee">
       <!-- Create a new employee -->
@@ -87,6 +92,15 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#createdEmpST',
+            content: `This is where all created employees can be updated / deleted.`,
+            params: {
+              placement: 'left'
+            }
+          }
+        ],
         employees: [],
         selectedEmployee: null,
         search: null,
@@ -113,6 +127,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['viewCal'].start();
+      },
+
       async getEmployees(api) {
         return await http.get(api)
           .then((res) => {
@@ -282,5 +300,11 @@
   .box {
     -webkit-border-radius: 6px;
     border-radius: 6px;
+  }
+
+  .topLeft {
+    position: absolute;
+    right:    0;
+    top: 100;
   }
 </style>

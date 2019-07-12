@@ -1,9 +1,13 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
+    <br>
     <!-- Stnadard -->
     <div v-if="standard !== false">
       <md-table v-model="searched" md-sort="id" md-sort-order="asc" md-card md-fixed-header
-                class="table box">
+                class="table box" id="createdCalTST">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> Created Calenders Times </h1>
@@ -41,6 +45,7 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <v-tour name="viewCal" :steps="steps"></v-tour>
     </div>
     <!-- Process -->
     <div v-if="standard === false">
@@ -106,6 +111,15 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#createdCalTST',
+            content: `This is where all created calendars Times can be updated / deleted.`,
+            params: {
+              placement: 'left'
+            }
+          }
+        ],
         selectedCalTime: null,
         search: null,
         searched: [],
@@ -125,6 +139,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['viewCal'].start();
+      },
+
       async determineAction() {
         this.standard === false ? await this.getUnassigned() : await this.getCalTimes()
       },
@@ -224,7 +242,7 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: center;
-    width: 65%;
+    width: 58%;
   }
 
   .md-table-cell {
@@ -243,5 +261,11 @@
   .box {
     -webkit-border-radius: 6px;
     border-radius: 6px;
+  }
+
+  .topLeft {
+    position: absolute;
+    right:    0;
+    top: 100;
   }
 </style>

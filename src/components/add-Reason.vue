@@ -1,13 +1,13 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
     <br>
     <!-- Form for entering information -->
     <form novalidate class="md-layout" @submit.prevent="validateUser">
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="startRT">
-        <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-          <md-icon>help_outline</md-icon>
-        </md-button>
         <!-- Header for card -->
         <md-card-header>
           <div class="md-title">Add Reason For Clocking Out</div>
@@ -19,7 +19,7 @@
             <!-- Description -->
             <div class="md-layout-item md-small-size-100" style="padding-left: 180px;">
               <md-field class="desc" :class="getValidationClass('description')" >
-                <label for="description">Description of Reason</label>
+                <label for="description">* Description of Reason</label>
                 <md-input v-model="form.description" :disabled="processing" autofocus=true />
                 <span class="md-error" v-if="!$v.form.description.required">The description is required</span>
                 <span class="md-error" v-else-if="!$v.form.description.minlength">Invalid description</span>
@@ -31,7 +31,7 @@
                 Work related
               </md-checkbox>
             </div>
-            <div id="active" class="md-layout-item md-small-size-100">
+            <div id="active" style="padding-right: 10%" class="md-layout-item md-small-size-100">
               <md-checkbox v-model="form.active">
                 Activate
               </md-checkbox>
@@ -64,7 +64,6 @@
           </div>
         </md-card-actions>
         <v-tour name="addReason" :steps="steps"></v-tour>
-
       </md-card>
     </form>
   </div>

@@ -1,13 +1,13 @@
 <template>
   <div class="center">
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon >help_outline</md-icon>
+    </md-button>
     <br>
     <!-- Standard process -->
     <div v-if="standard !== false">
       <form action="">
         <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
-          <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-            <md-icon >help_outline</md-icon>
-          </md-button>
           <md-card-header>
             <div id="startACT" class="md-title">{{title}}</div>
           </md-card-header>
@@ -16,7 +16,7 @@
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
                 <md-field>
-                  <label for="Calendar Name">Calendar Name</label>
+                  <label for="Calendar Name">* Calendar Name</label>
                   <md-input class="calendarName" v-model="form.calendarName"/>
                   <!-- <span class="md-error" v-if="!$v.form.calendarName.required">The calendar name is required</span>
                   <span class="md-error" v-else-if="!$v.form.calendarName.minlength">Invalid calendar name</span> -->

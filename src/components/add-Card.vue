@@ -1,13 +1,13 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
+      <md-icon>help_outline</md-icon>
+    </md-button>
     <br>
     <!-- Form for entering information -->
     <form novalidate class="md-layout" @submit.prevent="validateUser">
       <!-- Display inputs on card -->
       <md-card class="md-layout-item md-size-30 md-small-size-100 center box">
-        <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-          <md-icon>help_outline</md-icon>
-        </md-button>
         <!-- Header for card -->
         <md-card-header>
           <div  id="addCardS" class="md-title" v-if="standard !== false ">{{ titelStandard }}</div>
@@ -20,7 +20,7 @@
             <!-- tag -->
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('tag')" >
-                <label for="tag">Scan card / Enter card number</label>
+                <label for="tag">* Scan card / Enter card number</label>
                 <md-input class="tag" v-model="form.tag" :disabled="processing" autofocus=true />
                 <span class="md-error" v-if="!$v.form.tag.required">The card number is required</span>
                 <span class="md-error" v-else-if="!$v.form.tag.minlength">Invalid card number</span>
