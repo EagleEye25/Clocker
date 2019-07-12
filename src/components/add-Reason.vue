@@ -60,6 +60,9 @@
         </md-card-actions>
       </md-card>
     </form>
+    <md-button v-if="standard !== false" @click="help">
+      Help
+    </md-button>
   </div>
 </template>
 
@@ -82,6 +85,50 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#addCardS',
+            content: `This is where all reasons that are going to be used to clock out will be created.`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '.tag',
+            content: `Firstly enter the description of the reason i.e. 'Smoke Break'`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '.tag',
+            content: `By checking this field it will mark the reason as work related, when employees clock out`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '.tag',
+            content: `By selecting this field will set the reason as active, and will be available for use on the clocking aplication`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '#cancel',
+            content: `If you decide that you dont want to create the reason, simply click here to cancel the process`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+          {
+            target: '#add',
+            content: `Once the information is entered, simply click here and the reason will be created!`,
+            params: {
+              placement: 'bottom'
+            }
+          },
+        ],
         form: {
           description: null,
           work: false,
@@ -101,6 +148,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['addReason'].start();
+      },
+
       fillInputs() {
         if (this.reasonData) {
 

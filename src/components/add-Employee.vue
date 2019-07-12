@@ -3,7 +3,7 @@
     <!-- Form for entering information -->
     <form v-if="!empInfo" novalidate class="md-layout" @submit.prevent="validateUser" >
       <!-- Display inputs on card -->
-      <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
+      <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="empST">
         <!-- Header for card -->
         <md-card-header>
           <div class="md-title">Add Employee To Clocker</div>
@@ -24,7 +24,7 @@
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('lastName')">
                 <label>Last Name</label>
-                <md-input v-model="form.lastName" :disabled="processing" />
+                <md-input class="lastName" v-model="form.lastName" :disabled="processing" />
                 <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
                 <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
               </md-field>
@@ -33,14 +33,14 @@
           <!-- Second Part -->
           <div class="md-layout md-gutter">
             <!-- Admin -->
-            <div class="md-layout-item md-small-size-100">
+            <div id="admin" class="md-layout-item md-small-size-100">
               <md-checkbox v-model="form.admin"
                             @change="clearPass">
                   Admin
               </md-checkbox>
             </div>
             <!-- Reporting Admin -->
-            <div class="md-layout-item md-small-size-100">
+            <div id="report" class="md-layout-item md-small-size-100">
                 <md-checkbox v-model="form.reporting_admin">
                   Reporting Admin
                 </md-checkbox>
@@ -65,11 +65,11 @@
           </div>
         </md-card-content>
         <md-card-actions v-if="standard !== false">
-          <md-button style="color: orange"  v-on:click="clearForm" v-if="!id">
+          <md-button id="cancel" style="color: orange"  v-on:click="clearForm" v-if="!id">
             <md-icon>cancel</md-icon>
             cancel
           </md-button>
-          <md-button style="color: lime"  v-on:click="addEmployee" v-if="!id">
+          <md-button id="add" style="color: lime"  v-on:click="addEmployee" v-if="!id">
             <md-icon>done</md-icon>
             Add Employee
           </md-button>
@@ -92,8 +92,13 @@
             Add Employee
           </md-button>
         </md-card-actions>
+        <v-tour name="addEmployee" :steps="steps"></v-tour>
+
       </md-card>
     </form>
+    <md-button v-if="standard !== false" @click="help">
+      Help
+    </md-button>
   </div>
 </template>
 
@@ -115,6 +120,59 @@
     //  Variables
     data() {
       return {
+        steps: [
+          {
+            target: '#empST',
+            content: `This is where all employees that will be using the system are going to be created`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '.firstName',
+            content: `Firstly enter the employees first name`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '.lastName',
+            content: `Secondly enter their last name`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+            target: '#admin',
+            content: `By checking this feild, will grant employees access to the admin side of the management system.
+              Once this has been selected you will have to enter in a password that will be used to gain access to the
+              system in the case of a lost card.`,
+            params: {
+              placement: 'left'
+            }
+          },
+          {
+            target: '#report',
+            content: `By checking this feild, will grant employees access to the reporting side of the management system.`,
+            params: {
+              placement: 'right'
+            }
+          },
+          {
+          target: '#cancel',
+          content: `If you decide that you dont want to create the employee, simply click here to cancel the process`,
+          params: {
+            placement: 'bottom'
+          }
+        },
+        {
+          target: '#add',
+          content: `Once the information is entered, simply click here and the employee will be created!`,
+          params: {
+            placement: 'bottom'
+          }
+        },
+      ],
         form: {
           firstName: '',
           lastName: '',
@@ -152,6 +210,10 @@
     },
 
     methods: {
+      help() {
+        this.$tours['addEmployee'].start();
+      },
+
       async updateEmployee() {
         this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
         return await http.put(`/api/employee/${this.id}`, {

@@ -62,3 +62,73 @@
       //     </md-table-cell>
       //   </md-table-row>
       // </md-table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // <v-tour name="addCard" :steps="steps"></v-tour>
+
+      // <md-button v-if="standard !== false" @click="help">
+      //   Help
+      // </md-button>
+
+      // steps: [
+      //   {
+      //     target: '#addCardS',
+      //     content: `This is where all cards that are going to be used to clock in and out will be created.`,
+      //     params: {
+      //       placement: 'left'
+      //     }
+      //   },
+      //   {
+      //     target: '.tag',
+      //     content: `Simply scan / enter the RFID card at hand`,
+      //     params: {
+      //       placement: 'right'
+      //     }
+      //   },
+      //   {
+      //     target: '#cancel',
+      //     content: `If you decide that you dont want to create the card, simply click here to cancel the process`,
+      //     params: {
+      //       placement: 'bottom'
+      //     }
+      //   },
+      //   {
+      //     target: '#add',
+      //     content: `Once the information is entered, simply click here and your card will be created!`,
+      //     params: {
+      //       placement: 'bottom'
+      //     }
+      //   },
+      // ],
+
+
+      // help() {
+      //   this.$tours['addCard'].start();
+      // },
