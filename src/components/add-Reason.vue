@@ -3,7 +3,7 @@
     <!-- Form for entering information -->
     <form novalidate class="md-layout" @submit.prevent="validateUser">
       <!-- Display inputs on card -->
-      <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
+      <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="startRT">
         <!-- Header for card -->
         <md-card-header>
           <div class="md-title">Add Reason For Clocking Out</div>
@@ -13,20 +13,20 @@
           <div class="md-layout md-gutter" >
             <!-- Description -->
             <div class="md-layout-item md-small-size-100" style="padding-left: 180px;">
-              <md-field :class="getValidationClass('description')" >
+              <md-field class="desc" :class="getValidationClass('description')" >
                 <label for="description">Description of Reason</label>
-                <md-input name="description" id="description" autocomplete="given-name" v-model="form.description" :disabled="processing" autofocus=true />
+                <md-input v-model="form.description" :disabled="processing" autofocus=true />
                 <span class="md-error" v-if="!$v.form.description.required">The description is required</span>
                 <span class="md-error" v-else-if="!$v.form.description.minlength">Invalid description</span>
               </md-field>
             </div>
             <!-- Work -->
-            <div class="md-layout-item md-small-size-100">
+            <div id="work" class="md-layout-item md-small-size-100">
               <md-checkbox v-model="form.work">
                 Work related
               </md-checkbox>
             </div>
-            <div class="md-layout-item md-small-size-100">
+            <div id="active" class="md-layout-item md-small-size-100">
               <md-checkbox v-model="form.active">
                 Activate
               </md-checkbox>
@@ -37,11 +37,11 @@
         <md-card-actions>
           <!-- Normal add -->
           <div v-if="!reasonData">
-            <md-button style="color: orange" @click="clearForm">
+            <md-button id="cancel" style="color: orange" @click="clearForm">
               <md-icon>cancel</md-icon>
               Cancel
             </md-button>
-            <md-button style="color: lime" v-on:click="addReason">
+            <md-button id="add" style="color: lime" v-on:click="addReason">
               <md-icon>done</md-icon>
               Add Reason
             </md-button>
@@ -58,6 +58,8 @@
             </md-button>
           </div>
         </md-card-actions>
+        <v-tour name="addReason" :steps="steps"></v-tour>
+
       </md-card>
     </form>
     <md-button v-if="standard !== false" @click="help">
@@ -87,28 +89,28 @@
       return {
         steps: [
           {
-            target: '#addCardS',
+            target: '#startRT',
             content: `This is where all reasons that are going to be used to clock out will be created.`,
             params: {
               placement: 'left'
             }
           },
           {
-            target: '.tag',
+            target: '.desc',
             content: `Firstly enter the description of the reason i.e. 'Smoke Break'`,
             params: {
               placement: 'right'
             }
           },
           {
-            target: '.tag',
+            target: '#work',
             content: `By checking this field it will mark the reason as work related, when employees clock out`,
             params: {
               placement: 'right'
             }
           },
           {
-            target: '.tag',
+            target: '#active',
             content: `By selecting this field will set the reason as active, and will be available for use on the clocking aplication`,
             params: {
               placement: 'right'
