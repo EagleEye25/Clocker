@@ -1,8 +1,9 @@
 <template>
   <div>
     <md-button class="md-icon-button md-dense topLeft" v-if="standard !== false" @click="help">
-        <md-icon>help_outline</md-icon>
-      </md-button>
+      <md-tooltip md-direction="left">Click Me For Help</md-tooltip>
+      <md-icon>help_outline</md-icon>
+    </md-button>
     <br>
     <div class="center">
       <!-- Part of process -->

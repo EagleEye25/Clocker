@@ -1,6 +1,7 @@
 <template>
   <div class="center">
     <md-button class="md-icon-button md-dense topLeft" @click="help">
+      <md-tooltip md-direction="left">Click Me For Help</md-tooltip>
       <md-icon>help_outline</md-icon>
     </md-button>
     <br>
@@ -231,7 +232,7 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
-    width: 40%;
+    width: 35%;
   }
 
   .md-table-cell {
