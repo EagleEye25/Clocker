@@ -501,8 +501,4 @@
     text-align: left;
   }
 
-  .md-card {
-
-  }
-
 </style>

@@ -103,12 +103,12 @@
     watch: {
       cardNumber: {
         handler(newValue, old) {
-        if (newValue) {
-          if (!this.showCreatedCards) {
-            this.setDone('first', 'second');
+          if (newValue) {
+            if (!this.showCreatedCards) {
+              this.setDone('first', 'second');
+            }
           }
         }
-      }
       }
     },
 

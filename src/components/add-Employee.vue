@@ -53,7 +53,7 @@
             </div>
           </div>
           <!-- Third Part -->
-          <div class="md-layout md-gutter">
+          <div class="md-layout md-gutter" v-if="form.admin">
             <!-- Password -->
             <div class="md-layout-item md-small-size-100">
               <md-field v-show=form.admin :class="getValidationClass('password')">
@@ -110,6 +110,9 @@
 </template>
 
 <script>
+  const strongPassReg = new RegExp(
+    /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{10,}$/
+  );
   import { validationMixin } from 'vuelidate';
   import {
     required,
@@ -179,8 +182,7 @@
           params: {
             placement: 'bottom'
           }
-        },
-      ],
+        }],
         form: {
           firstName: '',
           lastName: '',
@@ -199,27 +201,39 @@
       }
     },
     // TODO: fix when admin isnt clicked, also proper password validations
-    validations: {
-      form: {
-        firstName: {
-          required,
-          minLength: minLength(3)
-        },
-        lastName: {
-          required,
-          minLength: minLength(3)
-        },
-        admin: {
-          required,
-        },
-        reporting_admin: {
-          required
-        },
-        password: {
-          required
-        },
-        confirmPass: {
-          sameAsPassword: sameAs('password')
+    validations() {
+      console.log(this.form.admin);
+      if (!this.form.admin) {
+        return {
+          form: {
+            firstName: {
+              required,
+              minLength: minLength(3)
+            },
+            lastName: {
+              required,
+              minLength: minLength(3)
+            },
+          }
+        }
+      } else {
+        return {
+          form: {
+            firstName: {
+              required,
+              minLength: minLength(3)
+            },
+            lastName: {
+              required,
+              minLength: minLength(3)
+            },
+            password: {
+              required,
+            },
+            confirmPass: {
+              sameAsPassword: sameAs('password')
+            }
+          }
         }
       }
     },
@@ -364,17 +378,17 @@
             el.focus();
           }
         if (this.id) {
+          this.id = null;
           this.$router.push('/management/viewEmployee');
         }
       },
 
       validateUser() {
         this.$v.$touch()
+        console.log(this.$v);
 
         if (!this.$v.$invalid) {
-                      console.log('here');
           if (!this.id || this.standard === false) {
-            console.log('here');
             this.addEmployee();
           } else if (this.id) {
             this.updateEmployee();
