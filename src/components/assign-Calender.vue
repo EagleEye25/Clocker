@@ -144,6 +144,10 @@
         return this.$store.getters.employeeInfo;
       }
     },
+
+    destroyed() {
+      this.clearStore();
+    }
   }
 </script>
 

@@ -168,10 +168,6 @@
         if (index) {
           this.active = index;
         }
-        // let k = $store.getters.employeeInfo.name;
-        // if (k) {
-        //   console.log('yay');
-        // }
       },
 
       setError () {
@@ -202,6 +198,10 @@
       addCanceled() {
         return this.$store.getters.cancelAddEmp;
       }
+    },
+
+    destroyed() {
+      this.clearStore();
     }
   }
 </script>

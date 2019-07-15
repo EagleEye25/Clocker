@@ -212,12 +212,10 @@
 
       async deleteCal() {
         await http.delete(`/api/calender/${this.calID}`)
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.$awn.success('Successfully deleted Calendar');
             return true;
-          }).catch((err) => {
-            console.log(err);
+          }).catch(() => {
             this.$awn.alert('Could Not Delete Calendars');
             return false;
           });
@@ -230,7 +228,6 @@
       onSelect(item) {
         if (item) {
           this.selectedCalendar = item;
-          console.log(item);
           this.standard === false ? this.$store.dispatch('updateCalendar', item) : null;
         }
       },

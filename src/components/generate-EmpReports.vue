@@ -436,7 +436,7 @@
                 'reporting_admin': boolReport,
                 'active': active
               }
-              active ? this.employees.push(data) : this.delEmp.push(data);
+              active ? this.employees.push(data) : null
             });
           return true;
         }).catch((err) => {

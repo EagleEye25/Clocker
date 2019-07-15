@@ -161,11 +161,13 @@
     methods: {
       async changeView() {
         if (this.showCreated) {
+          this.title = 'Created Cards';
           this.searched = [];
           this.cardData = [];
           this.getUnlinkedCards();
           this.searched = this.cardData;
         } else {
+          this.title = 'Employee Cards';
           this.searched = [];
           this.cardData = [];
           this.getCards();

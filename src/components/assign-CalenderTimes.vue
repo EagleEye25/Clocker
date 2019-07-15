@@ -172,6 +172,10 @@
         return this.$store.getters.calendarTime;
       }
     },
+
+    destroyed() {
+      this.clearStore();
+    }
   }
 </script>
 

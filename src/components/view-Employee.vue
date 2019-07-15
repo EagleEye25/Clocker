@@ -182,18 +182,6 @@
                 this.delEmp.splice(idx, 1);
               }
             }
-            // const idx = this.employees.findIndex((emp) => emp.id === item.id);
-            // if (idx > -1) {
-            //   if (bool) {
-            //     this.delEmp.active = bool;
-            //     this.employees.push(this.delEmp[idx]);
-            //   } else {
-            //     this.employees
-            //   }
-            //   console.log(this.employees.active)
-            //   this.employees.active = bool;
-            //   console.log(this.employees.active)
-            // }
             !bool ? this.$awn.success('Successfully Deleted Employee') :
               this.$awn.success('Successfully Restored Employee Employee');
             return true
@@ -221,7 +209,6 @@
           let api = '/api/employee/';
           await this.getEmployees(api);
         } else if (this.standard === false && this.calUnAssigned === true) {
-          console.log('here');
           this.title = 'Select Unassigned Employee';
           let api = `/api/employee/unassigned/employees/calendars/${this.calData.id}`;
           await this.getEmployees(api);

@@ -390,7 +390,6 @@
 
       validateUser() {
         this.$v.$touch()
-        console.log(this.$v);
 
         if (!this.$v.$invalid) {
           if (!this.id || this.standard === false) {
