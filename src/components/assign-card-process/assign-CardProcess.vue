@@ -102,7 +102,7 @@
 
     watch: {
       cardNumber: {
-        handler(newValue, old) {
+        handler(newValue) {
           if (newValue) {
             if (!this.showCreatedCards) {
               this.setDone('first', 'second');

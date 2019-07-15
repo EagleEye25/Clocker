@@ -165,7 +165,7 @@
             this.$store.dispatch('updateCardNo', this.form.tag);
             this.clearForm();
             this.$awn.success('Successfully Added Card');
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Add Card');
           });
         } else {

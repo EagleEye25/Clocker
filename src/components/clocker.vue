@@ -78,7 +78,7 @@
             this.showDialog('InSuccess');
             this.tag = '';
           }
-        }).catch(() => {
+        }).catch((error) => {
           if (error) {
             this.showDialog('InFail');
           }
@@ -198,30 +198,14 @@
 
     },
 
-  directives: {
-    focus: {
-      // directive definition
-      inserted: function (el) {
-        el.focus()
+    directives: {
+      focus: {
+        // directive definition
+        inserted: function (el) {
+          el.focus()
+        }
       }
     }
-  }
-
-    // getReasons() {
-    //      http.get(`/api/reason/`)
-    //       .then((res) => {
-
-    //       }).catch((error) => {
-
-    //       });
-    //   },
-
-    // watch: {
-    //   tag: function (newTag, old) {
-    //     this.temp = newTag;
-    //     // this.tag = 'hdjffhdj';
-    //   }
-    // }
 
   }
 </script>

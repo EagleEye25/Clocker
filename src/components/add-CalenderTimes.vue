@@ -308,7 +308,7 @@
         return await http.get(`/api/calender_times/times/existing`, {c_times})
           .then(() => {
             return true
-          }).catch((err) => {
+          }).catch(() => {
             return false
           });
       },

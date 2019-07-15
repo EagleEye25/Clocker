@@ -152,7 +152,7 @@
 
     watch: {
       showCreated: {
-        handler(newValue, old) {
+        handler() {
           this.changeView();
         }
       }
@@ -293,8 +293,8 @@
             });
           return true;
         }).catch((err) => {
-          let error = err.toString().indexOf('404') ?
-            this.$awn.warning('No created employee cards, please assign a card to an employee ') :
+          let error = err.toString().indexOf('404');
+          error ? this.$awn.warning('No created employee cards, please assign a card to an employee ') :
               this.$awn.alert('Could Not Get Cards');
           return false;
         });

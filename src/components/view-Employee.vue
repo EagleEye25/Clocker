@@ -121,7 +121,7 @@
 
     watch: {
       showDeleted: {
-        handler(newValue, old) {
+        handler() {
           this.changeView();
         }
       }

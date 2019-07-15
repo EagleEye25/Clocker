@@ -138,7 +138,7 @@ export default {
 
   watch: {
     selectedCalID: {
-      handler(newValue, old) {
+      handler(newValue) {
         if (newValue) {
           this.getEmployees();
         }
@@ -158,14 +158,14 @@ export default {
     async unassign() {
       return await http
         .delete(`api/employee_calender/remove/emp/${this.empID}`)
-        .then(res => {
+        .then(() => {
           const idx = this.searched.findIndex((emp) => emp.id === this.empID);
           if (idx > -1) {
             this.searched.splice(idx, 1);
           }
           this.$awn.success("Successfully unassigned employee from calendar");
         })
-        .catch(err => {
+        .catch(() => {
           this.$awn.alert("Could not unassigned employee from calendar");
         });
     },
@@ -219,7 +219,8 @@ export default {
           return true;
         })
         .catch((err) => {
-          let error = err.toString().indexOf('404') ? this.$awn.warning("No created calendars, please add a calendar") :
+          let error = err.toString().indexOf('404');
+          error ? this.$awn.warning("No created calendars, please add a calendar") :
           this.$awn.alert("Could Not Get Calendars");
           return false;
         });

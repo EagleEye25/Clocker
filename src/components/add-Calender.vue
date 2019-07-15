@@ -121,7 +121,6 @@
   import {
     required,
     minLength,
-    maxLength
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts';
   export default {
@@ -220,7 +219,7 @@
             this.clearForm();
             this.create ? this.returnToView() : null;
             return res.data.id;
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Create Calendar');
             return false;
           });
@@ -235,11 +234,11 @@
           'id': d.id,
           'name': this.form.calendarName,
           'description': this.form.description
-        }).then((res) => {
+        }).then(() => {
           this.$awn.success('Successfully Updated Calendar');
           this.returnToView();
           return false
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Update Calendar');
           return false
         });
@@ -249,7 +248,7 @@
         return await http.get(`/api/calender/findByName/${name}`)
           .then(() => {
             return true
-          }).catch((err) => {
+          }).catch(() => {
             return false
           });
       },

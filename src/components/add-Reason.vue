@@ -74,8 +74,7 @@
   import { validationMixin } from 'vuelidate';
   import {
     required,
-    minLength,
-    maxLength
+    minLength
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts'
 
