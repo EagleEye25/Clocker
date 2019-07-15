@@ -14,7 +14,7 @@
         </md-step>
 
         <md-step id="second" md-label="Select Calendar Times" :md-editable=editable :md-done.sync="second">
-          <viewCalenderTimes v-bind:standard=false></viewCalenderTimes>
+          <viewCalenderTimes v-if="active === 'second'" v-bind:standard=false></viewCalenderTimes>
           <md-button class="md-raised md-primary" :disabled=!timeData @click="setDone('second', 'third')">Continue</md-button>
         </md-step>
 
@@ -127,7 +127,8 @@
           this.editable = false;
           this.assigned = true;
           return true;
-        }).catch(() => {
+        }).catch((err) => {
+          console.log(err);
           this.$awn.alert('Could Not Assign Calendar Times');
           return false;
         });

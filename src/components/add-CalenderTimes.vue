@@ -261,12 +261,14 @@
             this.$awn.success('Successfully Created Calendar Times');
             if (this.standard === false) {
               this.$store.dispatch('updateCalendarTime', res.data);
+              console.log(this.timeData)
               this.$emit('added');
             }
-            this.create ? this.returnToView() : null;
+            this.create ? this.returnToView(true) : null;
             this.clearForm();
             return true;
-          }).catch(() => {
+          }).catch((err) => {
+            console.log(err);
             this.$awn.alert('Could Not Create Calendar Times');
             return false;
           });
@@ -330,9 +332,9 @@
         }
       },
 
-      returnToView() {
+      returnToView(keep) {
         this.clearForm();
-        this.$store.dispatch('updateCalendarTime', null);
+        keep ? null : this.$store.dispatch('updateCalendarTime', null);
         this.$router.push('/management/viewCalendarTimes');
       },
 

@@ -2,18 +2,18 @@
   <div class="center">
     <br>
     <md-steppers :md-active-step.sync="active" md-vertical md-linear>
-        <md-step id="first" md-label="Select Calendar" :md-editable=editable :md-done.sync="first">
-          <addCalender v-if="!showCreatedCal" v-bind:standard=false @added="setDone('first', 'second')"></addCalender>
-          <md-button v-if="!showCreatedCal" class="md-raised" style="color:orange" @click="showCreatedCal = true">Already Created Calendar</md-button>
-          <div v-if="showCreatedCal">
-            <viewCalender v-bind:standard=false></viewCalender>
-            <md-button class="md-raised md-accent" @click="showCreatedCal = false">Back</md-button>
-            <md-button class="md-raised md-primary" :disabled=!calendarData @click="setDone('first', 'second')">Continue</md-button>
-          </div>
-        </md-step>
-<!-- TODO: find way to query when select changes -->
+      <md-step id="first" md-label="Select Calendar" :md-editable=editable :md-done.sync="first">
+        <addCalender v-if="!showCreatedCal" v-bind:standard=false @added="setDone('first', 'second')"></addCalender>
+        <md-button v-if="!showCreatedCal" class="md-raised" style="color:orange" @click="showCreatedCal = true">Already Created Calendar</md-button>
+        <div v-if="showCreatedCal">
+          <viewCalender v-bind:standard=false></viewCalender>
+          <md-button class="md-raised md-accent" @click="showCreatedCal = false">Back</md-button>
+          <md-button class="md-raised md-primary" :disabled=!calendarData @click="setDone('first', 'second')">Continue</md-button>
+        </div>
+      </md-step>
+
       <md-step id="second" md-label="Select Employee" :md-editable=editable :md-done.sync="second">
-        <viewEmployee v-if="calendarData" v-bind:standard=false v-bind:calUnAssigned=true></viewEmployee>
+        <viewEmployee v-if="active === 'second'" v-bind:standard=false v-bind:calUnAssigned=true></viewEmployee>
         <md-button class="md-raised md-primary" :disabled="!employeeInfo" @click="setDone('second', 'third')">Continue</md-button>
       </md-step>
 
@@ -98,7 +98,8 @@
           this.assigned = true;
           this.editable = false;
           return true;
-        }).catch(() => {
+        }).catch((err) => {
+          console.log(err);
           this.$awn.alert('Could Not Assign Employee To Calendar');
           return false;
         });
