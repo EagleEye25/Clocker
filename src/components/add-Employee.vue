@@ -110,14 +110,15 @@
 </template>
 
 <script>
-  const strongPassReg = new RegExp(
+  const strongPassReg = helpers.regex('password',
     /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{10,}$/
   );
   import { validationMixin } from 'vuelidate';
   import {
     required,
     minLength,
-    sameAs
+    sameAs,
+    helpers
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts'
 
@@ -202,7 +203,6 @@
     },
     // TODO: fix when admin isnt clicked, also proper password validations
     validations() {
-      console.log(this.form.admin);
       if (!this.form.admin) {
         return {
           form: {
@@ -229,6 +229,7 @@
             },
             password: {
               required,
+              strongPassReg
             },
             confirmPass: {
               sameAsPassword: sameAs('password')
