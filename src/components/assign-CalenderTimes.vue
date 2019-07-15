@@ -127,8 +127,7 @@
           this.editable = false;
           this.assigned = true;
           return true;
-        }).catch((err) => {
-          console.log(err);
+        }).catch(() => {
           this.$awn.alert('Could Not Assign Calendar Times');
           return false;
         });

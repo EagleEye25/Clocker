@@ -98,8 +98,7 @@
           this.assigned = true;
           this.editable = false;
           return true;
-        }).catch((err) => {
-          console.log(err);
+        }).catch(() => {
           this.$awn.alert('Could Not Assign Employee To Calendar');
           return false;
         });
