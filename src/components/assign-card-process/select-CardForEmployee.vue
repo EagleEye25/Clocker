@@ -27,7 +27,6 @@
                               Please press 'BACK' to create a new card`">
           </md-table-empty-state>
           <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-            <md-table-cell md-label="Nr." md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
             <md-table-cell md-label="Card Number" md-sort-by="card_no">{{ item.card_no }}</md-table-cell>
           </md-table-row>
         </md-table>
@@ -39,6 +38,9 @@
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
             <h1 class="md-title"> {{ title }} </h1>
+            <md-checkbox v-model="showCreated" @click="changeView" v-if="standard !== false">
+              Show Created Cards
+            </md-checkbox>
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
@@ -52,14 +54,15 @@
           :md-description="`No Assigned Employees found for this search term. Try a different search term or create assign an employee.`">
           <md-button class="md-primary md-raised" to="/management/assignCardProcess">Assing Employee to card</md-button>
         </md-table-empty-state>
-          <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" >
-            <md-table-cell md-label="Employee Name" md-sort-by="name" md-numeric>
+          <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+            <!-- NOT SHOW CREATED CARDS -->
+            <md-table-cell v-if="!showCreated" md-label="Employee Name" md-sort-by="name" md-numeric>
               {{ item.name }}
             </md-table-cell>
-            <md-table-cell md-label="Assigned Card" md-sort-by="card_no" md-numeric>
+            <md-table-cell v-if="!showCreated" md-label="Assigned Card" md-sort-by="card_no" md-numeric>
               {{ item.card_no }}
             </md-table-cell>
-            <md-table-cell md-label="Deactivate Card" md-sort-by="active">
+            <md-table-cell v-if="!showCreated" md-label="Deactivate Card" md-sort-by="active">
               <md-button class="md-raised" style="color: orange" v-if="item.active === 1" @click="callDeactivate(item.id)">
                 Deactivate
               </md-button>
@@ -67,9 +70,18 @@
                 Activate
               </md-button>
             </md-table-cell>
-            <md-table-cell md-label="Unassign Card">
+            <md-table-cell v-if="!showCreated" md-label="Unassign Card">
               <md-button class="md-raised md-accent" @click="callUnassign(item.id)">
                 Unassign
+              </md-button>
+            </md-table-cell>
+            <!-- SHOW CREATED CARDS -->
+            <md-table-cell v-if="showCreated" md-label="Card No" md-sort-by="card_no" md-numeric>
+              {{ item.card_no }}
+            </md-table-cell>
+            <md-table-cell v-if="showCreated">
+              <md-button class="md-raised md-accent" >
+                Delete
               </md-button>
             </md-table-cell>
           </md-table-row>
@@ -134,10 +146,33 @@
         state: '',
         showNorm: false,
         itemID: '',
+        showCreated: false,
+      }
+    },
+
+    watch: {
+      showCreated: {
+        handler(newValue, old) {
+          this.changeView();
+        }
       }
     },
 
     methods: {
+      async changeView() {
+        if (this.showCreated) {
+          this.searched = [];
+          this.cardData = [];
+          this.getUnlinkedCards();
+          this.searched = this.cardData;
+        } else {
+          this.searched = [];
+          this.cardData = [];
+          this.getCards();
+          this.searched = this.cardData;
+        }
+      },
+
       help() {
         this.$tours['viewCards'].start();
       },
@@ -239,8 +274,8 @@
         });
       },
 
-      getCards() {
-        http.get(`/api/employee_card/`)
+      async getCards() {
+        return await http.get(`/api/employee_card/`)
           .then((res) => {
             res.data.forEach(d => {
               let data = {
@@ -254,10 +289,12 @@
               }
               this.cardData.push(data);
             });
+          return true;
         }).catch((err) => {
           let error = err.toString().indexOf('404') ?
             this.$awn.warning('No created employee cards, please assign a card to an employee ') :
               this.$awn.alert('Could Not Get Cards');
+          return false;
         });
       },
 
@@ -273,8 +310,8 @@
         }
       },
 
-      getUnlinkedCards() {
-        http.get(`/api/card/unlinked/cards`)
+      async getUnlinkedCards() {
+        await http.get(`/api/card/unlinked/cards`)
           .then((res) => {
             res.data.forEach(d => {
               let data = {
@@ -283,8 +320,10 @@
               }
               this.cardData.push(data);
             });
+          return true;
         }).catch(() => {
           this.$awn.alert('Could Not Get Cards');
+          return false;
         });
       },
 
@@ -331,7 +370,7 @@
     padding-top: 10px;
     margin: 0 auto;
     text-align: left;
-    width: 40%;
+    width: 50%;
   }
 
   .md-table-cell {

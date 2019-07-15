@@ -39,10 +39,7 @@
             Add Card
           </md-menu-item>
           <md-menu-item to="/management/selectCardForEmployee">
-            View Created Cards
-          </md-menu-item>
-          <md-menu-item to="/management/selectCardForEmployee">
-            View Employee Cards
+            View Cards
           </md-menu-item>
         </md-menu-content>
       </md-menu>

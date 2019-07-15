@@ -205,7 +205,7 @@
 
       changeView() {
         if (this.showDeleted) {
-          this.searched = this.delEmp
+          this.searched = this.delEmp;
         } else {
           this.searched = this.employees;
         }

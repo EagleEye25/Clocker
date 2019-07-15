@@ -60,7 +60,11 @@
                 <label for="password">* Password</label>
                 <md-input type="password" class="password" v-model="form.password" :disabled="processing"/>
                 <span class="md-error" v-if="!$v.form.password.required">Password is required</span>
-                <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
+                <span class="md-error" v-else-if="!$v.form.password.strongPassReg">Password Must Include:
+                                                                                  2 numbers,
+                                                                                  2 Special Characters <br>
+                                                                                  2 Uppercase Characters,
+                                                                                  Must be at least 10 Characters</span>
               </md-field>
             </div>
            <!-- Password -->
