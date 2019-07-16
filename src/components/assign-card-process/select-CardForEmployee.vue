@@ -161,7 +161,7 @@
     methods: {
       async changeView() {
         if (this.showCreated) {
-          this.title = 'Created Cards';
+          this.title = 'Unlinked Cards';
           this.searched = [];
           this.cardData = [];
           this.getUnlinkedCards();
@@ -294,7 +294,7 @@
           return true;
         }).catch((err) => {
           let error = err.toString().indexOf('404');
-          error ? this.$awn.warning('No created employee cards, please assign a card to an employee ') :
+          error > -1 ? this.$awn.warning('No created employee cards, please assign a card to an employee ') :
               this.$awn.alert('Could Not Get Cards');
           return false;
         });
@@ -323,7 +323,7 @@
               this.cardData.push(data);
             });
           return true;
-        }).catch(() => {
+        }).catch((err) => {
           this.$awn.alert('Could Not Get Cards');
           return false;
         });

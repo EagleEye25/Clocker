@@ -197,7 +197,7 @@ export default {
         })
         .catch(err => {
           let error = err.toString().indexOf("404");
-          error
+          error > -1
             ? this.$awn.warning("No Assigned Employees")
             : this.$awn.alert("Could Not Get Employees");
           return false;
@@ -220,7 +220,7 @@ export default {
         })
         .catch((err) => {
           let error = err.toString().indexOf('404');
-          error ? this.$awn.warning("No created calendars, please add a calendar") :
+          error > -1 ? this.$awn.warning("No created calendars, please add a calendar") :
           this.$awn.alert("Could Not Get Calendars");
           return false;
         });

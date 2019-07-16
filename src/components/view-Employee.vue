@@ -156,7 +156,7 @@
           return true;
         }).catch((err) => {
           let error = err.toString().indexOf('404');
-          (error) ? this.$awn.warning('No created employees, please create an employee') :
+          (error > -1) ? this.$awn.warning('No created employees, please create an employee') :
           this.$awn.alert('Could Not Get Employees');
           return false;
         });

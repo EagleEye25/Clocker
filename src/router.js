@@ -18,6 +18,7 @@ import assignCalender from '@/components/assign-Calender.vue'
 import generateEmpReports from '@/components/generate-EmpReports.vue';
 import loginManagement from '@/components/login-Management.vue';
 import unassignCalFromEmp from '@/components/unassign-CalFromEmp.vue';
+import install from '@/components/install.vue';
 
 
 Vue.use(Router)
@@ -28,7 +29,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: management
+      component: install
     },
     {
       path: '/clocker',

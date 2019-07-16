@@ -236,7 +236,7 @@
             return true;
           }).catch((err) => {
             let error = err.toString().indexOf('404');
-            error ? this.$awn.warning('No created calendar times, please create a calendar time') :
+            error > -1 ? this.$awn.warning('No created calendar times, please create a calendar time') :
             this.$awn.alert('Could Not Get Calendar Times');
             return false;
           });

@@ -201,7 +201,7 @@
           },
           theme: {
             mode: 'dark',
-            palette: 'palette1',
+            palette: 'palette8',
           },
           plotOptions: {
             radialBar: {
@@ -373,11 +373,11 @@
           title: {
             text: 'Rank of Employees'
           },
-          colors: ['#FF4560'],
+          colors: ['#2E2EFE'],
           markers: {
             size: 4,
             colors: ['#fff'],
-            strokeColor: '#FF4560',
+            strokeColor: '#2E2EFE',
             strokeWidth: 2,
           },
           tooltip: {
@@ -441,7 +441,7 @@
           return true;
         }).catch((err) => {
           let error = err.toString().indexOf('404');
-          (error) ? this.$awn.warning('No Unassigned Employees') :
+          (error > -1) ? this.$awn.warning('No Unassigned Employees') :
           this.$awn.alert('Could Not Get Employees');
           return false;
         });
