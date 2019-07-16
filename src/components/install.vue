@@ -6,7 +6,7 @@
     <div>
       <md-steppers :md-active-step.sync="active" md-vertical md-linear>
         <md-step id="first" md-label="Select Application Type" :md-editable="editable" :md-done.sync="first">
-            <md-radio v-model="radio" value="clocker">Clocker</md-radio>
+            <md-radio v-model="radio" value="clocking">Clocking</md-radio>
             <md-radio v-model="radio" value="management">Management</md-radio>
             <br>
           <md-button class="md-raised md-primary" :disabled="!radio" @click="setDone('first', 'second')">Continue</md-button>
