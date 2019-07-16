@@ -1,7 +1,7 @@
 <template>
   <div>
     <br>
-    <h1 style="color:white"> Appropriate Headding </h1>
+    <h1 style="color:white"> Settings </h1>
     <br>
     <div>
       <md-steppers :md-active-step.sync="active" md-vertical md-linear>
