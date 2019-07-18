@@ -1,7 +1,7 @@
 <template>
   <div>
     <br>
-    <h1 style="color:white"> Settings </h1>
+    <h1 style="color:white"> Set Server Connection </h1>
     <br>
     <div>
       <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
@@ -20,7 +20,6 @@
 
 <script>
   import axios from 'axios';
-import { fail } from 'assert';
 
   export default {
     name: 'install',

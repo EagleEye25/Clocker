@@ -5,7 +5,7 @@
       <!-- Hides input off screen -->
       <!-- <div class="outer"> -->
         <!-- <div class="inner"> -->
-          <input v-if="!showNormLogin" v-focus v-model="tag" type="text" @keyup.enter="onEnter" id="cardInput">
+          <input v-if="!showNormLogin" v-focus v-model="tag" type="text" @keyup.enter="login" id="cardInput">
         <!-- </div> -->
       <!-- </div> -->
       <h1 style="color:white;">{{ message }}</h1>
@@ -30,7 +30,7 @@
           <md-button @click="showNormLogin = false">
             Cancel
           </md-button>
-          <md-button to="/management">
+          <md-button @click="login">
             Login
           </md-button>
         </div>
@@ -80,8 +80,21 @@
         this.login();
       },
 
-      login() {
-        console.log(this.tag);
+      async login() {
+        const data = {};
+        if (this.showNormLogin) {
+          data.name = this.empName;
+          data.pass = this.pass;
+        } else {
+          data.cardNo = this.tag;
+        }
+        return await http.post(`/app/login/`, data).then((res) => {
+            this.$awn.success('Successfully Authenticated');
+            console.log('@@@@@@ success: ', res);
+          }).catch((err) => {
+            this.$awn.alert('Authentication failed');
+            console.log('@@@@@@ error: ', err);
+          });
       },
 
       focusInput() {
