@@ -38,12 +38,12 @@
     <div>
       <md-dialog-prompt
         :md-active.sync="active"
-        v-model="authCard"
-        md-title="Authorize"
-        md-input-placeholder="Scan Manager Card"
+        v-model="serverAddy"
+        md-title="Change Server Address"
+        md-input-placeholder="Server Address"
         @md-confirm="onConfirm" />
 
-      <md-button @click="active = true, authCard = null">
+      <md-button @click="active = true, serverAddy = null">
         <md-icon>settings</md-icon>
       </md-button>
     </div>
@@ -67,13 +67,13 @@
         pass: null,
         empName: null,
         active: false,
-        authCard: null,
+        serverAddy: null,
       }
     },
 
     methods: {
       onConfirm() {
-        console.log(this.authCard)
+        console.log(this.serverAddy)
       },
 
       onEnter() {
