@@ -159,18 +159,18 @@
       async updateActive() {
         let work = false;
         this.selectedReason.work ? work = true : work = false;
-        return await http.put(`/api/reason/${this.selectedReason.id}`, {
+        return await this.$awn.asyncBlock(http.put(`/api/reason/${this.selectedReason.id}`, {
           'id': this.selectedReason.id,
           'description': this.selectedReason.description,
           'work': work,
           'active': this.state
         }).then(() => {
-          this.$awn.success('Successfully Updated Reason State');
+          this.$awn.success('Successfully Changed Reason State');
           return true;
         }).catch(() => {
           this.$awn.alert('Could Not Update Reason State');
           return false;
-        });
+        }), null, null, 'Changing Reason State');
       },
 
       async refresh() {

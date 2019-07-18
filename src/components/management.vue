@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <md-toolbar id="v-step-0">
+      <md-toolbar md-elecvation="1">
 
       <!-- Calenders -->
       <md-menu md-size="medium" md-align-trigger :mdCloseOnSelect=true>
@@ -107,6 +107,13 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
+
+      <div class="md-toolbar-section-end">
+          <md-button class="md-icon-button">
+            <md-icon>cancel_presentation</md-icon>
+            <md-tooltip>Logout</md-tooltip>
+          </md-button>
+        </div>
     </md-toolbar>
     </div>
     <br>

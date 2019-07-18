@@ -66,7 +66,7 @@
       },
 
       clockIn(resp) {
-        http.post(`/api/clocking/clock_in`, {
+        this.$awn.asyncBlock(http.post(`/api/clocking/clock_in`, {
           'employee_id': resp.employee_id,
           'reason_id': null,
           'clock_in': Date.now(),
@@ -82,11 +82,11 @@
           if (error) {
             this.showDialog('InFail');
           }
-        });
+        }), null, null, 'Clocking In');
       },
 
       clockOut(resp, reasonID) {
-        http.put(`/api/clocking/clock_out/${resp.id}`, {
+        this.$awn.asyncBlock(http.put(`/api/clocking/clock_out/${resp.id}`, {
         'id': resp.id,
         'employee_id': resp.employee_id,
         'reason_id': reasonID,
@@ -100,11 +100,11 @@
         this.tag = '';
       }).catch(() => {
         this.showDialog('InFail');
-      });
+      }), null, null, 'Clocking Out');
       },
 
       getReasons() {
-        http.get(`/api/reason/`)
+        this.$awn.asyncBlock(http.get(`/api/reason/`)
         .then((res) => {
           res.data.forEach(d => {
             let bool = 'no';
@@ -121,8 +121,8 @@
           });
           this.reasons.toString();
         }).catch(() => {
-
-        });
+          this.$awn.alert('Couldnt Get Reasons')
+        }), null, null, 'Getting Reasons');
       },
 
       onSelect(item) {
