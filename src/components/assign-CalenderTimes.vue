@@ -114,7 +114,7 @@
     methods: {
       async assignTimes() {
         let d = this.timeData;
-        return await http.put(`/api/calender_times/${d.id}`,{
+        return await this.$awn.asyncBlock(http.put(`/api/calender_times/${d.id}`,{
           'id': d.id,
           'calender_id': this.calendarData.id,
           'startWeek': d.startWeek,
@@ -131,7 +131,7 @@
         }).catch(() => {
           this.$awn.alert('Could Not Assign Calendar Times');
           return false;
-        });
+        }), null, null, 'Assigning');
       },
 
       setDone (id, index) {

@@ -159,7 +159,7 @@
 
       async addCard() {
         if (await this.checkCardExists()) {
-          http.post(`/api/card/create`, {
+          this.$awn.asyncBlock(http.post(`/api/card/create`, {
             'card_no': this.form.tag
           }).then(() => {
             this.$store.dispatch('updateCardNo', this.form.tag);
@@ -167,7 +167,7 @@
             this.$awn.success('Successfully Added Card');
           }).catch(() => {
             this.$awn.alert('Could Not Add Card');
-          });
+          }), null, null, 'Adding Card');
         } else {
           this.$awn.warning('Card Already Exists');
           this.form.tag = '';

@@ -170,7 +170,7 @@
       },
 
       async updateReason() {
-        return await http.put(`/api/reason/${this.reasonData.id}`, {
+        return await this.$awn.asyncBlock(http.put(`/api/reason/${this.reasonData.id}`, {
           'id': this.reasonData.id,
           'description': this.form.description,
           'work': this.form.work,
@@ -184,11 +184,11 @@
         }).catch(() => {
           this.$awn.alert('Could Not Update Reason');
           return false;
-        });
+        }), null, null, 'Updating Reason');
       },
 
       addReason() {
-        http.post(`/api/reason/create`, {
+        this.$awn.asyncBlock(http.post(`/api/reason/create`, {
           'description': this.form.description,
           'work': this.form.work,
           'active': this.form.active
@@ -201,7 +201,7 @@
           this.$awn.success('Successfully Added Reason');
         }).catch(() => {
           this.$awn.alert('Could Not Add Reason');
-        })
+        }), null, null, 'Adding Reason')
       },
 
       getValidationClass(fieldName) {
