@@ -214,7 +214,7 @@
     },
 
     beforeMount() {
-      this.getReasons();
+      this.$awn.asyncBlock(this.getReasons(), null, null);
     }
   }
 </script>

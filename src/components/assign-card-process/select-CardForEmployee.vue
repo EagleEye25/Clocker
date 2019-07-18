@@ -304,11 +304,11 @@
         if (this.standard !== false) {
           this.title = 'Employee Cards';
           this.showNorm = true;
-          this.getCards();
+          this.$awn.asyncBlock(this.getCards(), null, null);
         } else if (this.standard === false) {
           this.showNorm = false;
           this.title = 'Select Unused Card';
-          this.getUnlinkedCards();
+          this.$awn.asyncBlock(this.getUnlinkedCards(), null, null);
         }
       },
 
