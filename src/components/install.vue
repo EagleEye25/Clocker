@@ -38,10 +38,10 @@ import { fail } from 'assert';
       async testCon() {
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
           .then((result) => {
-            console.log('success');
+            this.$awn.success('Valid Server Connection!');
             return true
           }).catch((err) => {
-            console.log('fail')
+            this.$awn.alert('Invalid Server Connection!');
             return false
           }), null, null);
       }
