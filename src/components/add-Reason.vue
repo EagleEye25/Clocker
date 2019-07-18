@@ -21,7 +21,7 @@
             <div class="md-layout-item md-small-size-100" style="padding-left: 15%;">
               <md-field class="desc" :class="getValidationClass('description')" >
                 <label for="description">* Description of Reason</label>
-                <md-input v-model="form.description" :disabled="processing" autofocus=true />
+                <md-input v-model="form.description" class="description" autofocus=true />
                 <span class="md-error" v-if="!$v.form.description.required">The description is required</span>
                 <span class="md-error" v-else-if="!$v.form.description.minlength">Invalid description</span>
               </md-field>
