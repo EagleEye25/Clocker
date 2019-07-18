@@ -16,17 +16,20 @@
       <div class="md-layout md-gutter center" v-if="showNormLogin">
         <div class="md-layout-item md-size-15 md-small-size-100 center">
           <md-field>
-            <label for="cardNo">Scan Card</label>
-            <md-input name="cardNo" id="cardNo" v-model="tag"/>
+            <label for="empName">Enter Employee Name</label>
+            <md-input class="empName" v-model="empName"/>
           </md-field>
         </div>
         <div class="md-layout-item md-size-15 md-small-size-100 center">
           <md-field>
-            <label for="cardNo">Enter Password</label>
-            <md-input name="pass" id="pass" v-model="pass"/>
+            <label for="pass">Enter Password</label>
+            <md-input class="pass" v-model="pass"/>
           </md-field>
         </div>
         <div class="md-layout-item md-size-7 md-small-size-100 center">
+          <md-button @click="showNormLogin = false">
+            Cancel
+          </md-button>
           <md-button>
             Login
           </md-button>
@@ -50,6 +53,7 @@
         message: 'Please Scan Your Manager Card',
         showNormLogin: false,
         pass: null,
+        empName: null,
       }
     },
 

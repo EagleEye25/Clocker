@@ -19,6 +19,7 @@ import generateEmpReports from '@/components/generate-EmpReports.vue';
 import loginManagement from '@/components/login-Management.vue';
 import unassignCalFromEmp from '@/components/unassign-CalFromEmp.vue';
 import install from '@/components/install.vue';
+// import settings from '../../public/settings/settings.json'
 
 
 Vue.use(Router)

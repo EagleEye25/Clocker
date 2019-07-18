@@ -56,6 +56,7 @@
   import {
     required,
   } from 'vuelidate/lib/validators'
+
   export default {
     name: 'install',
     mixins: [validationMixin],
