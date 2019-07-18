@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import addEmployee from '@/components/add-Employee.vue';
 import addCard from '@/components/add-Card.vue';
 import addReason from '@/components/add-Reason.vue';
-import clocker from '@/components/clocker.vue';
 import viewEmployee from '@/components/view-Employee.vue';
 import assignCardProcess from '@/components/assign-card-process/assign-CardProcess.vue';
 import selectCardForEmployee from '@/components/assign-card-process/select-CardForEmployee.vue';
@@ -31,10 +30,6 @@ export default new Router({
     {
       path: '/',
       component: install
-    },
-    {
-      path: '/clocker',
-      component: clocker
     },
     {
       path: '/login',

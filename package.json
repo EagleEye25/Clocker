@@ -1,5 +1,5 @@
 {
-  "name": "clocker",
+  "name": "clocker-management",
   "version": "0.1.0",
   "private": true,
   "main": "electron.js",
@@ -64,10 +64,10 @@
     "last 2 versions"
   ],
 
-  "productName": "Clocker",
+  "productName": "Clocker-management",
     "build": {
       "electronVersion": "5.0.4",
-      "appId": "clocker",
+      "appId": "clocker-management",
       "npmRebuild": true,
       "directories": {
         "buildResources": "resources",
@@ -110,7 +110,7 @@
         "uninstallerIcon": "resources/icon.ico",
         "createDesktopShortcut": "always",
         "createStartMenuShortcut": true,
-        "menuCategory": "Clocker",
+        "menuCategory": "Clocker-management",
         "runAfterFinish": true
       },
       "linux": {
@@ -136,11 +136,11 @@
             ]
           }
         ],
-        "executableName": "Clocker",
+        "executableName": "Clocker-Management",
         "desktop": {
           "Comment": "Keeping track so you dont have to!",
           "Icon": "particl-desktop",
-          "Name": "Clocker",
+          "Name": "Clocker-Management",
           "StartupNotify": "true",
           "Terminal": "false",
           "Type": "Application",

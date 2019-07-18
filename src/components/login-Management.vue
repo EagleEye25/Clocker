@@ -30,11 +30,23 @@
           <md-button @click="showNormLogin = false">
             Cancel
           </md-button>
-          <md-button>
+          <md-button to="/management">
             Login
           </md-button>
         </div>
       </div>
+    <div>
+      <md-dialog-prompt
+        :md-active.sync="active"
+        v-model="authCard"
+        md-title="Authorize"
+        md-input-placeholder="Scan Manager Card"
+        @md-confirm="onConfirm" />
+
+      <md-button @click="active = true, authCard = null">
+        <md-icon>settings</md-icon>
+      </md-button>
+    </div>
   </div>
 </template>
 
@@ -42,7 +54,7 @@
   import http from '../../public/app.service.ts'
 
   export default {
-    name: 'clocker',
+    name: 'login-Management',
     // Angular equivaent of INPUT
     props: {
     },
@@ -54,10 +66,16 @@
         showNormLogin: false,
         pass: null,
         empName: null,
+        active: false,
+        authCard: null,
       }
     },
 
     methods: {
+      onConfirm() {
+        console.log(this.authCard)
+      },
+
       onEnter() {
         this.login();
       },
