@@ -23,7 +23,7 @@ import install from '@/components/install.vue';
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   // base: process.env.BASE_URL,
   routes: [
@@ -102,4 +102,36 @@ export default new Router({
       ]
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const authToken = window.sessionStorage.getItem('token') || '';
+  if (to.path !== '/login') {
+    if (!authToken) {
+      next('/login');
+    }
+
+    let isFail = true;
+    try {
+      const content = JSON.parse(atob(authToken.toString().split('.')[1] || ''));
+      if (content && content.exp) {
+        const now = Date.now();
+        if (+now > +content.exp) {
+          isFail = false;
+        } else {
+          window.sessionStorage.removeItem('token');
+        }
+      }
+    } catch(e) {}
+
+    if (isFail) {
+      next('/login');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;

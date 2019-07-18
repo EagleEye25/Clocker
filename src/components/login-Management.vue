@@ -90,10 +90,14 @@
         }
         return await http.post(`/app/login/`, data).then((res) => {
             this.$awn.success('Successfully Authenticated');
-            console.log('@@@@@@ success: ', res);
+            const AUTH_TOKEN = res.data.token || '';
+            const REFRESH_TOKEN = res.data.refreshToken || '';
+            window.sessionStorage.setItem('token', AUTH_TOKEN);
+            window.sessionStorage.setItem('refreshToken', REFRESH_TOKEN);
+            http.defaults.headers.common['x-access-token'] = AUTH_TOKEN;
+            this.$router.push('/management');
           }).catch((err) => {
             this.$awn.alert('Authentication failed');
-            console.log('@@@@@@ error: ', err);
           });
       },
 
