@@ -112,7 +112,7 @@
   }
 
   export default {
-    name: 'clocker',
+    name: 'view-CalendarTimes',
     // Angular equivaent of INPUT
     props: {
       standard: true
