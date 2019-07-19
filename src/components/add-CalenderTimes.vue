@@ -22,6 +22,7 @@
                 <md-input type="number" class="sWeek" v-model="form.sWeek"/>
                 <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span>
                 <span class="md-error" v-else-if="!$v.form.sWeek.between">The starting week has to be between 1 AND 52</span>
+                <span class="md-helper-text">(1 - 52)</span>
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100">

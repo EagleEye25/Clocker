@@ -230,20 +230,18 @@
 
       async updateCalendar() {
         let d = this.calendarData;
-        if (!await this.checkCalender(this.form.calendarName)) {
-          return await this.$awn.asyncBlock(http.put(`/api/calender/${d.id}`, {
-            'id': d.id,
-            'name': this.form.calendarName,
-            'description': this.form.description
-          }).then(() => {
-            this.$awn.success('Successfully Updated Calendar');
-            this.returnToView();
-            return false
-          }).catch(() => {
-            this.$awn.alert('Could Not Update Calendar');
-            return false
-          }), null, null, 'Updating Calendar');
-        }
+        return await this.$awn.asyncBlock(http.put(`/api/calender/${d.id}`, {
+          'id': d.id,
+          'name': this.form.calendarName,
+          'description': this.form.description
+        }).then(() => {
+          this.$awn.success('Successfully Updated Calendar');
+          this.returnToView();
+          return false
+        }).catch(() => {
+          this.$awn.alert('Could Not Update Calendar');
+          return false
+        }), null, null, 'Updating Calendar');
       },
 
       async checkCalender(name) {

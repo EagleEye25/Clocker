@@ -234,7 +234,9 @@
       onSelect(item) {
         if (item) {
           this.selectedEmployee = item;
-          this.$store.dispatch('updateEmp', item);
+          if (this.standard === false) {
+            this.$store.dispatch('updateEmployeeInfo', item);
+          }
         }
       },
 
