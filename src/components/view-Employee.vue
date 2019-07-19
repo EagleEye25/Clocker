@@ -163,7 +163,7 @@
       },
 
       async deleteEmp(item, bool) {
-        return await http.put(`api/employee/delete/${item.id}`, {
+        return await this.$awn.asyncBlock(http.put(`api/employee/delete/${item.id}`, {
           'id': item.id,
           'active': bool,
         }).then(() => {
@@ -188,7 +188,7 @@
           }).catch(() => {
             this.$awn.alert('Could Not Delete Employee');
             return false
-          });
+          }), null, null);
       },
 
       changeView() {
@@ -234,7 +234,7 @@
       onSelect(item) {
         if (item) {
           this.selectedEmployee = item;
-          this.$store.dispatch('updateEmployeeInfo', item);
+          this.$store.dispatch('updateEmp', item);
         }
       },
 

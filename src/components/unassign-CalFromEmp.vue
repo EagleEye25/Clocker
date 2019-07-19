@@ -122,7 +122,7 @@ export default {
             a dialoge will prompt you to confirm, after confirmation the calendar will be
             unassigned from the employee.`,
           params: {
-            placement: 'top'
+            placement: 'left'
           }
         }
       ],

@@ -205,7 +205,7 @@
         id: null,
       }
     },
-    // TODO: fix when admin isnt clicked, also proper password validations
+
     validations() {
       if (!this.form.admin) {
         return {
@@ -256,6 +256,7 @@
           'admin': this.form.admin,
           'reporting_admin': this.form.reporting_admin,
           'password': this.form.password,
+          'active': true
         }).then(() => {
             this.clearForm();
             this.$store.dispatch('updateEmp', null);
