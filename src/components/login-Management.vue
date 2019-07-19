@@ -18,6 +18,7 @@
           <md-field>
             <label for="empName">Enter Employee Name</label>
             <md-input class="empName" v-model="empName"/>
+            <span class="md-helper-text">E.g. John Doe</span>
           </md-field>
         </div>
         <div class="md-layout-item md-size-15 md-small-size-100 center">
@@ -83,22 +84,27 @@
       async login() {
         const data = {};
         if (this.showNormLogin) {
-          data.name = this.empName;
+          data.name = this.empName.toLowerCase();
           data.pass = this.pass;
         } else {
           data.cardNo = this.tag;
         }
-        return await http.post(`/app/login/`, data).then((res) => {
-            this.$awn.success('Successfully Authenticated');
+        return await this.$awn.asyncBlock(http.post(`/app/login/`, data).then((res) => {
+            this.$store.dispatch('updateLoginInfo', res.data.user);
+            this.$awn.success('Logged In');
             const AUTH_TOKEN = res.data.token || '';
             const REFRESH_TOKEN = res.data.refreshToken || '';
             window.sessionStorage.setItem('token', AUTH_TOKEN);
             window.sessionStorage.setItem('refreshToken', REFRESH_TOKEN);
             http.defaults.headers.common['x-access-token'] = AUTH_TOKEN;
             this.$router.push('/management');
+            this.tag = null;
           }).catch((err) => {
-            this.$awn.alert('Authentication failed');
-          });
+            this.tag = null;
+            let error = err.toString().indexOf('Network Error');
+            error > -1 ? this.$awn.alert('Please Ensure the server is running') :
+            this.$awn.alert('Login failed');
+          }), null, null);
       },
 
       focusInput() {

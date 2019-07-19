@@ -318,6 +318,7 @@
             this.form.reporting_admin = reporting;
             if (this.updateInfo.password) {
               this.form.password = this.updateInfo.password;
+              this.form.confirmPass = this.updateInfo.password;
             }
           }
         }
