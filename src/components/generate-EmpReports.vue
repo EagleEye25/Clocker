@@ -418,7 +418,7 @@
     methods: {
 
       async getEmployees() {
-        return await http.get()
+        return await this.$awn.asyncBlock(http.get()
           .then((res) => {
             res.data.forEach(d => {
               let boolAdmin = 'no';
@@ -444,7 +444,7 @@
           (error > -1) ? this.$awn.warning('No Unassigned Employees') :
           this.$awn.alert('Could Not Get Employees');
           return false;
-        });
+        }), null, null);
       },
 
       onSelect(items) {

@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import addEmployee from '@/components/add-Employee.vue';
 import addCard from '@/components/add-Card.vue';
 import addReason from '@/components/add-Reason.vue';
-import clocker from '@/components/clocker.vue';
 import viewEmployee from '@/components/view-Employee.vue';
 import assignCardProcess from '@/components/assign-card-process/assign-CardProcess.vue';
 import selectCardForEmployee from '@/components/assign-card-process/select-CardForEmployee.vue';
@@ -19,21 +18,18 @@ import generateEmpReports from '@/components/generate-EmpReports.vue';
 import loginManagement from '@/components/login-Management.vue';
 import unassignCalFromEmp from '@/components/unassign-CalFromEmp.vue';
 import install from '@/components/install.vue';
+// import settings from '../../public/settings/settings.json'
 
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   // base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       component: install
-    },
-    {
-      path: '/clocker',
-      component: clocker
     },
     {
       path: '/login',
@@ -106,4 +102,36 @@ export default new Router({
       ]
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const authToken = window.sessionStorage.getItem('token') || '';
+  if (to.path !== '/login') {
+    if (!authToken) {
+      next('/login');
+    }
+
+    let isFail = true;
+    try {
+      const content = JSON.parse(atob(authToken.toString().split('.')[1] || ''));
+      if (content && content.exp) {
+        const now = Date.now();
+        if (+now > +content.exp) {
+          isFail = false;
+        } else {
+          window.sessionStorage.removeItem('token');
+        }
+      }
+    } catch(e) {}
+
+    if (isFail) {
+      next('/login');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;

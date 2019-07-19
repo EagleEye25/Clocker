@@ -5,7 +5,7 @@
       <!-- Hides input off screen -->
       <!-- <div class="outer"> -->
         <!-- <div class="inner"> -->
-          <input v-if="!showNormLogin" v-focus v-model="tag" type="text" @keyup.enter="onEnter" id="cardInput">
+          <input v-if="!showNormLogin" v-focus v-model="tag" type="text" @keyup.enter="login" id="cardInput">
         <!-- </div> -->
       <!-- </div> -->
       <h1 style="color:white;">{{ message }}</h1>
@@ -16,22 +16,38 @@
       <div class="md-layout md-gutter center" v-if="showNormLogin">
         <div class="md-layout-item md-size-15 md-small-size-100 center">
           <md-field>
-            <label for="cardNo">Scan Card</label>
-            <md-input name="cardNo" id="cardNo" v-model="tag"/>
+            <label for="empName">Enter Employee Name</label>
+            <md-input class="empName" v-model="empName"/>
+            <span class="md-helper-text">E.g. John Doe</span>
           </md-field>
         </div>
         <div class="md-layout-item md-size-15 md-small-size-100 center">
           <md-field>
-            <label for="cardNo">Enter Password</label>
-            <md-input name="pass" id="pass" v-model="pass"/>
+            <label for="pass">Enter Password</label>
+            <md-input class="pass" v-model="pass"/>
           </md-field>
         </div>
         <div class="md-layout-item md-size-7 md-small-size-100 center">
-          <md-button>
+          <md-button @click="showNormLogin = false">
+            Cancel
+          </md-button>
+          <md-button @click="login">
             Login
           </md-button>
         </div>
       </div>
+    <div>
+      <md-dialog-prompt
+        :md-active.sync="active"
+        v-model="serverAddy"
+        md-title="Change Server Address"
+        md-input-placeholder="Server Address"
+        @md-confirm="onConfirm" />
+
+      <md-button @click="active = true, serverAddy = null">
+        <md-icon>settings</md-icon>
+      </md-button>
+    </div>
   </div>
 </template>
 
@@ -39,7 +55,7 @@
   import http from '../../public/app.service.ts'
 
   export default {
-    name: 'clocker',
+    name: 'login-Management',
     // Angular equivaent of INPUT
     props: {
     },
@@ -50,16 +66,45 @@
         message: 'Please Scan Your Manager Card',
         showNormLogin: false,
         pass: null,
+        empName: null,
+        active: false,
+        serverAddy: null,
       }
     },
 
     methods: {
+      onConfirm() {
+        console.log(this.serverAddy)
+      },
+
       onEnter() {
         this.login();
       },
 
-      login() {
-        console.log(this.tag);
+      async login() {
+        const data = {};
+        if (this.showNormLogin) {
+          data.name = this.empName.toLowerCase();
+          data.pass = this.pass;
+        } else {
+          data.cardNo = this.tag;
+        }
+        return await this.$awn.asyncBlock(http.post(`/app/login/`, data).then((res) => {
+            this.$store.dispatch('updateLoginInfo', res.data.user);
+            this.$awn.success('Logged In');
+            const AUTH_TOKEN = res.data.token || '';
+            const REFRESH_TOKEN = res.data.refreshToken || '';
+            window.sessionStorage.setItem('token', AUTH_TOKEN);
+            window.sessionStorage.setItem('refreshToken', REFRESH_TOKEN);
+            http.defaults.headers.common['x-access-token'] = AUTH_TOKEN;
+            this.$router.push('/management');
+            this.tag = null;
+          }).catch((err) => {
+            this.tag = null;
+            let error = err.toString().indexOf('Network Error');
+            error > -1 ? this.$awn.alert('Please Ensure the server is running') :
+            this.$awn.alert('Login failed');
+          }), null, null);
       },
 
       focusInput() {

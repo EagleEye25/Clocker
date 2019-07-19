@@ -1,93 +1,49 @@
 <template>
   <div>
     <br>
-    <h1 style="color:white"> Appropriate Headding </h1>
+    <h1 style="color:white"> Set Server Connection </h1>
     <br>
     <div>
-      <md-steppers :md-active-step.sync="active" md-vertical md-linear>
-        <md-step id="first" md-label="Select Application Type" :md-editable="editable" :md-done.sync="first">
-            <md-radio v-model="radio" value="clocking">Clocking</md-radio>
-            <md-radio v-model="radio" value="management">Management</md-radio>
-            <br>
-          <md-button class="md-raised md-primary" :disabled="!radio" @click="setDone('first', 'second')">Continue</md-button>
-        </md-step>
+      <md-card class="md-layout-item md-size-50 md-small-size-100 center box">
+          <div style=padding-left:25%>
+            <md-field style="width: 70%">
+              <label>Server Address</label>
+              <md-input v-model="serverAddy"/>
+            </md-field>
+          </div>
 
-        <md-step id="second" md-label="Select Server Address" :md-editable="editable" :md-done.sync="second">
-          <md-field class="center" style="max-width:40%">
-            <label for="serverAddy">Server Address</label>
-            <md-input class="serverAddy" v-model="serverAddy"/>
-          </md-field>
-          <md-button class="md-raised md-primary" :disabled="!serverAddy" @click="setDone('second', 'third')">Continue</md-button>
-        </md-step>
-
-        <md-step id="third" md-label="Complete" :md-editable="editable" :md-done.sync="third">
-          <md-list>
-            <md-list-item class="center">
-              <md-icon>settings_applications</md-icon>
-              <span class="md-list-item-text">Application Type:
-                <br>
-                <div style="margin-left:2em">
-                  <span>{{ radio }}</span>
-                </div>
-              </span>
-            </md-list-item>
-            <br>
-            <md-divider class="md-inset"></md-divider>
-            <br>
-            <md-list-item class="center">
-              <md-icon>language</md-icon>
-              <span class="md-list-item-text">Server URL:
-                <br>
-                <div style="margin-left:2em">
-                  <span>{{ serverAddy }}</span>
-                </div>
-              </span>
-            </md-list-item>
-          </md-list>
-          <md-button class="md-raised md-primary" @click="setDone('third')">Done</md-button>
-        </md-step>
-      </md-steppers>
+        <md-button class="md-raised md-primary"  @click="testCon">Continue</md-button>
+      </md-card>
     </div>
   </div>
 </template>
 
 <script>
-  import { validationMixin } from 'vuelidate'
-  import {
-    required,
-  } from 'vuelidate/lib/validators'
+  import axios from 'axios';
+
   export default {
     name: 'install',
-    mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
     },
     //  Variables
     data() {
       return {
-        active: 'first',
-        first: false,
-        second: false,
-        third: false,
-        editable: true,
-        radio: null,
         serverAddy: null,
       }
     },
 
     methods: {
-      setDone (id, index) {
-        this[id] = true
-
-        if (index) {
-          this.active = index
-        }
-      },
-
-      clearForm() {
-        this.serverAddy = null
-        this.radio = null;
-      },
+      async testCon() {
+        return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
+          .then((result) => {
+            this.$awn.success('Valid Server Connection!');
+            return true
+          }).catch((err) => {
+            this.$awn.alert('Invalid Server Connection!');
+            return false
+          }), null, null);
+      }
     }
   }
 </script>
@@ -100,6 +56,12 @@
     margin-left: auto;
     margin-right: auto;
     /* width: 50%; */
+  }
+
+
+  .box {
+    -webkit-border-radius: 6px;;
+    border-radius: 6px;;
   }
 
 </style>
