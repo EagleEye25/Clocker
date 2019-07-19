@@ -3,11 +3,11 @@
     <img class="center" src="../../public/pictures/lock.png" alt="Lock Image">
     <div v-if="!showNormLogin">
       <!-- Hides input off screen -->
-      <!-- <div class="outer"> -->
-        <!-- <div class="inner"> -->
+      <div class="outer">
+        <div class="inner">
           <input v-if="!showNormLogin" v-focus v-model="tag" type="text" @keyup.enter="login" id="cardInput">
-        <!-- </div> -->
-      <!-- </div> -->
+        </div>
+      </div>
       <h1 style="color:white;">{{ message }}</h1>
       <md-button @click="showNormLogin = true">
         Login Without Card

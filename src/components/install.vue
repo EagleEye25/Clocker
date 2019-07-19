@@ -12,7 +12,7 @@
             </md-field>
           </div>
 
-        <md-button class="md-raised md-primary"  @click="testCon">Continue</md-button>
+        <md-button class="md-raised md-primary" @click="testCon">Continue</md-button>
       </md-card>
     </div>
   </div>
