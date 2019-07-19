@@ -211,14 +211,16 @@
       },
 
       async deleteCal() {
-        await http.delete(`/api/calender/${this.calID}`)
+        console.log(this.calID);
+        await this.$awn.asyncBlock(http.delete(`/api/calender/${this.calID}`)
           .then(() => {
             this.$awn.success('Successfully deleted Calendar');
             return true;
-          }).catch(() => {
+          }).catch((err) => {
+            console.log(err)
             this.$awn.alert('Could Not Delete Calendars');
             return false;
-          });
+          }), null, null);
       },
 
       searchOnTable () {

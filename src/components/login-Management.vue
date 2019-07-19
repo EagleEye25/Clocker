@@ -10,7 +10,7 @@
       <!-- </div> -->
       <h1 style="color:white;">{{ message }}</h1>
       <md-button @click="showNormLogin = true">
-        Lost Manager Card
+        Login Without Card
       </md-button>
     </div>
       <div class="md-layout md-gutter center" v-if="showNormLogin">
@@ -39,9 +39,11 @@
     <div>
       <md-dialog-prompt
         :md-active.sync="active"
-        v-model="serverAddy"
         md-title="Change Server Address"
         md-input-placeholder="Server Address"
+        v-model="serverAddy"
+        md-confirm-text="Change"
+        md-cancel-text="Cancel"
         @md-confirm="onConfirm" />
 
       <md-button @click="active = true, serverAddy = null">
@@ -52,7 +54,8 @@
 </template>
 
 <script>
-  import http from '../../public/app.service.ts'
+  import http from '../../public/app.service.ts';
+  import axios from 'axios';
 
   export default {
     name: 'login-Management',
@@ -73,8 +76,16 @@
     },
 
     methods: {
-      onConfirm() {
-        console.log(this.serverAddy)
+      async onConfirm() {
+        return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
+          .then((result) => {
+            this.$awn.success('Valid Server Connection!');
+            window.localStorage.setItem('serverAddy', this.serverAddy);
+            return true
+          }).catch((err) => {
+            this.$awn.alert('Invalid Server Connection!');
+            return false
+          }), null, null);
       },
 
       onEnter() {

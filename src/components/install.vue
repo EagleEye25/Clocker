@@ -38,6 +38,7 @@
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
           .then((result) => {
             this.$awn.success('Valid Server Connection!');
+            window.localStorage.setItem('serverAddy', this.serverAddy);
             return true
           }).catch((err) => {
             this.$awn.alert('Invalid Server Connection!');

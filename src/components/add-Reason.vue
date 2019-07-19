@@ -196,10 +196,10 @@
           if (resp.status === 201) {
             this.clearForm();
             (this.standard === false) ? this.$emit('added') : null;
-            document.getElementById('description').focus();
           }
           this.$awn.success('Successfully Added Reason');
-        }).catch(() => {
+        }).catch((err) => {
+          console.log(err)
           this.$awn.alert('Could Not Add Reason');
         }), null, null, 'Adding Reason')
       },

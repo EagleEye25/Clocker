@@ -18,8 +18,6 @@ import generateEmpReports from '@/components/generate-EmpReports.vue';
 import loginManagement from '@/components/login-Management.vue';
 import unassignCalFromEmp from '@/components/unassign-CalFromEmp.vue';
 import install from '@/components/install.vue';
-// import settings from '../../public/settings/settings.json'
-
 
 Vue.use(Router)
 
@@ -105,6 +103,14 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  const serverAddy = window.localStorage.getItem('serverAddy') || '';
+  // console.log('server',serverAddy);
+  // if (to.path !== '/') {
+  //   if (!serverAddy) {
+  //     console.log('here', to.path)
+  //     next('/');
+  //   }
+  // }
   const authToken = window.sessionStorage.getItem('token') || '';
   if (to.path !== '/login') {
     if (!authToken) {
@@ -122,7 +128,7 @@ router.beforeEach((to, from, next) => {
           window.sessionStorage.removeItem('token');
         }
       }
-    } catch(e) {}
+    } catch(err) {}
 
     if (isFail) {
       next('/login');

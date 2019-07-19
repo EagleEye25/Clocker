@@ -158,7 +158,7 @@
         if (confirm) {
           this.removeFromTable();
         }
-        this.dialogActive = true;
+        this.dialogActive = false;
       },
 
       callDelete(id) {

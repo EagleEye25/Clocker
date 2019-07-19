@@ -167,7 +167,8 @@
         }).then(() => {
           this.$awn.success('Successfully Changed Reason State');
           return true;
-        }).catch(() => {
+        }).catch((err) => {
+          console.log(err)
           this.$awn.alert('Could Not Update Reason State');
           return false;
         }), null, null, 'Changing Reason State');
