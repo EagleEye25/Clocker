@@ -251,7 +251,7 @@
 
       async addCalTimes() {
         if (!await this.checkCalTimes(this.form)) {
-          return await http.post(`/api/calender_times/create`, {
+          return await this.$awn.asyncBlock(http.post(`/api/calender_times/create`, {
             'startWeek': this.form.sWeek,
             'startDay': this.form.sDay,
             'startTime': this.form.sTime,
@@ -269,7 +269,7 @@
           }).catch((err) => {
             this.$awn.alert('Could Not Create Calendar Times');
             return false;
-          });
+          }), null, null, 'Adding Times');
         } else {
           this.$awn.warning('Calendar Times Already Exist');
         }
@@ -277,21 +277,23 @@
 
       async UpdateTimes() {
         let d = this.timeData;
-        return await http.put(`/api/calender_times/${d.id}`,{
-          'id': d.id,
-          'startWeek': this.form.sWeek,
-          'startDay': this.form.sDay,
-          'startTime': this.form.sTime,
-          'endDay': this.form.eDay,
-          'endTime': this.form.eTime
-        }).then(() => {
-          this.$awn.success('Successfully Updated Calendar Times');
-          this.returnToView();
-          return true;
-        }).catch(() => {
-          this.$awn.alert('Could Not Update Calendar Times');
-          return false;
-        });
+        if (!await this.checkCalTimes(this.form)) {
+          return await this.$awn.asyncBlock(http.put(`/api/calender_times/${d.id}`,{
+            'id': d.id,
+            'startWeek': this.form.sWeek,
+            'startDay': this.form.sDay,
+            'startTime': this.form.sTime,
+            'endDay': this.form.eDay,
+            'endTime': this.form.eTime
+          }).then(() => {
+            this.$awn.success('Successfully Updated Calendar Times');
+            this.returnToView();
+            return true;
+          }).catch(() => {
+            this.$awn.alert('Could Not Update Calendar Times');
+            return false;
+          }), null, null, 'Updating Times');
+        }
       },
 
       clearForm() {

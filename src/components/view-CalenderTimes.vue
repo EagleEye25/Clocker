@@ -271,7 +271,7 @@
     },
 
     beforeMount() {
-      this.determineAction();
+      this.$awn.asyncBlock(this.determineAction(), null, null);
     }
   }
 </script>

@@ -358,7 +358,7 @@
             mode: 'dark',
             palette: 'palette1',
           },
-          labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Saturday'],
           plotOptions: {
             radar: {
               size: 140,
@@ -403,7 +403,7 @@
         },
         employeeRankSeries: [{
           name: 'Series 1',
-          data: [20, 100, 40, 30, 50, 80, 33],
+          data: [20, 100, 40, 30, 50, 80, 33, 55],
         }],
 
         // OTHER VARIABLES
@@ -444,7 +444,7 @@
           (error > -1) ? this.$awn.warning('No Unassigned Employees') :
           this.$awn.alert('Could Not Get Employees');
           return false;
-        }), null, null);
+        }), null, null, 'Getting Employees');
       },
 
       onSelect(items) {

@@ -211,7 +211,7 @@
 
       async createCalendar() {
         if (!await this.checkCalender(this.form.calendarName)) {
-          return await http.post(`/api/calender/create`, {
+          return await this.$awn.asyncBlock(http.post(`/api/calender/create`, {
             'name': this.form.calendarName,
             'description': this.form.description
           }).then((res) => {
@@ -222,7 +222,7 @@
           }).catch(() => {
             this.$awn.alert('Could Not Create Calendar');
             return false;
-          });
+          }), null, null, "Adding Calendar");
         } else {
           this.$awn.warning('A Calendar with this name already exists');
         }
@@ -230,18 +230,20 @@
 
       async updateCalendar() {
         let d = this.calendarData;
-        return await http.put(`/api/calender/${d.id}`, {
-          'id': d.id,
-          'name': this.form.calendarName,
-          'description': this.form.description
-        }).then(() => {
-          this.$awn.success('Successfully Updated Calendar');
-          this.returnToView();
-          return false
-        }).catch(() => {
-          this.$awn.alert('Could Not Update Calendar');
-          return false
-        });
+        if (!await this.checkCalender(this.form.calendarName)) {
+          return await this.$awn.asyncBlock(http.put(`/api/calender/${d.id}`, {
+            'id': d.id,
+            'name': this.form.calendarName,
+            'description': this.form.description
+          }).then(() => {
+            this.$awn.success('Successfully Updated Calendar');
+            this.returnToView();
+            return false
+          }).catch(() => {
+            this.$awn.alert('Could Not Update Calendar');
+            return false
+          }), null, null, 'Updating Calendar');
+        }
       },
 
       async checkCalender(name) {

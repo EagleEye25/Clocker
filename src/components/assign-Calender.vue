@@ -90,7 +90,7 @@
 
     methods: {
       async assign() {
-        return await http.post(`/api/employee_calender/create`, {
+        return await this.$awn.asyncBlock(http.post(`/api/employee_calender/create`, {
           'employee_id': this.employeeInfo.id,
           'calender_id': this.calendarData.id,
           'active_date': Date.now(),
@@ -102,7 +102,7 @@
         }).catch(() => {
           this.$awn.alert('Could Not Assign Employee To Calendar');
           return false;
-        });
+        }), null, null, 'Assigning');
       },
 
       setDone (id, index) {

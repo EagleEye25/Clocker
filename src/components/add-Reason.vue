@@ -21,7 +21,7 @@
             <div class="md-layout-item md-small-size-100" style="padding-left: 15%;">
               <md-field class="desc" :class="getValidationClass('description')" >
                 <label for="description">* Description of Reason</label>
-                <md-input v-model="form.description" :disabled="processing" autofocus=true />
+                <md-input v-model="form.description" class="description" autofocus=true />
                 <span class="md-error" v-if="!$v.form.description.required">The description is required</span>
                 <span class="md-error" v-else-if="!$v.form.description.minlength">Invalid description</span>
               </md-field>
@@ -170,7 +170,7 @@
       },
 
       async updateReason() {
-        return await http.put(`/api/reason/${this.reasonData.id}`, {
+        return await this.$awn.asyncBlock(http.put(`/api/reason/${this.reasonData.id}`, {
           'id': this.reasonData.id,
           'description': this.form.description,
           'work': this.form.work,
@@ -184,11 +184,11 @@
         }).catch(() => {
           this.$awn.alert('Could Not Update Reason');
           return false;
-        });
+        }), null, null, 'Updating Reason');
       },
 
       addReason() {
-        http.post(`/api/reason/create`, {
+        this.$awn.asyncBlock(http.post(`/api/reason/create`, {
           'description': this.form.description,
           'work': this.form.work,
           'active': this.form.active
@@ -201,7 +201,7 @@
           this.$awn.success('Successfully Added Reason');
         }).catch(() => {
           this.$awn.alert('Could Not Add Reason');
-        })
+        }), null, null, 'Adding Reason')
       },
 
       getValidationClass(fieldName) {

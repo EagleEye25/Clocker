@@ -250,7 +250,7 @@
 
       async updateEmployee() {
         this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
-        return await http.put(`/api/employee/${this.id}`, {
+        return await this.$awn.asyncBlock(http.put(`/api/employee/${this.id}`, {
           'id': this.id,
           'name': this.combinedName,
           'admin': this.form.admin,
@@ -265,7 +265,7 @@
           }).catch(() => {
             this.$awn.alert('Could Not Update Employee');
             return false
-          });
+          }), null, null, 'Updating Employee');
       },
 
       async addEmployee() {
@@ -275,7 +275,7 @@
           return;
         }
         if (!await this.checkUser(this.combinedName)) {
-            http.post(`/api/employee/create`, {
+            this.$awn.asyncBlock(http.post(`/api/employee/create`, {
             'name': this.combinedName,
             'admin': this.form.admin,
             'reporting_admin': this.form.reporting_admin,
@@ -294,7 +294,7 @@
           }).catch(() => {
             this.$awn.alert('Could Not Add Employee');
             return false;
-          })
+          }), null, null, 'Adding Employee')
         } else {
           this.$awn.warning('Employee Already Exists');
         }
@@ -325,13 +325,13 @@
       },
 
       async getInfoUpdate() {
-        return await http.get(`/api/employee/${this.id}`)
+        return await this.$awn.asyncBlock(http.get(`/api/employee/${this.id}`)
           .then((resp) => {
             this.updateInfo = resp.data;
             return true
           }).catch(() => {
             return false
-          });
+          }), null, null, 'Getting Employee Info');
       },
 
       cancelAdd() {

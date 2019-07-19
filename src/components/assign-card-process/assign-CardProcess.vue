@@ -131,7 +131,7 @@
 
       async assignEmployee() {
         if (await this.getCardID()) {
-          http.post(`/api/employee_card/create`, {
+          this.$awn.asyncBlock(http.post(`/api/employee_card/create`, {
             'employee_id': this.employeeID,
             'card_id': this.cardID,
             'issued_at': Date.now(),
@@ -142,7 +142,7 @@
             this.$awn.success('Successfully Assigned Card');
           }).catch(() => {
             this.$awn.alert('Could Not Assign Card');
-          })
+          }), null, null, 'Assigning')
         }
       },
 

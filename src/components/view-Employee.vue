@@ -249,7 +249,7 @@
 
 
     beforeMount() {
-      this.determine();
+      this.$awn.asyncBlock(this.determine(), null, null);
     },
 
     computed: {

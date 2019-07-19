@@ -156,8 +156,7 @@ export default {
     },
 
     async unassign() {
-      return await http
-        .delete(`api/employee_calender/remove/emp/${this.empID}`)
+      return await this.$awn.asyncBlock(http.delete(`api/employee_calender/remove/emp/${this.empID}`)
         .then(() => {
           const idx = this.searched.findIndex((emp) => emp.id === this.empID);
           if (idx > -1) {
@@ -167,13 +166,12 @@ export default {
         })
         .catch(() => {
           this.$awn.alert("Could not unassigned employee from calendar");
-        });
+        }), null, null, 'Un-assigning');
     },
 
     async getEmployees() {
       this.searched = [];
-      return await http
-        .get(`/api/employee/assigned/cal/employees/${this.selectedCalID}`)
+      return await this.$awn.asyncBlock(http.get(`/api/employee/assigned/cal/employees/${this.selectedCalID}`)
         .then(res => {
           res.data.forEach(d => {
             let boolAdmin = "no";
@@ -201,12 +199,11 @@ export default {
             ? this.$awn.warning("No Assigned Employees")
             : this.$awn.alert("Could Not Get Employees");
           return false;
-        });
+        }), null, null, 'Getting Employees');
     },
 
     async getCalendars() {
-      return await http
-        .get(`/api/calender/assigned/calender`)
+      return await this.$awn.asyncBlock(http.get(`/api/calender/assigned/calender`)
         .then(res => {
           res.data.forEach(d => {
             let data = {
@@ -223,7 +220,7 @@ export default {
           error > -1 ? this.$awn.warning("No created calendars, please add a calendar") :
           this.$awn.alert("Could Not Get Calendars");
           return false;
-        });
+        }), null, null, 'Getting Calendars');
     },
 
     searchOnTable() {
