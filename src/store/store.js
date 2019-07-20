@@ -75,6 +75,25 @@ const store = new Vuex.Store({
     loginInfo: state => state.loginInfo ? state.loginInfo || '' : ''
   },
   actions: {
+    appInit(ctx) {
+      if (ctx.state.loginInfo) {
+        return;
+      }
+      const authToken = window.sessionStorage.getItem('token') || '';
+      if (authToken) {
+        http.defaults.headers.common['x-access-token'] = authToken;
+        const strObj = atob(authToken.toString().split('.')[1] || '');
+        const tc = JSON.parse(strObj || '{}');
+        if(tc) {
+          if ( (+tc.exp * 1000) < Date.now()) {
+            ctx.dispatch('setToken', {});
+          } else {
+            ctx.dispatch('updateLoginInfo', tc);
+          }
+        }
+      }
+    },
+
     setToken(ctx, data) {
       const token = data.token;
       const refreshToken = data.refreshToken;

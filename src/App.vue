@@ -21,6 +21,10 @@
 <script>
  export default {
 
+   beforeMount() {
+     this.$store.dispatch('appInit');
+   },
+
    mounted() {
      this.makerequest();
    },

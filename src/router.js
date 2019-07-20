@@ -102,43 +102,42 @@ const router = new Router({
   ]
 });
 
-router.beforeEach((to, from, next) => {
-  const serverAddy = window.localStorage.getItem('serverAddy') || '';
+const doLogIn = (p) => {
   const authToken = window.sessionStorage.getItem('token') || '';
-  // console.log('server',serverAddy);
-  // if (to.path !== '/') {
-  //   if (!serverAddy) {
-  //     console.log('here', to.path)
-  //     next('/');
-  //   }
-  // }
-
-  if (to.path !== '/login') {
-    if (!authToken) {
-      next('/login');
-    }
-
-    let isFail = true;
-    try {
-      const content = JSON.parse(atob(authToken.toString().split('.')[1] || ''));
-      if (content && content.exp) {
-        const now = Date.now();
-        if (+now > +content.exp) {
-          isFail = false;
-        }
+  let isFail = true;
+  try {
+    const content = JSON.parse(atob(authToken.toString().split('.')[1] || ''));
+    if (content && content.exp) {
+      const now = Date.now();
+      if (+now > +content.exp) {
+        isFail = false;
       }
-    } catch(err) {
-      // take no action
     }
-
-    if (isFail) {
-      next('/login');
-    } else {
-      next();
-    }
-  } else {
-    next();
+  } catch(err) {
+    // take no action
   }
+  return isFail;
+};
+
+const doSetServer = (p) => {
+  const serverAddy = window.localStorage.getItem('serverAddy') || '';
+  return !serverAddy;
+};
+
+router.beforeEach((to, from, next) => {
+  const setServer = doSetServer(to.path);
+  const logIn = doLogIn(to.path);
+
+  if (setServer) {
+    if (to.path !== '/') {
+      next('/');
+    }
+  } else if (!setServer && logIn) {
+    if (to.path !== '/login') {
+      next('/login');
+    }
+  }
+  next();
 });
 
 export default router;
