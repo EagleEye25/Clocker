@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import http from '../../public/app.service.ts';
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -16,8 +18,14 @@ const store = new Vuex.Store({
     calendarData: null,
     calendarTime: null,
     loginInfo: null,
+    refreshRequesting: false,
   },
   mutations: {
+
+    REFRESH_DISPATCHED(state, requesting) {
+      state.refreshRequesting = requesting;
+    },
+
     changeCardNo(state, cardNo) {
       state.cardNo = cardNo
     },
@@ -67,6 +75,61 @@ const store = new Vuex.Store({
     loginInfo: state => state.loginInfo ? state.loginInfo || '' : ''
   },
   actions: {
+    setToken(ctx, data) {
+      const token = data.token;
+      const refreshToken = data.refreshToken;
+      if (String(token).length && String(refreshToken).length) {
+        window.sessionStorage.setItem('token', String(token));
+        window.sessionStorage.setItem('refreshToken', String(refreshToken));
+        http.defaults.headers.common['x-access-token'] = token;
+      } else {
+        window.sessionStorage.removeItem('token');
+        window.sessionStorage.removeItem('refreshToken');
+        http.defaults.headers.common['x-access-token'] = '';
+      }
+    },
+
+    refreshRequest(ctx) {
+      if (ctx.state.refreshRequesting) {
+        return;
+      }
+      const token = window.sessionStorage.getItem('token') || '';
+      if (!token) {
+        return;
+      }
+      const strObj = atob(token.toString().split('.')[1] || '');
+      if (!strObj) {
+        return;
+      }
+      const tc = JSON.parse(strObj);
+      if ( !(tc && +tc.exp) ) {
+        return;
+      }
+      const now = Date.now();
+      if (+now > +(tc.exp * 1000) ) {
+        window.sessionStorage.removeItem('token');
+        window.sessionStorage.removeItem('refreshToken');
+        http.defaults.headers.common['x-access-token'] = '';
+        return;
+      }
+      if ( ( (now + (1000 * 60 * 2) ) > (+tc.exp * 1000) ) && !ctx.state.refreshRequesting ) {
+        ctx.commit('REFRESH_DISPATCHED', true);
+        ctx.dispatch('refreshToken');
+      }
+    },
+
+    refreshToken(ctx) {
+      const refreshToken = window.sessionStorage.getItem('refreshToken') || '';
+      http.post('/api/user/refreshToken', {refreshToken}).then(resp => {
+        const AUTH_TOKEN = resp.data.token || '';
+        const REFRESH_TOKEN = resp.data.refreshToken || '';
+        ctx.dispatch('setToken', {token: AUTH_TOKEN, refreshToken: REFRESH_TOKEN});
+        ctx.commit('REFRESH_DISPATCHED', false);
+      }).catch(() => {
+        ctx.commit('REFRESH_DISPATCHED', false);
+      });
+    },
+
     updateCardNo(ctx, num) {
       ctx.commit('changeCardNo', num);
     },

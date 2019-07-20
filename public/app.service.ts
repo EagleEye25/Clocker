@@ -6,7 +6,7 @@ const params = {
 };
 
 if (authToken) {
-  params['headers'] = {'x-session-token': authToken};
+  params['headers'] = {'x-access-token': authToken};
 }
 
 const instance = axios.create(params);

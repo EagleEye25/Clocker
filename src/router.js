@@ -104,6 +104,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const serverAddy = window.localStorage.getItem('serverAddy') || '';
+  const authToken = window.sessionStorage.getItem('token') || '';
   // console.log('server',serverAddy);
   // if (to.path !== '/') {
   //   if (!serverAddy) {
@@ -111,7 +112,7 @@ router.beforeEach((to, from, next) => {
   //     next('/');
   //   }
   // }
-  const authToken = window.sessionStorage.getItem('token') || '';
+
   if (to.path !== '/login') {
     if (!authToken) {
       next('/login');
@@ -124,11 +125,11 @@ router.beforeEach((to, from, next) => {
         const now = Date.now();
         if (+now > +content.exp) {
           isFail = false;
-        } else {
-          window.sessionStorage.removeItem('token');
         }
       }
-    } catch(err) {}
+    } catch(err) {
+      // take no action
+    }
 
     if (isFail) {
       next('/login');

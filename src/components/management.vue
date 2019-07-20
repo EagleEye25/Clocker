@@ -147,9 +147,7 @@
 
     methods: {
       logout() {
-        window.sessionStorage.setItem('token', null);
-        window.sessionStorage.setItem('refreshToken', null);
-        http.defaults.headers.common['x-access-token'] = '';
+        this.$store.dispatch('setToken', {});
         this.$router.push('/login');
         this.active = false;
       }

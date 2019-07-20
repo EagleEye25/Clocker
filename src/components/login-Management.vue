@@ -105,10 +105,9 @@
             this.$awn.success('Logged In');
             const AUTH_TOKEN = res.data.token || '';
             const REFRESH_TOKEN = res.data.refreshToken || '';
-            window.sessionStorage.setItem('token', AUTH_TOKEN);
-            window.sessionStorage.setItem('refreshToken', REFRESH_TOKEN);
-            http.defaults.headers.common['x-access-token'] = AUTH_TOKEN;
-            this.$router.push('/management');
+            this.$store.dispatch('setToken', {token: AUTH_TOKEN, refreshToken: REFRESH_TOKEN}).then(() => {
+              this.$router.push('/management');
+             });
             this.tag = null;
           }).catch((err) => {
             this.tag = null;

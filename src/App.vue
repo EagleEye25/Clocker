@@ -17,3 +17,21 @@
     padding-left: 0.2%;
   }
 </style>
+
+<script>
+ export default {
+
+   mounted() {
+     this.makerequest();
+   },
+
+   methods: {
+     makerequest() {
+      setTimeout(() => {
+        this.$store.dispatch('refreshRequest');
+        this.makerequest();
+      }, 20000);
+     }
+   }
+ }
+</script>
