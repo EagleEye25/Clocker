@@ -41,7 +41,7 @@
             <!-- Admin -->
             <div id="admin" class="md-layout-item md-small-size-100">
               <md-checkbox v-model="form.admin"
-                            @change="clearPass">
+                            @change="clearPass" :disabled='first !== false'>
                   Admin
               </md-checkbox>
             </div>
@@ -132,6 +132,7 @@
     // Angular equivaent of INPUT
     props: {
       standard: true,
+      first: false
     },
     //  Variables
     data() {
@@ -323,6 +324,9 @@
             }
           }
         }
+        if (this.first !== false) {
+          this.form.admin = true;
+        }
       },
 
       async getInfoUpdate() {
@@ -398,6 +402,9 @@
             this.addEmployee();
           } else if (this.id) {
             this.updateEmployee();
+          } else if (this.first !== false) {
+            this.addEmployee();
+            this.$emit('created');
           }
         }
       }
