@@ -50,7 +50,6 @@
           .then((res) => {
             console.log(res);
             this.$awn.success('Valid Server Connection!');
-            window.localStorage.setItem('serverAddy', this.serverAddy);
             this.showAdd = true;
             return true
           }).catch((err) => {
@@ -58,7 +57,9 @@
             return false
           }), null, null);
       },
+
       moveToLogin() {
+        window.localStorage.setItem('serverAddy', this.serverAddy);
         this.$router.push('/login');
       }
     }

@@ -41,7 +41,7 @@
             <!-- Admin -->
             <div id="admin" class="md-layout-item md-small-size-100">
               <md-checkbox v-model="form.admin"
-                            @change="clearPass" :disabled='first !== false'>
+                            @change="clearPass" :disabled='first === true'>
                   Admin
               </md-checkbox>
             </div>
@@ -272,9 +272,11 @@
 
       async addEmployee() {
         this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
-        if (this.form.password !== this.form.confirmPass) {
-          this.$awn.warning('Passwords do not match');
-          return;
+        if (this.admin) {
+          if (this.form.password !== this.form.confirmPass) {
+            this.$awn.warning('Passwords do not match');
+            return;
+          }
         }
         if (!await this.checkUser(this.combinedName)) {
             this.$awn.asyncBlock(http.post(`/api/employee/create`, {
@@ -302,6 +304,34 @@
         }
       },
 
+      async addInstall() {
+        this.combinedName = (this.form.firstName + ' ' + this.form.lastName).toLowerCase();
+        if (this.form.password !== this.form.confirmPass) {
+          this.$awn.warning('Passwords do not match');
+          return;
+        }
+        this.$awn.asyncBlock(http.post(`/app/callAdd/`, {
+          'name': this.combinedName,
+          'admin': this.form.admin,
+          'reporting_admin': this.form.reporting_admin,
+          'password': this.form.password,
+          'active': true,
+        }).then((resp) => {
+          if (resp.status === 201) {
+            if (this.standard === false) {
+              this.$store.dispatch('updateEmployeeInfo', resp.data);
+              this.$emit('added');
+            }
+            this.clearForm();
+            this.$awn.success('Successfully Added Employee');
+            return true;
+          }
+        }).catch(() => {
+          this.$awn.alert('Could Not Add Employee');
+          return false;
+        }), null, null, 'Adding Employee')
+      },
+
       async fillInputs() {
         if (this.standard !== false && this.updateEmpInfo.update) {
           this.id = this.updateEmpInfo.id;
@@ -324,7 +354,7 @@
             }
           }
         }
-        if (this.first !== false) {
+        if (this.first === true) {
           this.form.admin = true;
         }
       },
@@ -397,13 +427,20 @@
       validateUser() {
         this.$v.$touch()
 
+        console.log(this.first);
+        console.log(this.standard);
+        console.log(this.id);
+
         if (!this.$v.$invalid) {
-          if (!this.id || this.standard === false) {
+          if ((!this.id || this.standard === false) && this.first !== true ) {
+            console.log('first');
             this.addEmployee();
           } else if (this.id) {
+            console.log('second');
             this.updateEmployee();
-          } else if (this.first !== false) {
-            this.addEmployee();
+          } else if (this.first === true) {
+            console.log('here');
+            this.addInstall();
             this.$emit('created');
           }
         }
