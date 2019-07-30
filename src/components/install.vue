@@ -49,11 +49,25 @@
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
           .then((res) => {
             this.$awn.success('Valid Server Connection!');
-            this.showAdd = true;
+            this.checkAdmin()
             return true
           }).catch((err) => {
             this.$awn.alert('Invalid Server Connection!');
             return false
+          }), null, null);
+      },
+
+      async checkAdmin() {
+        return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/callAdd/Admin`) 
+          .then((res) => {
+            if (res.data.found) {
+              this.showAdd = false;
+              this.moveToLogin();
+            } else {
+              this.showAdd = true;
+            }
+          }).catch((err) => {
+            this.$awn.alert('Couldnt Check For Admins')
           }), null, null);
       },
 
