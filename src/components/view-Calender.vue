@@ -213,8 +213,17 @@
       async deleteCal() {
         console.log(this.calID);
         await this.$awn.asyncBlock(http.delete(`/api/calender/${this.calID}`)
-          .then(() => {
-            this.$awn.success('Successfully deleted Calendar');
+          .then((res) => {
+            console.log(res);
+            if (res.data.deleted !== 0) {
+              const idx = this.searched.findIndex((cal) => cal.id === this.calID);
+              if (idx > -1) {
+                this.searched.splice(idx, 1);
+              }
+              this.$awn.success('Successfully deleted Calendar');
+            } else {
+              this.$awn.warning('Please ensure no employees are assgined. to be able to delete the calendar');
+            }
             return true;
           }).catch((err) => {
             console.log(err)
