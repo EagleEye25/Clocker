@@ -427,19 +427,12 @@
       validateUser() {
         this.$v.$touch()
 
-        console.log(this.first);
-        console.log(this.standard);
-        console.log(this.id);
-
         if (!this.$v.$invalid) {
           if ((!this.id || this.standard === false) && this.first !== true ) {
-            console.log('first');
             this.addEmployee();
           } else if (this.id) {
-            console.log('second');
             this.updateEmployee();
           } else if (this.first === true) {
-            console.log('here');
             this.addInstall();
             this.$emit('created');
           }

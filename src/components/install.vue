@@ -48,7 +48,6 @@
       async testCon() {
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
           .then((res) => {
-            console.log(res);
             this.$awn.success('Valid Server Connection!');
             this.showAdd = true;
             return true

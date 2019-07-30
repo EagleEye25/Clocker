@@ -199,7 +199,6 @@
           }
           this.$awn.success('Successfully Added Reason');
         }).catch((err) => {
-          console.log(err)
           this.$awn.alert('Could Not Add Reason');
         }), null, null, 'Adding Reason')
       },

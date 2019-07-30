@@ -211,10 +211,8 @@
       },
 
       async deleteCal() {
-        console.log(this.calID);
         await this.$awn.asyncBlock(http.delete(`/api/calender/${this.calID}`)
           .then((res) => {
-            console.log(res);
             if (res.data.deleted !== 0) {
               const idx = this.searched.findIndex((cal) => cal.id === this.calID);
               if (idx > -1) {
@@ -225,8 +223,7 @@
               this.$awn.warning('Please ensure no employees are assgined. to be able to delete the calendar');
             }
             return true;
-          }).catch((err) => {
-            console.log(err)
+          }).catch(() => {
             this.$awn.alert('Could Not Delete Calendars');
             return false;
           }), null, null);
