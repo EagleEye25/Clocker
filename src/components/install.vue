@@ -58,7 +58,7 @@
       },
 
       async checkAdmin() {
-        return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/callAdd/Admin`) 
+        return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/callAdd/Admin`)
           .then((res) => {
             if (res.data.found) {
               this.showAdd = false;
