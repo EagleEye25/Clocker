@@ -206,7 +206,7 @@
           await this.getEmployees(api);
         } else if (this.standard === false && this.calUnAssigned !== true) {
           this.title = 'Select Unassigned Employee';
-          let api = '/api/employee/';
+          let api = '/api/employee/unassigned/employees';
           await this.getEmployees(api);
         } else if (this.standard === false && this.calUnAssigned === true) {
           this.title = 'Select Unassigned Employee';
