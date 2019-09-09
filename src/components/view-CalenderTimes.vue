@@ -77,7 +77,7 @@
           <md-button class="md-primary md-raised" @click="addCalTimes = true">Create Calendar Time</md-button>
         </md-table-empty-state>
 
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
           <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
@@ -253,9 +253,11 @@
           });
       },
 
+
+      // TODO: ALLOW FOR MULTIPLE ASSIGN ON BACKEND
       onSelect(item) {
         if (item) {
-          this.selectedReason = item;
+          this.selectedCalTime = item;
           item.selected = true;
           this.standard === false ? this.$store.dispatch('updateCalendarTime', item) : null;
         }
