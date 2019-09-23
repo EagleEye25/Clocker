@@ -36,37 +36,19 @@
               </md-list-item>
               <br>
               <md-divider class="md-inset"></md-divider>
-              <br>
-              <md-list-item class="center">
-                <md-icon>access_time</md-icon>
-                <span class="md-list-item-text">Calendar Times:
-                  <br>
-                  <div style="margin-left:2em">
-                    <span> Starting:</span>
-                    <br>
-                  </div>
-                  <div style="margin-left:4.7em">
-                    <span> Week: {{ timeData.startWeek }}</span>
-                    <br>
-                    <span> Day: {{ timeData.startDay }}</span>
-                    <br>
-                    <span> Time: {{ timeData.startTime }}</span>
-                  </div>
-                  <br>
-                  <div style="margin-left:2em">
-                    <span> Ending:</span>
-                    <br>
-                  </div>
-                  <div style="margin-left:4em">
-                    <span> Week:{{ timeData.endWeek }}</span>
-                    <br>
-                    <span> Day: {{ timeData.endDay }}</span>
-                    <br>
-                    <span> Time: {{ timeData.endTime }}</span>
-                  </div>
-                </span>
-              </md-list-item>
             </md-list>
+            <md-table v-if="timeData" v-model="timeData" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+              class="table box">
+
+              <md-table-row slot="md-table-row" slot-scope="{ item }">
+                <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
+                <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
+                <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
+                <md-table-cell md-label="Ending Day" md-sort-by="endDay">{{ item.endDay }}</md-table-cell>
+                <md-table-cell md-label="Ending Time" md-sort-by="endTime">{{ item.endTime }}</md-table-cell>
+              </md-table-row>
+            </md-table>
+
             <md-button class="md-raised md-primary" @click="assignTimes">Assign Calendar Times</md-button>
           </div>
           <!-- Assigned -->
@@ -113,25 +95,27 @@
 
     methods: {
       async assignTimes() {
-        let d = this.timeData;
-        return await this.$awn.asyncBlock(http.put(`/api/calender_times/${d.id}`,{
-          'id': d.id,
-          'calender_id': this.calendarData.id,
-          'startWeek': d.startWeek,
-          'startDay': d.startDay,
-          'startTime': d.startTime,
-          'endWeek': d.endWeek,
-          'endDay': d.endDay,
-          'endTime': d.endTime
-        }).then(() => {
-          this.$awn.success('Successfully Assigned Calendar Times');
-          this.editable = false;
-          this.assigned = true;
-          return true;
-        }).catch(() => {
-          this.$awn.alert('Could Not Assign Calendar Times');
-          return false;
-        }), null, null, 'Assigning');
+        this.timeData.forEach(async time => {
+          let d = time
+          return await this.$awn.asyncBlock(http.put(`/api/calender_times/${d.id}`,{
+            'id': d.id,
+            'calender_id': this.calendarData.id,
+            'startWeek': d.startWeek,
+            'startDay': d.startDay,
+            'startTime': d.startTime,
+            'endWeek': d.endWeek,
+            'endDay': d.endDay,
+            'endTime': d.endTime
+          }).then(() => {
+            this.$awn.success('Successfully Assigned Calendar Times');
+            this.editable = false;
+            this.assigned = true;
+            return true;
+          }).catch(() => {
+            this.$awn.alert('Could Not Assign Calendar Times');
+            return false;
+          }), null, null, 'Assigning');
+        })
       },
 
       setDone (id, index) {
@@ -194,6 +178,19 @@
     margin-left: auto;
     margin-right: auto;
     /* width: 50%; */
+  }
+
+  .md-table {
+    padding-top: 10px;
+    margin: 0 auto;
+    text-align: center;
+    width: auto;
+    max-width: 60%;
+  }
+
+  .box {
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
   }
 
 </style>
