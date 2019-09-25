@@ -18,6 +18,7 @@ import generateEmpReports from '@/components/generate-EmpReports.vue';
 import loginManagement from '@/components/login-Management.vue';
 import unassignCalFromEmp from '@/components/unassign-CalFromEmp.vue';
 import install from '@/components/install.vue';
+import unassignTimesFromCal from '@/components/unassign-TimesFromCal.vue';
 
 Vue.use(Router)
 
@@ -96,6 +97,10 @@ const router = new Router({
         {
           path: 'unassignCalFromEmp',
           component: unassignCalFromEmp
+        },
+        {
+          path: 'unassignTimesFromCal',
+          component: unassignTimesFromCal
         },
       ]
     }

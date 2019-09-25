@@ -37,7 +37,7 @@
               <br>
               <md-divider class="md-inset"></md-divider>
             </md-list>
-            <md-table v-if="timeData" v-model="timeData" md-sort="id" md-sort-order="asc" md-card md-fixed-header
+            <md-table v-if="active === 'third'" v-model="timeDatas" md-sort="id" md-sort-order="asc" md-card md-fixed-header
               class="table box">
 
               <md-table-row slot="md-table-row" slot-scope="{ item }">
@@ -84,6 +84,7 @@
         third: false,
         showCreatedCal: false,
         assigned: false,
+        timeDatas: []
       }
     },
 
@@ -92,7 +93,7 @@
       viewCalender,
       viewCalenderTimes,
     },
-
+// TODO: fix table display when creating time in process
     methods: {
       async assignTimes() {
         this.timeData.forEach(async time => {
@@ -125,6 +126,9 @@
 
         if (index) {
           this.active = index
+        }
+        if ((id = 'second') && (index = 'third')) {
+          this.timeDatas = this.timeData;
         }
       },
 

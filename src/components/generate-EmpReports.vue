@@ -5,7 +5,7 @@
       <div class="md-layout">
         <md-card class="md-layout-item md-size-70 md-small-size-100 center box">
           <md-card-header>
-            this is a header
+            <h2>Please select employee/s and time frame</h2>
           </md-card-header>
           <md-card-content>
             <div class="md-layout md-gutter">
@@ -15,7 +15,7 @@
                 @md-selected="onSelect" class="table box">
                 <md-table-toolbar>
                   <div class="md-toolbar-section-start">
-                    <h1 class="md-title"> Employees </h1>
+                    <h1 class="md-title"> Employee's </h1>
                   </div>
 
                   <md-field md-clearable class="md-toolbar-section-end">
@@ -32,6 +32,7 @@
                   <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
                   <md-table-cell md-label="Admin" md-sort-by="admin">{{ item.admin }}</md-table-cell>
                   <md-table-cell md-label="Reporting Admin" md-sort-by="reporting_admin">{{ item.reporting_admin }}</md-table-cell>
+                  <md-table-cell md-label="Active" md-sort-by="active">{{ item.active }}</md-table-cell>
                 </md-table-row>
               </md-table>
             </div>
@@ -418,17 +419,17 @@
     methods: {
 
       async getEmployees() {
-        return await this.$awn.asyncBlock(http.get()
+        return await this.$awn.asyncBlock(http.get(`/api/employee/`)
           .then((res) => {
             res.data.forEach(d => {
-              let boolAdmin = 'no';
-              (d.admin !== 0) ? boolAdmin = 'yes' : '';
+              let boolAdmin = 'yes';
+              (d.admin !== 1) ? boolAdmin = 'no' : '';
 
-              let boolReport = 'no';
-              (d.reporting_admin !== 0) ? boolReport = 'yes' : '';
+              let boolReport = 'yes';
+              (d.reporting_admin !== 1) ? boolReport = 'no' : '';
 
               let active = false;
-              (d.active !== 0) ? active = true : active = false;
+              (d.active !== 0) ? active = 'yes' : active = 'no';
               let data = {
                 'id': d.id,
                 'name': d.name,

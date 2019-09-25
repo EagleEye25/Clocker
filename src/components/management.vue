@@ -7,7 +7,7 @@
           <!-- Calenders -->
           <md-menu md-size="medium" md-align-trigger :mdCloseOnSelect=true>
             <md-button md-menu-trigger>
-              <md-icon>calendar_today</md-icon>
+            <md-icon>calendar_today</md-icon>
               Calenders
             </md-button>
             <md-menu-content>
@@ -25,6 +25,9 @@
               </md-menu-item>
               <md-menu-item to="/management/unassignCalFromEmp">
                 Unassign Calendar From Employee
+              </md-menu-item>
+              <md-menu-item to="/management/unassignTimesFromCal">
+                Unassign Times From Calendar
               </md-menu-item>
             </md-menu-content>
           </md-menu>
