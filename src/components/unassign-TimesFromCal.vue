@@ -4,7 +4,7 @@
       <md-tooltip md-direction="left">Click Me For Help</md-tooltip>
       <md-icon>help_outline</md-icon>
     </md-button>
-    <h2 class="unassignCalT" style="color: white;">Unassign Calendar Times From Calendar</h2>
+    <h2 class="unassignCalT" style="color: white;">Times Assigned To Calendar</h2>
     <div style="padding-left: 42.3%">
       <md-card class="md-layout md-gutter box" style="width: 30%" id="calenders">
         <div class="md-layout-item center">
@@ -69,8 +69,8 @@
     <md-dialog-confirm
     :md-active.sync="active"
     md-title= "Unassign Calender"
-    md-content= "Are you sure you want to unassign this calendar from the selected employee? <br>
-      By completing this action, it will affect the reports for the selected employee."
+    md-content= "Are you sure you want to unassign this time from the selected calendar? <br>
+      By completing this action, it will affect the reports for employees assigned to this calendar."
     md-confirm-text="Agree"
     md-cancel-text="Cancel"
     @md-cancel="onCancel"
@@ -155,21 +155,22 @@ export default {
     },
 
     async unassign() {
-      return await this.$awn.asyncBlock(http.delete(`api/employee_calender/remove/emp/${this.timeID}`)
+      return await this.$awn.asyncBlock(http.put(`api/calender_times/unassign/time/${this.timeID}`)
         .then(() => {
-          const idx = this.searched.findIndex((emp) => emp.id === this.timeID);
+          const idx = this.searched.findIndex((time) => time.id === this.timeID);
           if (idx > -1) {
             this.searched.splice(idx, 1);
           }
-          this.$awn.success("Successfully unassigned employee from calendar");
+          this.$awn.success("Successfully unassigned time from calendar");
         })
         .catch(() => {
-          this.$awn.alert("Could not unassigned employee from calendar");
+          this.$awn.alert("Could not unassigned time from calendar");
         }), null, null, 'Un-assigning');
     },
 
     async getTimes() {
       this.searched = [];
+      this.calTimes = [];
       return await this.$awn.asyncBlock(http.get(`/api/calender_times/assigned/cal/times/${this.selectedCalID}`)
         .then(res => {
           res.data.forEach(d => {

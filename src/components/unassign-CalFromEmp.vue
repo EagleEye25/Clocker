@@ -4,7 +4,7 @@
       <md-tooltip md-direction="left">Click Me For Help</md-tooltip>
       <md-icon>help_outline</md-icon>
     </md-button>
-    <h2 class="unassignCalT" style="color: white;">Unassign Calendar From Employee</h2>
+    <h2 class="unassignCalT" style="color: white;"> Employees Assigned To Calendar</h2>
     <div style="padding-left: 42.3%">
       <md-card class="md-layout md-gutter box" style="width: 30%" id="calenders">
         <div class="md-layout-item center">
@@ -130,6 +130,7 @@ export default {
       search: null,
       searched: [],
       calenders: [],
+      employees: [],
       selectedCalID: null,
       active: false,
       empID: null,
@@ -171,6 +172,7 @@ export default {
 
     async getEmployees() {
       this.searched = [];
+      this.employees = [];
       return await this.$awn.asyncBlock(http.get(`/api/employee/assigned/cal/employees/${this.selectedCalID}`)
         .then(res => {
           res.data.forEach(d => {
@@ -189,8 +191,9 @@ export default {
               reporting_admin: boolReport,
               active: active
             };
-            this.searched.push(data);
+            this.employees.push(data);
           });
+          this.searched = this.employees;
           return true;
         })
         .catch(err => {
@@ -224,7 +227,7 @@ export default {
     },
 
     searchOnTable() {
-      this.searched = searchByName(this.users, this.search);
+      this.searched = searchByName(this.employees, this.search);
     },
 
     onSelect(item) {

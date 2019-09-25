@@ -24,10 +24,10 @@
                 View Calendar Times
               </md-menu-item>
               <md-menu-item to="/management/unassignCalFromEmp">
-                Unassign Calendar From Employee
+                Employees Assigned To Calendar
               </md-menu-item>
               <md-menu-item to="/management/unassignTimesFromCal">
-                Unassign Times From Calendar
+                Times Assigned To Calendar
               </md-menu-item>
             </md-menu-content>
           </md-menu>
