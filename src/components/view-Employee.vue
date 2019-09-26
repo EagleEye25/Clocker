@@ -82,7 +82,7 @@
     }
     return items
   }
-
+  // TODO: DELETE EMPLOYEE
   export default {
     name: 'view-Employee',
     // Angular equivaent of INPUT
