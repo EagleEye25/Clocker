@@ -42,7 +42,7 @@
               Update
             </md-button>
           </md-table-cell>
-          <md-table-cell v-if="standard !== false && !showDeleted">
+          <md-table-cell v-if="standard !== false && !showDeleted && loggedIn.name != item.name">
             <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
               <md-icon>warning</md-icon>
               delete
@@ -260,6 +260,9 @@
       },
       calData() {
         return this.$store.getters.calendarData;
+      },
+      loggedIn() {
+        return this.$store.getters.loginInfo;
       }
     },
   }
