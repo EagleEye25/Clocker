@@ -45,7 +45,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('sTime')">
-                <VueCtkDateTimePicker id="sTime" name="sTime" v-model="form.sTime"
+                <VueCtkDateTimePicker style="padding-bottom: 1%" id="sTime" name="sTime" v-model="form.sTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="* Starting Time"
                                      class="center">
@@ -79,10 +79,10 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('eTime')">
-                <VueCtkDateTimePicker id="eTime" name="eTime" v-model="form.eTime"
+                <VueCtkDateTimePicker style="padding-bottom: 1%" id="eTime" name="eTime" v-model="form.eTime"
                                      :onlyTime=true format="HH:mm" formatted="HH:mm"
                                      color="#27C96D" :dark=true label="* Ending Time"
-                                     class="center">
+                                     class="center" >
                 </VueCtkDateTimePicker>
                 <span class="md-error">The ending time is required</span>
               </md-field>
@@ -261,7 +261,6 @@
           }).then((res) => {
             this.$awn.success('Successfully Created Calendar Times');
             if (this.standard === false) {
-              this.$store.dispatch('updateCalendarTime', res.data);
               this.$emit('added');
             }
             this.create ? this.returnToView(true) : null;

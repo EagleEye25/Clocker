@@ -75,8 +75,6 @@
       }
     },
 
-    // TODO: fix weird issue of loggin in with card of 1 char
-
     methods: {
       async onConfirm() {
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)

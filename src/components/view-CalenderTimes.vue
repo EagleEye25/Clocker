@@ -86,7 +86,7 @@
         </md-table-row>
       </md-table>
       <div v-if="addCalTimes">
-        <addCalTimes v-bind:standard=false @canceled="addCalTimes = false" @added="added = true"></addCalTimes>
+        <addCalTimes v-bind:standard=false @canceled="addCalTimes = false" @added="getUnassigned"></addCalTimes>
       </div>
       <div v-if="added">
         <h1>Successfully added Calendar Times!</h1>
@@ -137,7 +137,6 @@
         mdTitle: '',
         mdDescription: '',
         confirmedUnassign: false,
-        count: 0,
         addCalTimes: false,
         added: false,
         itemID: null,
@@ -185,8 +184,12 @@
       },
 
       async getUnassigned() {
+        this.calTimes = [];
+        this.addCalTimes = false;
+
         return await http.get(`/api/calender_times/times/unAssigned`)
           .then((res) => {
+            console.log('here in unassigned ');
             res.data.forEach(d => {
               let data = {
                 'id': d.id,
@@ -199,6 +202,7 @@
               }
               this.calTimes.push(data);
             });
+            this.searched = this.calTimes;
             return true;
           }).catch(() => {
             this.$awn.alert('Could Not Get Calendar Times');
@@ -253,8 +257,6 @@
           });
       },
 
-
-      // TODO: ALLOW FOR MULTIPLE ASSIGN ON BACKEND
       onSelect(item) {
         if (item) {
           this.selectedCalTime = item;

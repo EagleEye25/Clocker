@@ -299,6 +299,7 @@
           return false;
         });
       },
+      // TODO: implement delete card
 
       determineMsg() {
         if (this.standard !== false) {

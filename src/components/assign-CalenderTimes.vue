@@ -93,7 +93,7 @@
       viewCalender,
       viewCalenderTimes,
     },
-// TODO: fix table display when creating time in process
+
     methods: {
       async assignTimes() {
         this.timeData.forEach(async time => {
