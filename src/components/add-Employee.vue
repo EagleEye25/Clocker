@@ -204,6 +204,7 @@
         updateInfo: '',
         addMsg: 'Add Employee',
         id: null,
+        changeOwn: false
       }
     },
 
@@ -260,6 +261,10 @@
           'active': true
         }).then(() => {
             this.clearForm();
+            if (this.changeOwn) {
+              this.loggedIn.name = this.combinedName;
+              this.$store.dispatch('updateLoginInfo', this.loggedIn);
+            }
             this.$store.dispatch('updateEmp', null);
             this.$router.push('/management/viewEmployee');
             this.$awn.success('Successfully Updated Employee');
@@ -363,6 +368,9 @@
         return await this.$awn.asyncBlock(http.get(`/api/employee/${this.id}`)
           .then((resp) => {
             this.updateInfo = resp.data;
+            if (this.loggedIn.name == this.updateInfo.name) {
+              this.changeOwn = true;
+            }
             return true
           }).catch(() => {
             return false
@@ -450,6 +458,9 @@
 
       updateEmpInfo() {
         return this.$store.getters.updateEmp;
+      },
+      loggedIn() {
+        return this.$store.getters.loginInfo;
       }
     },
 
