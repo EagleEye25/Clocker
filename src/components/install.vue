@@ -47,11 +47,11 @@
     methods: {
       async testCon() {
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
-          .then((res) => {
+          .then(() => {
             this.$awn.success('Valid Server Connection!');
             this.checkAdmin()
             return true
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Invalid Server Connection!');
             return false
           }), null, null);
@@ -66,7 +66,7 @@
             } else {
               this.showAdd = true;
             }
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Couldnt Check For Admins')
           }), null, null);
       },

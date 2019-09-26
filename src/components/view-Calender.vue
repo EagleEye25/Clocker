@@ -100,7 +100,7 @@
     name: 'view-Calender',
     // Angular equivaent of INPUT
     props: {
-      standard: true,
+      standard: Boolean,
     },
     //  Variables
     data() {

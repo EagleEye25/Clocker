@@ -107,7 +107,7 @@ const router = new Router({
   ]
 });
 
-const doLogIn = (p) => {
+const doLogIn = () => {
   const authToken = window.sessionStorage.getItem('token') || '';
   let isFail = true;
   try {
@@ -124,7 +124,7 @@ const doLogIn = (p) => {
   return isFail;
 };
 
-const doSetServer = (p) => {
+const doSetServer = () => {
   const serverAddy = window.localStorage.getItem('serverAddy') || '';
   return !serverAddy;
 };

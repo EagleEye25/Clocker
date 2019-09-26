@@ -83,7 +83,7 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
-      standard: false,
+      standard: Boolean,
     },
     //  Variables
     data() {
@@ -198,7 +198,7 @@
             (this.standard === false) ? this.$emit('added') : null;
           }
           this.$awn.success('Successfully Added Reason');
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Add Reason');
         }), null, null, 'Adding Reason')
       },

@@ -115,7 +115,7 @@
     name: 'view-CalendarTimes',
     // Angular equivaent of INPUT
     props: {
-      standard: true
+      standard: Boolean
     },
     //  Variables
     data() {
@@ -189,7 +189,6 @@
 
         return await http.get(`/api/calender_times/times/unAssigned`)
           .then((res) => {
-            console.log('here in unassigned ');
             res.data.forEach(d => {
               let data = {
                 'id': d.id,

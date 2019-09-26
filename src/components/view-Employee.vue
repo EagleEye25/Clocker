@@ -87,8 +87,8 @@
     name: 'view-Employee',
     // Angular equivaent of INPUT
     props: {
-      standard: true,
-      calUnAssigned: false,
+      standard: Boolean,
+      calUnAssigned: Boolean,
     },
     //  Variables
     data() {
