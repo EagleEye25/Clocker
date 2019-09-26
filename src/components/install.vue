@@ -73,6 +73,7 @@
 
       moveToLogin() {
         window.localStorage.setItem('serverAddy', this.serverAddy);
+        window.location.reload();
         this.$router.push('/login');
       }
     }
