@@ -72,14 +72,13 @@
     minLength,
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts';
-  import selectCardForEmployee from './assign-card-process/select-CardForEmployee.vue';
 
   export default {
     name: 'add-Card',
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
-      standard: true
+      standard: Boolean
     },
     //  Variables
     data() {
@@ -131,10 +130,6 @@
           minLength: minLength(3)
         },
       },
-    },
-
-    components: {
-      selectCardForEmployee,
     },
 
     methods: {

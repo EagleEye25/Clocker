@@ -127,9 +127,6 @@
         if (index) {
           this.active = index
         }
-        if ((id = 'second') && (index = 'third')) {
-          this.timeDatas = this.timeData;
-        }
       },
 
       clearStore() {

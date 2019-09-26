@@ -120,7 +120,7 @@
     name: 'select-CardForEmployee',
     // Angular equivaent of INPUT
     props: {
-      standard: true,
+      standard: Boolean,
     },
     //  Variables
     data() {
@@ -208,7 +208,6 @@
       },
 
       changeActiveOnTable(active) {
-        let selectedItem = this.cardData.find(item => item.id === this.itemID);
         if (active === 0 || active === 1) {
           for (let k = 0; k < this.cardData.length; k++) {
             if (this.cardData[k].id === this.itemID) {
@@ -223,7 +222,7 @@
         }
       },
 
-      async onConfirm (active) {
+      async onConfirm() {
         if (this.state === 'Deactivate') {
           let confirm = await this.changeActiveState(false);
           if (confirm) {
@@ -324,7 +323,7 @@
               this.cardData.push(data);
             });
           return true;
-        }).catch((err) => {
+        }).catch(() => {
           this.$awn.alert('Could Not Get Cards');
           return false;
         });

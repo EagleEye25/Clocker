@@ -78,11 +78,11 @@
     methods: {
       async onConfirm() {
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
-          .then((result) => {
+          .then(() => {
             this.$awn.success('Valid Server Connection!');
             window.localStorage.setItem('serverAddy', this.serverAddy);
             return true
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Invalid Server Connection!');
             return false
           }), null, null);

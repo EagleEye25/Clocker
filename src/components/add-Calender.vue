@@ -128,7 +128,7 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
-      standard: true,
+      standard: Boolean,
     },
 
     //  Variables

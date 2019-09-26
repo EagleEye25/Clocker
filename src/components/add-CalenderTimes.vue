@@ -138,7 +138,6 @@
   import { validationMixin } from 'vuelidate';
   import {
     required,
-    minLength,
     between
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts';
@@ -148,7 +147,7 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
-      standard: true,
+      standard: Boolean,
     },
     //  Variables
     data() {
@@ -258,7 +257,7 @@
             'startTime': this.form.sTime,
             'endDay': this.form.eDay,
             'endTime': this.form.eTime
-          }).then((res) => {
+          }).then(() => {
             this.$awn.success('Successfully Created Calendar Times');
             if (this.standard === false) {
               this.$emit('added');
@@ -266,7 +265,7 @@
             this.create ? this.returnToView(true) : null;
             this.clearForm();
             return true;
-          }).catch((err) => {
+          }).catch(() => {
             this.$awn.alert('Could Not Create Calendar Times');
             return false;
           }), null, null, 'Adding Times');

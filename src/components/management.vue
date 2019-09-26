@@ -135,7 +135,6 @@
 </template>
 
 <script>
-  import http from '../../public/app.service.ts';
   export default {
     name: 'management',
     // Angular equivaent of INPUT

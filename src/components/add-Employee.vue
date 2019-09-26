@@ -131,8 +131,8 @@
     mixins: [validationMixin],
     // Angular equivaent of INPUT
     props: {
-      standard: true,
-      first: false
+      standard: Boolean,
+      first: Boolean
     },
     //  Variables
     data() {
