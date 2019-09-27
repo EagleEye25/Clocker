@@ -12,7 +12,7 @@
           <div class="md-toolbar-section-start">
             <h1 class="md-title">{{ title }}</h1>
               <md-checkbox v-model="showDeleted" @click="changeView" v-if="standard !== false">
-                Show Deleted Employees
+                Show Deactivated Employees
               </md-checkbox>
           </div>
 
@@ -43,14 +43,19 @@
             </md-button>
           </md-table-cell>
           <md-table-cell v-if="standard !== false && !showDeleted && loggedIn.name != item.name">
-            <md-button class="md-raised md-accent" @click="deleteEmp(item, false)">
+            <md-button class="md-raised md-accent" @click="ChangeActiveState(item, false)">
               <md-icon>warning</md-icon>
-              delete
+              Deactivate
             </md-button>
           </md-table-cell>
           <md-table-cell v-if="standard !== false && showDeleted">
-            <md-button class="md-raised md-accent" @click="deleteEmp(item, true)">
+            <md-button class="md-raised" @click="ChangeActiveState(item, true)">
               Restore
+            </md-button>
+          </md-table-cell>
+          <md-table-cell v-if="standard !== false && showDeleted">
+            <md-button class="md-raised md-accent" @click="set(true, item.id)">
+              Permanently Delete
             </md-button>
           </md-table-cell>
         </md-table-row>
@@ -65,6 +70,15 @@
       <h1>Successfully added employee!</h1>
       <h3>Please press continue</h3>
     </div>
+    <md-dialog-confirm
+      :md-active.sync="active"
+      md-title= "Unassign Calender"
+      md-content= "Are you sure you want to unassign this time from the selected calendar? <br>
+        By completing this action, it will affect the reports for employees assigned to this calendar."
+      md-confirm-text="Agree"
+      md-cancel-text="Cancel"
+      @md-cancel="onCancel"
+      @md-confirm="PermDelete" />
   </div>
 </template>
 
@@ -112,6 +126,8 @@
         added: false,
         showDeleted: false,
         delEmp: [],
+        active: false,
+        id: ''
       }
     },
 
@@ -132,26 +148,52 @@
         this.$tours['viewCal'].start();
       },
 
+      set(active, id) {
+        this.active = active;
+        this.id = id;
+      },
+
+      onCancel () {
+        this.active = false;
+      },
+
+      async PermDelete() {
+        return await this.$awn.asyncBlock(http.delete(`/api/employee/${this.id}`, {}).then(() => {
+            this.$awn.success('Permanently Deleted Employee');
+            const idx = this.delEmp.findIndex((emp) => emp.id === this.id);
+              if (idx > -1) {
+                this.delEmp.splice(idx, 1);
+              }
+            return true
+          }).catch((err) => {
+            console.log(err)
+            this.$awn.alert('Could Not Permanently Delete Employee');
+            return false
+          }), null, null, 'Deleting Employee');
+      },
+
       async getEmployees(api) {
         return await http.get(api)
           .then((res) => {
             res.data.forEach(d => {
-              let boolAdmin = 'no';
-              (d.admin !== 0) ? boolAdmin = 'yes' : '';
+              if (d.name) {
+                let boolAdmin = 'no';
+                (d.admin !== 0) ? boolAdmin = 'yes' : '';
 
-              let boolReport = 'no';
-              (d.reporting_admin !== 0) ? boolReport = 'yes' : '';
+                let boolReport = 'no';
+                (d.reporting_admin !== 0) ? boolReport = 'yes' : '';
 
-              let active = false;
-              (d.active !== 0) ? active = true : active = false;
-              let data = {
-                'id': d.id,
-                'name': d.name,
-                'admin': boolAdmin,
-                'reporting_admin': boolReport,
-                'active': active
+                let active = false;
+                (d.active !== 0) ? active = true : active = false;
+                let data = {
+                  'id': d.id,
+                  'name': d.name,
+                  'admin': boolAdmin,
+                  'reporting_admin': boolReport,
+                  'active': active
+                }
+                active ? this.employees.push(data) : this.delEmp.push(data);
               }
-              active ? this.employees.push(data) : this.delEmp.push(data);
             });
           return true;
         }).catch((err) => {
@@ -162,7 +204,7 @@
         });
       },
 
-      async deleteEmp(item, bool) {
+      async ChangeActiveState(item, bool) {
         return await this.$awn.asyncBlock(http.put(`api/employee/delete/${item.id}`, {
           'id': item.id,
           'active': bool,
@@ -182,11 +224,12 @@
                 this.delEmp.splice(idx, 1);
               }
             }
-            !bool ? this.$awn.success('Successfully Deleted Employee') :
+            !bool ? this.$awn.success('Successfully Deactivated Employee') :
               this.$awn.success('Successfully Restored Employee Employee');
             return true
           }).catch(() => {
             this.$awn.alert('Could Not Delete Employee');
+            this.$awn.alert('Could Not Deactivate Employee');
             return false
           }), null, null);
       },

@@ -11,7 +11,7 @@
       <md-card class="md-layout-item md-size-50 md-small-size-100 center box" id="empST">
         <!-- Header for card -->
         <md-card-header>
-          <div class="md-title">Add Employee To Clocker</div>
+          <div class="md-title">{{ title }}</div>
         </md-card-header>
         <md-divider></md-divider>
         <!-- Content to be displayed on cards -->
@@ -202,7 +202,7 @@
         combinedName: '',
         selectedEmployee: '',
         updateInfo: '',
-        addMsg: 'Add Employee',
+        title: 'Add Employee',
         id: null,
         changeOwn: false
       }
@@ -264,6 +264,7 @@
             if (this.changeOwn) {
               this.loggedIn.name = this.combinedName;
               this.$store.dispatch('updateLoginInfo', this.loggedIn);
+              this.changeOwn = false;
             }
             this.$store.dispatch('updateEmp', null);
             this.$router.push('/management/viewEmployee');
@@ -338,7 +339,8 @@
       },
 
       async fillInputs() {
-        if (this.standard !== false && this.updateEmpInfo.update) {
+        if ((this.standard !== false) && (this.updateEmpInfo.update)) {
+          this.title = 'Update Employee';
           this.id = this.updateEmpInfo.id;
 
           const got = await this.getInfoUpdate();
@@ -422,6 +424,9 @@
         this.form.reporting_admin = false
         this.form.password = null
         this.form.confirmPass = null;
+        this.changeOwn = false;
+        this.updateEmpInfo ? this.updateEmpInfo.update = false : '';
+        this.$store.dispatch('updateEmp', this.updateEmpInfo);
         const el = document.querySelector('#first-name');
           if (el) {
             el.focus();
