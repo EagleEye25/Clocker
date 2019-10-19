@@ -73,8 +73,7 @@
     <md-dialog-confirm
       :md-active.sync="active"
       md-title= "Unassign Calender"
-      md-content= "Are you sure you want to unassign this time from the selected calendar? <br>
-        By completing this action, it will affect the reports for employees assigned to this calendar."
+      md-content= "Are you sure you want to permanently delete this employee? <br> This action can not be undone"
       md-confirm-text="Agree"
       md-cancel-text="Cancel"
       @md-cancel="onCancel"

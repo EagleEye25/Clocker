@@ -47,6 +47,9 @@
             </div>
              </div>
           </md-card-content>
+          <md-card-actions>
+            <md-button class="md-raised md-primary" @click="getReportData()">Generate Reports</md-button>
+          </md-card-actions>
         </md-card>
       </div>
     </div>
@@ -98,6 +101,31 @@
           </div>
         </md-card-content>
       </md-card>
+      <!-- Clocked Employees -->
+      <div class="md-layout">
+        <md-card class="md-layout-item md-size-78 md-small-size-100 center box">
+          <md-card-content>
+            <md-table v-model="clockedEmp" md-sort="name" md-sort-order="asc" md-card md-fixed-header
+              class="table box">
+              <md-table-toolbar>
+                <div class="md-toolbar-section-start">
+                  <h1 class="md-title"> Employee's Clocked</h1>
+                </div>
+              </md-table-toolbar>
+
+              <md-table-empty-state
+                md-label="No Clocked employees's">
+              </md-table-empty-state>
+
+              <md-table-row slot="md-table-row" slot-scope="{ item }">
+                <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+                <md-table-cell md-label="Reason" md-sort-by="reason_description">{{ item.reason_description }}</md-table-cell>
+                <md-table-cell md-label="Work Related" md-sort-by="workRelated">{{ item.workRelated }}</md-table-cell>
+              </md-table-row>
+            </md-table>
+          </md-card-content>
+        </md-card>
+      </div>
     </div>
   </div>
 </template>
@@ -414,6 +442,7 @@
         search: null,
         displayCharts: false,
         range: null,
+        clockedEmp: []
       }
     },
     methods: {
@@ -422,30 +451,90 @@
         return await this.$awn.asyncBlock(http.get(`/api/employee/`)
           .then((res) => {
             res.data.forEach(d => {
-              let boolAdmin = 'yes';
-              (d.admin !== 1) ? boolAdmin = 'no' : '';
+              if (d.name) {
+                let boolAdmin = 'yes';
+                (d.admin !== 1) ? boolAdmin = 'no' : '';
 
-              let boolReport = 'yes';
-              (d.reporting_admin !== 1) ? boolReport = 'no' : '';
+                let boolReport = 'yes';
+                (d.reporting_admin !== 1) ? boolReport = 'no' : '';
 
-              let active = false;
-              (d.active !== 0) ? active = 'yes' : active = 'no';
-              let data = {
-                'id': d.id,
-                'name': d.name,
-                'admin': boolAdmin,
-                'reporting_admin': boolReport,
-                'active': active
+                let active = false;
+                (d.active !== 0) ? active = 'yes' : active = 'no';
+                let data = {
+                  'id': d.id,
+                  'name': d.name,
+                  'admin': boolAdmin,
+                  'reporting_admin': boolReport,
+                  'active': active
+                }
+                active ? this.employees.push(data) : null
               }
-              active ? this.employees.push(data) : null
             });
           return true;
         }).catch((err) => {
           let error = err.toString().indexOf('404');
-          (error > -1) ? this.$awn.warning('No Unassigned Employees') :
+          (error > -1) ? this.$awn.warning('No Employees') :
           this.$awn.alert('Could Not Get Employees');
           return false;
         }), null, null, 'Getting Employees');
+      },
+
+      async getEmpsInOut()  {
+        return await this.$awn.asyncBlock(http.get(`/api/reports/getUsersInAndOut`)
+          .then((res) => {
+            res.data.forEach(d => {
+              let workRelated = 'yes';
+                (d.reason_description !== 1) ? workRelated = 'no' : '';
+
+              let data = {
+                'name': d.name,
+                'reason_description': d.reason_description,
+                'workRelated': workRelated
+              }
+              this.clockedEmp.push(data);
+            });
+          return true;
+        }).catch((err) => {
+          let error = err.toString().indexOf('404');
+          (error > -1) ? this.$awn.warning('No Employees') :
+          this.$awn.alert('Could Not Get Employees');
+          return false;
+        }), null, null, 'Getting Employees');
+      },
+
+      async getReportData()  {
+        // const end = '';
+        // this.range.end ? end = this.range.end : end = this.range.start
+        return await this.$awn.asyncBlock(http.post(`/api/reports/reports`, {
+          // 'start': this.range.start,
+          // 'end': end,
+          // 'employees': this.selectedEmps,
+        }).then((res) => {
+          console.log(res);
+          this.workHrsData.labels = []
+          this.workSeries[0].data = res.data[3].data
+
+          this.clockReasonsNonWork.labels = []
+          this.clockReasonsNonWorkSeries[0].data = res.data[0].data
+
+          this.clockReasonsWork.labels = []
+          this.clockReasonsWorkSeries[0].data = res.data[1].data
+
+          this.overNotClockingData.labels = []
+          this.overNotClockingSeries[0].data = res.data[4].data
+
+          this.reasonsRankData.labels = []
+          this.reasonsRankSeries[0].data = res.data[2].data
+
+          this.employeeRankData.labels = []
+          this.employeeRankSeries[0].data = res.data[5].data
+
+          this.$awn.success('Successfully Generated Reports');
+          return true;
+        }).catch(() => {
+          this.$awn.alert('Could Not Generate Reports');
+          return false;
+        }), null, null, 'Generating Reports');
       },
 
       onSelect(items) {
@@ -464,6 +553,8 @@
 
     beforeMount() {
       this.getEmployees();
+      this.getEmpsInOut();
+      this.getReportData();
     }
   }
 </script>

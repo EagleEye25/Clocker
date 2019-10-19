@@ -15,15 +15,15 @@
         <md-divider></md-divider>
         <md-card-content>
           <!-- Starting -->
-          <div class="md-layout md-gutter">
+          <div class="md-layout md-gutter center">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('sWeek')">
+              <!-- <md-field :class="getValidationClass('sWeek')">
                 <label>* Starting Week</label>
                 <md-input type="number" class="sWeek" v-model="form.sWeek"/>
                 <span class="md-error" v-if="!$v.form.sWeek.required">The starting week is required</span>
                 <span class="md-error" v-else-if="!$v.form.sWeek.between">The starting week has to be between 1 AND 52</span>
                 <span class="md-helper-text">(1 - 52)</span>
-              </md-field>
+              </md-field> -->
             </div>
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('sDay')">
@@ -161,13 +161,6 @@
             }
           },
           {
-            target: '.sWeek',
-            content: `Firstly start by entering a starting week (1 - 52)`,
-            params: {
-              placement: 'left'
-            }
-          },
-          {
             target: '#sDayT',
             content: `Then enter a starting day`,
             params: {
@@ -225,10 +218,6 @@
 
     validations: {
       form: {
-        sWeek: {
-          required,
-          between: between(1, 52)
-        },
         sDay: {
           required,
         },
@@ -252,7 +241,7 @@
       async addCalTimes() {
         if (!await this.checkCalTimes(this.form)) {
           return await this.$awn.asyncBlock(http.post(`/api/calender_times/create`, {
-            'startWeek': this.form.sWeek,
+            'startWeek': 1,
             'startDay': this.form.sDay,
             'startTime': this.form.sTime,
             'endDay': this.form.eDay,
@@ -279,7 +268,7 @@
         if (!await this.checkCalTimes(this.form)) {
           return await this.$awn.asyncBlock(http.put(`/api/calender_times/${d.id}`,{
             'id': d.id,
-            'startWeek': this.form.sWeek,
+            'startWeek': 1,
             'startDay': this.form.sDay,
             'startTime': this.form.sTime,
             'endDay': this.form.eDay,
