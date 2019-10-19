@@ -503,12 +503,19 @@
       },
 
       async getReportData()  {
-        // const end = '';
-        // this.range.end ? end = this.range.end : end = this.range.start
+        let start, end;
+        if (this.range.start) {
+          start = Date.parse(this.range.start + '00:00:00');
+          if (this.range.end) {
+            end = Date.parse(this.range.end + '23:59:59');
+          } else {
+            end = Date.parse(this.range.start + '23:59:59');
+          }
+        }
         return await this.$awn.asyncBlock(http.post(`/api/reports/reports`, {
-          // 'start': this.range.start,
-          // 'end': end,
-          // 'employees': this.selectedEmps,
+          'start': start,
+          'end': end,
+          'employees': this.selectedEmps,
         }).then((res) => {
           console.log(res);
           this.workHrsData.labels = []
