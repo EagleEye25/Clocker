@@ -64,7 +64,10 @@
           <div class="md-layout md-gutter">
             <!-- Worked Hours  -->
             <div class="md-layout-item md-small-size-100 center" style="padding-left: 3%">
-              <apexcharts width="800" height="350" type="bar" :options="workHrsData" :series="workSeries"></apexcharts>
+              <apexcharts width="800" height="350" type="bar" :options="workHrsDataPerDay" :series="workSeriesPerDay"></apexcharts>
+            </div>
+            <div class="md-layout-item md-small-size-100 center" style="padding-left: 3%">
+              <apexcharts width="800" height="350" type="bar" :options="workHrsDataPerMonth" :series="workSeriesPerMonth"></apexcharts>
             </div>
             <!-- Clock Reasons TIme Not Worked  -->
             <div class="md-layout-item md-small-size-100 center" style="padding-left: 4%">
@@ -158,9 +161,9 @@
     data() {
       return {
         // Worked Hours Data, series
-        workHrsData: {
+        workHrsDataPerDay: {
           title: {
-            text: 'title',
+            text: 'Worked Hours Per Day',
             align: 'center',
             floating: false,
             style: {
@@ -206,17 +209,66 @@
             }
           }
         },
-        workSeries: [{
+        workSeriesPerDay: [{
             name: 'Hours Worked',
             data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-          }, {
-            name: 'DONT KNOW XD',
-            data: [76, 85, 41, 98, 87, 44, 91, 81, 94]
-          }, {
-            name: 'Out For Work',
-            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
           }
         ],
+
+        workHrsDataPerMonth: {
+          title: {
+            text: 'Worked Hours Per Month',
+            align: 'center',
+            floating: false,
+            style: {
+              fontSize:  '20px',
+              color:  '#ffffff'
+            },
+          },
+          theme: {
+            mode: 'dark',
+            palette: 'palette1',
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              endingShape: 'rounded',
+              columnWidth: '55%',
+            },
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            show: true,
+            width: 4,
+            colors: ['transparent']
+          },
+          xaxis: {
+            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+          },
+          yaxis: {
+            title: {
+              text: 'Worked Hours'
+            }
+          },
+          fill: {
+            opacity: 1
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                return val + " Hours"
+              }
+            }
+          }
+        },
+        workSeriesPerMonth: [{
+            name: 'Hours Worked',
+            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+          }
+        ],
+
         // Clock Reasons Time (Not worked) data, series
         clockReasonsNonWork: {
           title: {
@@ -518,24 +570,91 @@
           'end': end,
           'employees': this.selectedEmps,
         }).then((res) => {
+          console.log(res)
+          console.log(res.data[0].data)
+          for (let k = 0; k < 6; k++) {
+            if (res.data[k].data = {}) {
+              res.data[k].data = [0];
+              console.log(res.data[k].data)
+            }
+          }
+
           console.log(res);
-          // this.workHrsData.labels = []
-          // this.workSeries[0].data = res.data[3].data
 
-          // this.clockReasonsNonWork.labels = []
-          // this.clockReasonsNonWorkSeries[0].data = res.data[0].data
+          if (res.data[0].data && Object.prototype.toString.call(res.data[0].data) === '[object Object]') {
+            const labels = Object.keys(res.data[0].data) || [];
+            const values = [];
+            for (const label of labels) {
+              values.push(+res.data[0].data[label] || 0);
+            }
+            this.$set(this.clockReasonsNonWork, 'labels', labels);
+            this.clockReasonsNonWorkSeries = values;
+          }
 
-          // this.clockReasonsWork.labels = []
-          // this.clockReasonsWorkSeries[0].data = res.data[1].data
+          if (res.data[1].data && Object.prototype.toString.call(res.data[1].data) === '[object Object]') {
+            const labels = Object.keys(res.data[1].data) || [];
+            const values = [];
+            for (const label of labels) {
+              values.push(+res.data[1].data[label] || 0);
+            }
+            this.$set(this.clockReasonsWork, 'labels', labels);
+            this.clockReasonsWorkSeries = values;
+          }
 
-          // this.overNotClockingData.labels = []
-          // this.overNotClockingSeries[0].data = res.data[4].data
+          if (res.data[2].data && Object.prototype.toString.call(res.data[2].data) === '[object Object]') {
+            const labels = Object.keys(res.data[2].data) || [];
+            const values = [];
+            for (const label of labels) {
+              values.push(+res.data[2].data[label] || 0);
+            }
+            this.$set(this.reasonsRankData, 'labels', labels);
+            this.reasonsRankSeries = [{name: 'Series 1', data: values}];
+          }
 
-          // this.reasonsRankData.labels = []
-          // this.reasonsRankSeries[0].data = res.data[2].data
+          if (res.data[3].data && Object.prototype.toString.call(res.data[3].data) === '[object Object]') {
+            if (res.data[3].data.day && Object.prototype.toString.call(res.data[3].data.day) === '[object Object]') {
+              // Create the hours worked per day chart
+              const dayMap = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+              const dayKeys = Object.keys(res.data[3].data.day) || [];
+              const labels = dayKeys.map(dayKey => dayMap[+dayKey]);
+              const onSite = [];
+              const offSite = [];
+              for (const dayKey of dayKeys) {
+                onSite.push( +((res.data[3].data.day[dayKey].onSite || 0) / 60).toFixed(2));
+                offSite.push( +((res.data[3].data.day[dayKey].offSite || 0) / 60).toFixed(2));
+              }
+              this.$set(this.workHrsDataPerDay, 'xaxis', {categories: labels});
+              this.workSeriesPerDay = [{name: 'Onsite Hours Worked', data: onSite}, {name: 'Offsite Hours Worked', data: offSite}];
+            }
 
-          // this.employeeRankData.labels = []
-          // this.employeeRankSeries[0].data = res.data[5].data
+            if (res.data[3].data.month && Object.prototype.toString.call(res.data[3].data.motnh) === '[object Object]') {
+              // Create the hours worked per month chart
+              const monthMap = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+              const monthKeys = Object.keys(res.data[3].data.month) || [];
+              const labels = monthKeys.map(monthKey => monthMap[+monthKey]);
+              const onSite = [];
+              const offSite = [];
+              for (const monthKey of monthKeys) {
+                onSite.push( +((res.data[3].data.month[dayKey].onSite || 0) / 60).toFixed(2));
+                offSite.push( +((res.data[3].data.month[dayKey].offSite || 0) / 60).toFixed(2));
+              }
+              this.$set(this.workHrsDataPerMonth, 'xaxis', {categories: labels});
+              this.workSeriesPerMonth = [{name: 'Onsite Hours Worked', data: onSite}, {name: 'Offsite Hours Worked', data: offSite}];
+            }
+          }
+
+          if (res.data[4].data && Object.prototype.toString.call(res.data[4].data) === '[object Object]') {
+            const dayMap = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+
+            const dayKeys = Object.keys(res.data[4].data) || [];
+            const labels = dayKeys.map(dayKey => dayMap[+dayKey]);
+            const values = [];
+            for (const dayKey of dayKeys) {
+              values.push( +((res.data[4].data[dayKey] || 0) / 60).toFixed(2));
+            }
+            this.$set(this.overNotClockingData, 'labels', labels);
+            this.overNotClockingSeries = [{name: 'Overtime', type: 'column', data: values}];
+          }
 
           this.$awn.success('Successfully Generated Reports');
           return true;
@@ -562,7 +681,6 @@
     beforeMount() {
       this.getEmployees();
       this.getEmpsInOut();
-      this.getReportData();
     }
   }
 </script>
