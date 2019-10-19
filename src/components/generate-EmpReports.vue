@@ -503,13 +503,14 @@
       },
 
       async getReportData()  {
-        let start, end;
+        let start = '';
+        let end = '';
         if (this.range.start) {
-          start = Date.parse(this.range.start + '00:00:00');
+          start = Date.parse(this.range.start + 'T00:00:00');
           if (this.range.end) {
-            end = Date.parse(this.range.end + '23:59:59');
+            end = Date.parse(this.range.end + 'T23:59:59');
           } else {
-            end = Date.parse(this.range.start + '23:59:59');
+            end = Date.parse(this.range.start + 'T23:59:59');
           }
         }
         return await this.$awn.asyncBlock(http.post(`/api/reports/reports`, {
@@ -518,23 +519,23 @@
           'employees': this.selectedEmps,
         }).then((res) => {
           console.log(res);
-          this.workHrsData.labels = []
-          this.workSeries[0].data = res.data[3].data
+          // this.workHrsData.labels = []
+          // this.workSeries[0].data = res.data[3].data
 
-          this.clockReasonsNonWork.labels = []
-          this.clockReasonsNonWorkSeries[0].data = res.data[0].data
+          // this.clockReasonsNonWork.labels = []
+          // this.clockReasonsNonWorkSeries[0].data = res.data[0].data
 
-          this.clockReasonsWork.labels = []
-          this.clockReasonsWorkSeries[0].data = res.data[1].data
+          // this.clockReasonsWork.labels = []
+          // this.clockReasonsWorkSeries[0].data = res.data[1].data
 
-          this.overNotClockingData.labels = []
-          this.overNotClockingSeries[0].data = res.data[4].data
+          // this.overNotClockingData.labels = []
+          // this.overNotClockingSeries[0].data = res.data[4].data
 
-          this.reasonsRankData.labels = []
-          this.reasonsRankSeries[0].data = res.data[2].data
+          // this.reasonsRankData.labels = []
+          // this.reasonsRankSeries[0].data = res.data[2].data
 
-          this.employeeRankData.labels = []
-          this.employeeRankSeries[0].data = res.data[5].data
+          // this.employeeRankData.labels = []
+          // this.employeeRankSeries[0].data = res.data[5].data
 
           this.$awn.success('Successfully Generated Reports');
           return true;
