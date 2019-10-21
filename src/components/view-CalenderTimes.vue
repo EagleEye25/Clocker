@@ -15,7 +15,7 @@
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
-            <md-input placeholder="Search by starting week..." v-model="search" @input="searchOnTable"/>
+            <md-input placeholder="Search by Day..." v-model="search" @input="searchOnTable"/>
           </md-field>
         </md-table-toolbar>
 
@@ -26,7 +26,6 @@
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }">
-          <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
           <md-table-cell md-label="Ending Day" md-sort-by="endDay">{{ item.endDay }}</md-table-cell>
@@ -67,7 +66,7 @@
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
-            <md-input placeholder="Search by starting week..." v-model="search" @input="searchOnTable"/>
+            <md-input placeholder="Search by Day..." v-model="search" @input="searchOnTable"/>
           </md-field>
         </md-table-toolbar>
 
@@ -78,7 +77,6 @@
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
-          <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
           <md-table-cell md-label="Ending Day" md-sort-by="endDay">{{ item.endDay }}</md-table-cell>
@@ -106,7 +104,7 @@
 
   const searchByWeek = (items, term) => {
     if (term) {
-      return items.filter(item => toLower(item.startWeek).includes(toLower(term)));
+      return items.filter(item => toLower(item.startDay).includes(toLower(term)));
     }
     return items
   }
@@ -190,13 +188,61 @@
         return await http.get(`/api/calender_times/times/unAssigned`)
           .then((res) => {
             res.data.forEach(d => {
+                            let start;
+              switch (d.startDay) {
+                case 0:
+                  start = 'Monday';
+                  break;
+                case 1:
+                  start = 'Tuesday';
+                  break;
+                case 2:
+                  start = 'Wednesday';
+                  break;
+                case 3:
+                  start = 'Thursday';
+                  break;
+                case 4:
+                  start = 'Friday';
+                  break;
+                case 5:
+                  start = 'Saturday';
+                  break;
+                case 6:
+                  start = 'Sunday';
+                  break;
+              }
+              let end;
+              switch (d.endDay) {
+                case 0:
+                  end = 'Monday';
+                  break;
+                case 1:
+                  end = 'Tuesday';
+                  break;
+                case 2:
+                  end = 'Wednesday';
+                  break;
+                case 3:
+                  end = 'Thursday';
+                  break;
+                case 4:
+                  end = 'Friday';
+                  break;
+                case 5:
+                  end = 'Saturday';
+                  break;
+                case 6:
+                  end = 'Sunday';
+                  break;
+              }
               let data = {
                 'id': d.id,
                 'calender_id': d.calender_id,
                 'startWeek': d.startWeek,
-                'startDay': d.startDay,
+                'startDay': start,
                 'startTime': d.startTime,
-                'endDay': d.endDay,
+                'endDay': end,
                 'endTime': d.endTime
               }
               this.calTimes.push(data);
@@ -225,13 +271,61 @@
         return await http.get(`/api/calender_times/`)
           .then((res) => {
             res.data.forEach(d => {
+              let start;
+              switch (d.startDay) {
+                case 0:
+                  start = 'Monday';
+                  break;
+                case 1:
+                  start = 'Tuesday';
+                  break;
+                case 2:
+                  start = 'Wednesday';
+                  break;
+                case 3:
+                  start = 'Thursday';
+                  break;
+                case 4:
+                  start = 'Friday';
+                  break;
+                case 5:
+                  start = 'Saturday';
+                  break;
+                case 6:
+                  start = 'Sunday';
+                  break;
+              }
+              let end;
+              switch (d.endDay) {
+                case 0:
+                  end = 'Monday';
+                  break;
+                case 1:
+                  end = 'Tuesday';
+                  break;
+                case 2:
+                  end = 'Wednesday';
+                  break;
+                case 3:
+                  end = 'Thursday';
+                  break;
+                case 4:
+                  end = 'Friday';
+                  break;
+                case 5:
+                  end = 'Saturday';
+                  break;
+                case 6:
+                  end = 'Sunday';
+                  break;
+              }
               let data = {
                 'id': d.id,
                 'calender_id': d.calender_id,
                 'startWeek': d.startWeek,
-                'startDay': d.startDay,
+                'startDay': start,
                 'startTime': d.startTime,
-                'endDay': d.endDay,
+                'endDay': end,
                 'endTime': d.endTime
               }
               this.calTimes.push(data);

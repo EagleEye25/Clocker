@@ -570,14 +570,14 @@
           'end': end,
           'employees': this.selectedEmps,
         }).then((res) => {
-          console.log(res)
-          console.log(res.data[0].data)
-          for (let k = 0; k < 6; k++) {
-            if (res.data[k].data = {}) {
-              res.data[k].data = [0];
-              console.log(res.data[k].data)
-            }
-          }
+            // console.log(res)
+            // console.log(res.data[0].data)
+            // for (let k = 0; k < 6; k++) {
+            //   if (res.data[k].data = {}) {
+            //     res.data[k].data = [0];
+            //     console.log(res.data[k].data)
+            //   }
+            // }
 
           console.log(res);
 
