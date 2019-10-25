@@ -53,7 +53,6 @@
         ></md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }">
-          <md-table-cell md-label="Starting Week" md-sort-by="startWeek">{{ item.startWeek }}</md-table-cell>
           <md-table-cell md-label="Starting Day" md-sort-by="startDay">{{ item.startDay }}</md-table-cell>
           <md-table-cell md-label="Starting Time" md-sort-by="startTime">{{ item.startTime }}</md-table-cell>
           <md-table-cell md-label="Ending Day" md-sort-by="endDay">{{ item.endDay }}</md-table-cell>
@@ -174,13 +173,60 @@ export default {
       return await this.$awn.asyncBlock(http.get(`/api/calender_times/assigned/cal/times/${this.selectedCalID}`)
         .then(res => {
           res.data.forEach(d => {
+            let start;
+              switch (d.startDay) {
+                case 1:
+                  start = 'Monday';
+                  break;
+                case 2:
+                  start = 'Tuesday';
+                  break;
+                case 3:
+                  start = 'Wednesday';
+                  break;
+                case 4:
+                  start = 'Thursday';
+                  break;
+                case 5:
+                  start = 'Friday';
+                  break;
+                case 6:
+                  start = 'Saturday';
+                  break;
+                case 7:
+                  start = 'Sunday';
+                  break;
+              }
+              let end;
+              switch (d.endDay) {
+                case 1:
+                  end = 'Monday';
+                  break;
+                case 2:
+                  end = 'Tuesday';
+                  break;
+                case 3:
+                  end = 'Wednesday';
+                  break;
+                case 4:
+                  end = 'Thursday';
+                  break;
+                case 5:
+                  end = 'Friday';
+                  break;
+                case 6:
+                  end = 'Saturday';
+                  break;
+                case 7:
+                  end = 'Sunday';
+                  break;
+              }
             let data = {
                 'id': d.id,
                 'calender_id': d.calender_id,
-                'startWeek': d.startWeek,
-                'startDay': d.startDay,
+                'startDay': start,
                 'startTime': d.startTime,
-                'endDay': d.endDay,
+                'endDay': end,
                 'endTime': d.endTime
               }
             this.calTimes.push(data);

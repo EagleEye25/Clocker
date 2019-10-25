@@ -190,49 +190,49 @@
             res.data.forEach(d => {
                             let start;
               switch (d.startDay) {
-                case 0:
+                case 1:
                   start = 'Monday';
                   break;
-                case 1:
+                case 2:
                   start = 'Tuesday';
                   break;
-                case 2:
+                case 3:
                   start = 'Wednesday';
                   break;
-                case 3:
+                case 4:
                   start = 'Thursday';
                   break;
-                case 4:
+                case 5:
                   start = 'Friday';
                   break;
-                case 5:
+                case 6:
                   start = 'Saturday';
                   break;
-                case 6:
+                case 7:
                   start = 'Sunday';
                   break;
               }
               let end;
               switch (d.endDay) {
-                case 0:
+                case 1:
                   end = 'Monday';
                   break;
-                case 1:
+                case 2:
                   end = 'Tuesday';
                   break;
-                case 2:
+                case 3:
                   end = 'Wednesday';
                   break;
-                case 3:
+                case 4:
                   end = 'Thursday';
                   break;
-                case 4:
+                case 5:
                   end = 'Friday';
                   break;
-                case 5:
+                case 6:
                   end = 'Saturday';
                   break;
-                case 6:
+                case 7:
                   end = 'Sunday';
                   break;
               }
@@ -273,49 +273,49 @@
             res.data.forEach(d => {
               let start;
               switch (d.startDay) {
-                case 0:
+                case 1:
                   start = 'Monday';
                   break;
-                case 1:
+                case 2:
                   start = 'Tuesday';
                   break;
-                case 2:
+                case 3:
                   start = 'Wednesday';
                   break;
-                case 3:
+                case 4:
                   start = 'Thursday';
                   break;
-                case 4:
+                case 5:
                   start = 'Friday';
                   break;
-                case 5:
+                case 6:
                   start = 'Saturday';
                   break;
-                case 6:
+                case 7:
                   start = 'Sunday';
                   break;
               }
               let end;
               switch (d.endDay) {
-                case 0:
+                case 1:
                   end = 'Monday';
                   break;
-                case 1:
+                case 2:
                   end = 'Tuesday';
                   break;
-                case 2:
+                case 3:
                   end = 'Wednesday';
                   break;
-                case 3:
+                case 4:
                   end = 'Thursday';
                   break;
-                case 4:
+                case 5:
                   end = 'Friday';
                   break;
-                case 5:
+                case 6:
                   end = 'Saturday';
                   break;
-                case 6:
+                case 7:
                   end = 'Sunday';
                   break;
               }
