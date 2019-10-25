@@ -185,7 +185,7 @@
         this.calTimes = [];
         this.addCalTimes = false;
 
-        return await http.get(`/api/calender_times/times/unAssigned`)
+        return await http.get(`/api/calender_times/times/unAssigned/${this.calendarData.id}`)
           .then((res) => {
             res.data.forEach(d => {
                             let start;
@@ -369,6 +369,12 @@
 
     beforeMount() {
       this.$awn.asyncBlock(this.determineAction(), null, null);
+    },
+
+    computed: {
+      calendarData() {
+        return this.$store.getters.calendarData;
+      },
     }
   }
 </script>
