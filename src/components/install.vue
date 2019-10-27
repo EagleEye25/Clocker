@@ -49,7 +49,8 @@
         return await this.$awn.asyncBlock(axios.get(`${this.serverAddy}/app/test/`)
           .then(() => {
             this.$awn.success('Valid Server Connection!');
-            this.checkAdmin()
+            this.$store.dispatch('updateAddy', this.serverAddy);
+            this.checkAdmin();
             return true
           }).catch(() => {
             this.$awn.alert('Invalid Server Connection!');
@@ -73,8 +74,8 @@
 
       moveToLogin() {
         window.localStorage.setItem('serverAddy', this.serverAddy);
-        window.location.reload();
         this.$router.push('/login');
+        window.location.reload();
       }
     }
   }

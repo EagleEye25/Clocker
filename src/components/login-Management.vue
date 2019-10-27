@@ -24,7 +24,7 @@
         <div class="md-layout-item md-size-15 md-small-size-100 center">
           <md-field>
             <label for="pass">Enter Password</label>
-            <md-input class="pass" v-model="pass"/>
+            <md-input type="password" class="pass" v-model="pass"/>
           </md-field>
         </div>
         <div class="md-layout-item md-size-7 md-small-size-100 center">

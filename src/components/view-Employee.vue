@@ -165,7 +165,6 @@
               }
             return true
           }).catch((err) => {
-            console.log(err)
             this.$awn.alert('Could Not Permanently Delete Employee');
             return false
           }), null, null, 'Deleting Employee');

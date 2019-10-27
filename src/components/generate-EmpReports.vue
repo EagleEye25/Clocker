@@ -57,7 +57,7 @@
     <md-divider class="md-inset"></md-divider>
     <br>
     <!-- CHARTS -->
-    <div class="md-layout" v-if="!displayCharts">
+    <div class="md-layout" v-if="displayCharts">
       <md-card class="md-layout-item md-size-78 md-small-size-100 center box">
         <md-card-content>
           <!-- LEVEL 1 -->
@@ -89,10 +89,10 @@
             <div class="md-layout-item md-small-size-100">
               <apexcharts width="400" height="350" type="radar" :options="reasonsRankData" :series="reasonsRankSeries"></apexcharts>
             </div>
-            <!-- Rank of Reasons  -->
+            <!-- Rank of Reasons 
             <div class="md-layout-item md-small-size-100" style="padding-left: 38%">
               <apexcharts width="400" height="350" type="radar" :options="employeeRankData" :series="employeeRankSeries"></apexcharts>
-            </div>
+            </div> -->
           </div>
           <!-- LEVEL 3 -->
           <div class="md-layout md-gutter">
@@ -104,7 +104,8 @@
           </div>
         </md-card-content>
       </md-card>
-      <!-- Clocked Employees -->
+    </div>
+     <!-- Clocked Employees -->
       <div class="md-layout">
         <md-card class="md-layout-item md-size-78 md-small-size-100 center box">
           <md-card-content>
@@ -122,14 +123,14 @@
 
               <md-table-row slot="md-table-row" slot-scope="{ item }">
                 <md-table-cell md-label="Employee Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-                <md-table-cell md-label="Reason" md-sort-by="reason_description">{{ item.reason_description }}</md-table-cell>
+                <md-table-cell md-label="Reason" md-sort-by="reason_description">{{ item.reason_description ? item.reason_description : '-' }}</md-table-cell>
+                <md-table-cell md-label="In / Out" md-sort-by="is_logged_out">{{ item.is_logged_out === 1 ? 'Out' : 'In' }}</md-table-cell>
                 <md-table-cell md-label="Work Related" md-sort-by="workRelated">{{ item.workRelated }}</md-table-cell>
               </md-table-row>
             </md-table>
           </md-card-content>
         </md-card>
       </div>
-    </div>
   </div>
 </template>
 
@@ -350,7 +351,7 @@
             curve: 'smooth',
           },
           title: {
-            text: 'Traffic Sources'
+            text: 'Overtime vs Not Clocking Out'
           },
           // labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
           labels: ['01 Jan 2001', '02 Jan 2001', '03 Jan 2001', '04 Jan 2001', '05 Jan 2001', '06 Jan 2001',
@@ -491,7 +492,7 @@
         employees: [],
         searched: [],
         selectedEmps: [],
-        search: null,
+        search: '',
         displayCharts: false,
         range: null,
         clockedEmp: []
@@ -557,29 +558,26 @@
       async getReportData()  {
         let start = '';
         let end = '';
-        if (this.range.start) {
-          start = Date.parse(this.range.start + 'T00:00:00');
-          if (this.range.end) {
-            end = Date.parse(this.range.end + 'T23:59:59');
-          } else {
-            end = Date.parse(this.range.start + 'T23:59:59');
+        if (this.range != null) {
+          if (this.range.start) {
+            start = Date.parse(this.range.start + 'T00:00:00');
+            if (this.range.end) {
+              end = Date.parse(this.range.end + 'T23:59:59');
+            } else {
+              end = Date.parse(this.range.start + 'T23:59:59');
+            }
           }
         }
-        return await this.$awn.asyncBlock(http.post(`/api/reports/reports`, {
+        let emps = [];
+        this.selectedEmps.forEach(e => {
+          emps.push(e.id);
+        });
+        return await this.$awn.asyncBlock(http.post(`/api/reports/reports/`, {
           'start': start,
           'end': end,
-          'employees': this.selectedEmps,
+          'employees': emps
         }).then((res) => {
-            // console.log(res)
-            // console.log(res.data[0].data)
-            // for (let k = 0; k < 6; k++) {
-            //   if (res.data[k].data = {}) {
-            //     res.data[k].data = [0];
-            //     console.log(res.data[k].data)
-            //   }
-            // }
-
-          console.log(res);
+          this.displayCharts = true
 
           if (res.data[0].data && Object.prototype.toString.call(res.data[0].data) === '[object Object]') {
             const labels = Object.keys(res.data[0].data) || [];

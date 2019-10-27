@@ -19,6 +19,7 @@ const store = new Vuex.Store({
     calendarTime: null,
     loginInfo: null,
     refreshRequesting: false,
+    addy: null,
   },
   mutations: {
 
@@ -59,6 +60,9 @@ const store = new Vuex.Store({
     changeLoginInfo(state, loginInfo) {
       state.loginInfo = loginInfo
     },
+    changeAddy(state, addy) {
+      state.addy = addy
+    },
   },
   getters: {
     cardNo: state => state.cardNo ? state.cardNo || '' : '',
@@ -72,7 +76,9 @@ const store = new Vuex.Store({
     reasonData: state => state.reasonData ? state.reasonData || '' : '',
     calendarData: state => state.calendarData ? state.calendarData || '' : '',
     calendarTime: state => state.calendarTime ? state.calendarTime || '' : '',
-    loginInfo: state => state.loginInfo ? state.loginInfo || '' : ''
+    loginInfo: state => state.loginInfo ? state.loginInfo || '' : '',
+    addy: state => state.addy ? state.addy || '' : ''
+
   },
   actions: {
     appInit(ctx) {
@@ -181,6 +187,9 @@ const store = new Vuex.Store({
     },
     updateLoginInfo(ctx, updateLoginInfo){
       ctx.commit('changeLoginInfo', updateLoginInfo)
+    },
+    updateAddy(ctx, updateAddy){
+      ctx.commit('changeAddy', updateAddy)
     },
   }
 });

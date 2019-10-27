@@ -125,6 +125,7 @@
     helpers
   } from 'vuelidate/lib/validators';
   import http from '../../public/app.service.ts'
+import Axios from 'axios';
 
   export default {
     name: 'add-Employee',
@@ -316,7 +317,7 @@
           this.$awn.warning('Passwords do not match');
           return;
         }
-        this.$awn.asyncBlock(http.post(`/app/callAdd/`, {
+        this.$awn.asyncBlock(Axios.post(`${this.addy}/app/callAdd/`, {
           'name': this.combinedName,
           'admin': this.form.admin,
           'reporting_admin': this.form.reporting_admin,
@@ -330,6 +331,7 @@
             }
             this.clearForm();
             this.$awn.success('Successfully Added Employee');
+            console.log('here')
             return true;
           }
         }).catch(() => {
@@ -466,6 +468,9 @@
       },
       loggedIn() {
         return this.$store.getters.loginInfo;
+      },
+      addy() {
+        return this.$store.getters.addy;
       }
     },
 
