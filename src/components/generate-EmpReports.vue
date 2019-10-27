@@ -644,7 +644,7 @@
           }
 
           if (res.data[4].data && Object.prototype.toString.call(res.data[4].data) === '[object Object]') {
-            const dayMap = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+            const dayMap = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
 
             const dayKeys = Object.keys(res.data[4].data) || [];
             const labels = dayKeys.map(dayKey => dayMap[+dayKey]);
